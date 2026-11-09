@@ -1,3 +1,5 @@
+// Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+// SPDX-License-Identifier: MIT
 // Die Windows Desktop SDK nimmt System.Net.Http aus den impliziten Usings heraus, deshalb hier ausdrücklich.
 using System.Net.Http;
 

@@ -1,3 +1,5 @@
+# Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+# SPDX-License-Identifier: MIT
 # Baut das Programm als Ordner ohne Vorinstallation und daraus die Setup Datei.
 # Aufruf im Projektordner: pwsh -File installer\baue-setup.ps1            (alles)
 #                          pwsh -File installer\baue-setup.ps1 -NurOrdner (nur der Programmordner, ohne Inno Setup)

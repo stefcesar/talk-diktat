@@ -1,4 +1,5 @@
 ﻿Talk: Kurzanleitung (Version 0.4.1)
+Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
 
 Das brauchst du
 
@@ -125,3 +126,6 @@ Typische Probleme:
 - Text nicht geglättet: Dort steht "Nicht geglättet:" mit Grund, etwa kein Schlüssel, Text zu kurz, nur lokal, Terminal. Je nach Grund Schlüssel eintragen oder "Nur lokal" ausschalten; kurze Texte unter vier Wörtern glättet Talk nie.
 - Erkennung gescheitert: Eine Meldung statt Text, etwa ohne Internet. "Erneut versuchen" klicken, sobald das Internet wieder da ist.
 Tipp: Klappt etwas nicht, die Diagnose öffnen und ein Foto davon machen. Damit lässt sich der Fehler meist schnell finden.
+
+---
+Talk · Created by Stefano Cesaretti · kostenlos und Open Source (MIT-Lizenz) · https://github.com/stefcesar/talk-diktat

@@ -1,3 +1,5 @@
+// Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+// SPDX-License-Identifier: MIT
 using Whisper.net.LibraryLoader;
 
 namespace Talk.App.Transcription;

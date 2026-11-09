@@ -1,3 +1,5 @@
+// Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+// SPDX-License-Identifier: MIT
 namespace Talk.Core.Secrets;
 
 /// <summary>Namen der Geheimnisse, die Talk verwahrt. Die Werte stehen nie im Code, in Dateien oder im Protokoll.</summary>

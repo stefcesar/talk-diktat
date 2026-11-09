@@ -1,3 +1,5 @@
+# Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+# SPDX-License-Identifier: MIT
 # Erzeugt die fertigen ICO Dateien für Talk (dunkle Version: weißes Zeichen, dunkle Kachel).
 # Braucht nur PowerShell 7 unter Windows. Aufruf: pwsh -File assets\symbol\erzeuge-symbole.ps1
 # Die kleinen Größen sind von Hand auf ganze Pixel gesetzt, die großen werden geglättet gezeichnet.

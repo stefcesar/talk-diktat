@@ -1,3 +1,5 @@
+# Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+# SPDX-License-Identifier: MIT
 # Erzeugt die SVG Entwürfe für das Talk Symbol (Richtung B, Stimme wird Cursor).
 # Die Geometrie steht nur hier. Aufruf: pwsh -File assets\symbol\erzeuge-entwuerfe.ps1
 $ErrorActionPreference = 'Stop'

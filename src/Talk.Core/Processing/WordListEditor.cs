@@ -1,3 +1,5 @@
+// Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+// SPDX-License-Identifier: MIT
 namespace Talk.Core.Processing;
 
 /// <summary>Was eine Änderung an einer Wörterliste bewirkt hat.</summary>

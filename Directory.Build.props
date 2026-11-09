@@ -9,7 +9,9 @@
     <Authors>Stefano Cesaretti</Authors>
     <Product>Talk</Product>
     <Version>0.4.1</Version>
-    <Copyright>Stefano Cesaretti</Copyright>
+    <Copyright>© 2026 Stefano Cesaretti</Copyright>
+    <Company>Stefano Cesaretti</Company>
+    <Description>Talk – Created by Stefano Cesaretti</Description>
     <NeutralLanguage>de-DE</NeutralLanguage>
   </PropertyGroup>
 

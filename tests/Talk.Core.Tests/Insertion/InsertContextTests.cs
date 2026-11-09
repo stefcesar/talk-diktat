@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+// SPDX-License-Identifier: MIT
+using System;
 using System.Linq;
 using Talk.Core.Insertion;
 using Xunit;

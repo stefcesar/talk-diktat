@@ -1,5 +1,7 @@
 # Talk – Diktieren in jedes Programm unter Windows
 
+<sub>Created by **Stefano Cesaretti** · gebaut mit Claude Code</sub>
+
 Talk läuft unsichtbar im Hintergrund. Zweimal kurz auf **Caps Lock** tippen, sprechen, einmal tippen – und der Text steht dort, wo du gerade schreibst: in Word, im Browser, in WhatsApp, in jedem Textfeld.
 
 - Erkennt **auf deinem Rechner**, ganz ohne Internet (Whisper, auf der Grafikkarte wenn vorhanden)

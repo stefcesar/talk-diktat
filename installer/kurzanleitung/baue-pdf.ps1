@@ -1,3 +1,5 @@
+# Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+# SPDX-License-Identifier: MIT
 # Erzeugt Talk-Kurzanleitung.pdf aus Kurzanleitung.html mit Microsoft Edge ohne Fenster.
 # Aufruf im Projektordner: pwsh -File installer\kurzanleitung\baue-pdf.ps1 [-Ziel Ordner] [-Quelle Datei.html -Name Datei.pdf]
 # Ohne Quelle und Name die Kurzanleitung; mit -Quelle und -Name ein anderes HTML-Blatt.
