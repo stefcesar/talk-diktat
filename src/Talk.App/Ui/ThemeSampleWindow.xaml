@@ -1,0 +1,42 @@
+<Window x:Class="Talk.App.Ui.ThemeSampleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Talk Musterbogen"
+        Width="520"
+        SizeToContent="Height"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False">
+    <!-- Nur für den Schalter "uishots": zeigt jede Vorlage aus Ui\Theme.xaml einmal, damit sich die Optik ohne laufendes Talk prüfen lässt. -->
+    <StackPanel Margin="24">
+        <TextBlock Text="Musterbogen" Style="{StaticResource TitleText}" />
+        <TextBlock Text="Jede Vorlage aus DESIGN.md einmal." Style="{StaticResource HintText}" Margin="0,8,0,0" />
+
+        <TextBlock Text="Knöpfe" Style="{StaticResource SectionText}" />
+        <WrapPanel>
+            <Button Content="Speichern" Style="{StaticResource PrimaryButton}" Margin="0,0,8,8" />
+            <Button Content="Neu laden" Margin="0,0,8,8" />
+            <Button Content="Alles löschen" Style="{StaticResource DangerButton}" Margin="0,0,8,8" />
+            <Button Content="Gesperrt" IsEnabled="False" Margin="0,0,8,8" />
+        </WrapPanel>
+
+        <TextBlock Text="Schalter" Style="{StaticResource SectionText}" />
+        <CheckBox Content="Töne bei Start, Stopp und Abbruch" IsChecked="True" />
+        <CheckBox Content="Andere Programme während der Aufnahme leiser (Musik, Videos), mit einem langen Text, der umbrechen muss" />
+        <CheckBox Content="Gesperrt" IsChecked="True" IsEnabled="False" />
+
+        <TextBlock Text="Auswahl und Eingabe" Style="{StaticResource SectionText}" />
+        <ComboBox SelectedIndex="0">
+            <ComboBoxItem Content="USB Audiogerät" />
+            <ComboBoxItem Content="Onboard Audio" />
+        </ComboBox>
+        <TextBox Text="350" Margin="0,8,0,0" />
+        <PasswordBox Password="beispiel" Margin="0,8,0,0" />
+
+        <TextBlock Text="Texte" Style="{StaticResource SectionText}" />
+        <TextBlock Text="Normaler Text mit Umlauten: äöü ÄÖÜ ß „Anführung“ 12,50 € perché città." TextWrapping="Wrap" />
+        <TextBlock Text="Erklärung in gedämpfter Schrift, die über mehrere Zeilen gehen darf und trotzdem gut lesbar bleibt." Style="{StaticResource HintText}" Margin="0,8,0,0" />
+        <TextBlock Text="Hinweis, der Handeln braucht: Das gewählte Mikrofon fehlt." Style="{StaticResource WarnText}" Margin="0,8,0,0" />
+        <TextBlock Text="Sonntag, 1. November, 09:42 · 927 ms" Style="{StaticResource MonoText}" Margin="0,8,0,0" />
+        <TextBlock Text="Bestätigt: Schlüssel geprüft." Foreground="{StaticResource SuccessBrush}" Margin="0,8,0,0" />
+    </StackPanel>
+</Window>

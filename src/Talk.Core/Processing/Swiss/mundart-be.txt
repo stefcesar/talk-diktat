@@ -1,0 +1,28 @@
+# Mundart Bern.
+# Format: Mundart = Hochdeutsch. Die Paare gehen als Beispiele für die Schreibweise in die Anweisung an das Sprachmodell
+# bei Groq, das den erkannten Text in Mundart umschreibt (Sprache "Mundart", Playbook Abschnitt 26). Mundart hat keine feste
+# Rechtschreibung; die Formen hier legen eine Schreibweise fest. Nicht von Muttersprachlern geprüft.
+nid = nicht
+öppis = etwas
+chli = ein bisschen
+gsy = gewesen
+i ha = ich habe
+mir hei = wir haben
+isch = ist
+gseh = gesehen
+ggange = gegangen
+hütt = heute
+geschter = gestern
+morn = morgen
+luege = schauen
+poschte = einkaufen
+schaffe = arbeiten
+Ching = Kinder
+Huus = Haus
+Chuchi = Küche
+mache = machen
+chöme = kommen
+nüt = nichts
+viu = viel
+Fäud = Feld
+gärn = gern

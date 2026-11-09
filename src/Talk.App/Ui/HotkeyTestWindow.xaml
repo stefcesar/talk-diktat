@@ -1,0 +1,142 @@
+<Window x:Class="Talk.App.Ui.HotkeyTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Talk Diagnose"
+        Width="520"
+        SizeToContent="Height"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        FontSize="14">
+    <!-- Diagnosefenster. Es darf Fokus haben, das Overlay nicht. Der Ablauf liegt im DictationCoordinator. -->
+    <!-- Das Fenster ist höchstens so hoch wie der Arbeitsbereich des Bildschirms (im Code gesetzt); was nicht passt, wird gerollt. -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="20">
+
+            <TextBlock Text="Zustand" Foreground="{StaticResource TextMutedBrush}" />
+            <TextBlock x:Name="StateText" Text="Ruhe" FontSize="40" FontWeight="SemiBold" Margin="0,0,0,16" />
+
+            <Grid Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Start" Foreground="{StaticResource TextMutedBrush}" />
+                    <TextBlock x:Name="StartCountText" Text="0" FontSize="24" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Stopp" Foreground="{StaticResource TextMutedBrush}" />
+                    <TextBlock x:Name="StopCountText" Text="0" FontSize="24" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Abbruch" Foreground="{StaticResource TextMutedBrush}" />
+                    <TextBlock x:Name="CancelCountText" Text="0" FontSize="24" />
+                </StackPanel>
+            </Grid>
+
+            <TextBlock x:Name="CapsText" Text="Feststelltaste: aus" Margin="0,0,0,4" />
+            <TextBlock x:Name="HookText" Text="Hook: aktiv" Margin="0,0,0,4" />
+            <TextBlock x:Name="ReinstallText" Text="Letzte Hook Neusetzung: noch keine" TextWrapping="Wrap" Margin="0,0,0,16" />
+
+            <!-- Schritt 3: Mikrofon, Pegel und Ergebnis der Stilleerkennung. Der Gerätename erscheint nur hier, nie im Protokoll. -->
+            <TextBlock Text="Mikrofon" Foreground="{StaticResource TextMutedBrush}" />
+            <StackPanel Orientation="Horizontal" Margin="0,2,0,4">
+                <ComboBox x:Name="DeviceBox"
+                          Width="330"
+                          DisplayMemberPath="Name"
+                          SelectionChanged="OnDeviceChanged" />
+                <Button Content="Neu laden" Margin="8,0,0,0" Padding="12,4" Click="OnReloadDevicesClick" />
+            </StackPanel>
+            <TextBlock x:Name="DeviceHintText"
+                       Foreground="{StaticResource WarnBrush}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed"
+                       Margin="0,0,0,8"
+                       Text="Bluetooth Freisprechprofil erkannt, Aufnahmequalität kann schlecht sein" />
+
+            <TextBlock Text="Pegel" Foreground="{StaticResource TextMutedBrush}" />
+            <ProgressBar x:Name="LevelBar" Minimum="0" Maximum="100" Value="0" Height="18" Margin="0,2,0,12" />
+
+            <TextBlock Text="Ergebnis" Foreground="{StaticResource TextMutedBrush}" />
+            <TextBlock x:Name="ResultText" Text="Noch keine Aufnahme" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,2,0,16" />
+
+            <!-- Schritt 4: Erkennung. Der erkannte Text erscheint nur hier, nie im Protokoll. Der Schlüssel erscheint nirgends. -->
+            <TextBlock Text="Erkennung" Foreground="{StaticResource TextMutedBrush}" />
+            <StackPanel Orientation="Horizontal" Margin="0,2,0,8">
+                <Button Content="Groq Schlüssel" Padding="12,6" Click="OnKeyDialogClick" />
+                <TextBlock x:Name="KeyStateText" Text="Schlüssel hinterlegt: nein" VerticalAlignment="Center" Margin="12,0,0,0" />
+            </StackPanel>
+
+            <CheckBox x:Name="LocalOnlyBox"
+                      Content="Nur lokal (nichts geht ins Internet)"
+                      Margin="0,0,0,4"
+                      Checked="OnLocalOnlyChanged"
+                      Unchecked="OnLocalOnlyChanged" />
+            <!-- Zustand des lokalen Modells: lädt beim Öffnen im Hintergrund. Fehlt die Datei, steht hier der Hinweis in Orange. -->
+            <TextBlock x:Name="LocalModelText"
+                       Text="Lokales Modell lädt"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,8" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                <TextBlock Text="Sprache:" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <ComboBox x:Name="LanguageBox" Width="160" SelectedIndex="0" SelectionChanged="OnLanguageChanged">
+                    <ComboBoxItem Content="Deutsch" Tag="de" />
+                    <ComboBoxItem Content="Italienisch" Tag="it" />
+                    <ComboBoxItem Content="Englisch" Tag="en" />
+                    <ComboBoxItem Content="Schweizerdeutsch" Tag="de-ch" />
+                    <ComboBoxItem Content="Mundart" Tag="gsw" />
+                </ComboBox>
+            </StackPanel>
+
+            <TextBlock Text="Zusätzliche Begriffe für diesen Lauf (mit Komma getrennt, gilt bis zum Beenden)" Foreground="{StaticResource TextMutedBrush}" />
+            <TextBox x:Name="VocabularyBox"
+                     TextChanged="OnVocabularyChanged"
+                     Margin="0,2,0,8" />
+
+            <TextBlock Text="Erkannter Text" Foreground="{StaticResource TextMutedBrush}" />
+            <TextBox x:Name="TranscriptBox"
+                     IsReadOnly="True"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     Height="110"
+                     Margin="0,2,0,4" />
+            <TextBlock x:Name="RawText" Visibility="Collapsed" TextWrapping="Wrap" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,4" />
+            <TextBlock x:Name="UnsmoothedText" Visibility="Collapsed" TextWrapping="Wrap" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,4" />
+            <TextBlock x:Name="SmoothText" Visibility="Collapsed" TextWrapping="Wrap" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,4" />
+            <TextBlock x:Name="SttText" Text="Noch keine Erkennung" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,2" />
+            <TextBlock x:Name="InsertInfoText" Text="Noch nichts eingefügt" TextWrapping="Wrap" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,8" />
+            <Button x:Name="RetryButton"
+                    Content="Erneut versuchen"
+                    HorizontalAlignment="Left"
+                    Padding="12,6"
+                    Margin="0,0,0,16"
+                    IsEnabled="False"
+                    Click="OnRetryClick" />
+
+            <CheckBox x:Name="PushToTalkBox"
+                      Content="Push to Talk (Caps Lock gedrückt halten)"
+                      Margin="0,0,0,12"
+                      Checked="OnOptionsChanged"
+                      Unchecked="OnOptionsChanged" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                <TextBlock Text="Doppeltipp Fenster in ms:" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <TextBox x:Name="DoubleTapBox" Width="70" Text="350" VerticalContentAlignment="Center" />
+                <Button Content="Übernehmen" Margin="8,0,0,0" Padding="12,4" Click="OnApplyClick" />
+            </StackPanel>
+
+            <TextBlock Foreground="{StaticResource TextMutedBrush}" TextWrapping="Wrap"
+                       Text="Caps Lock doppelt tippen startet die Aufnahme, einmal tippen stoppt sie, Esc bricht ab. Umschalt plus Caps Lock schaltet die Großschreibung wie gewohnt. Nach dem Stopp läuft die Stilleerkennung. Ohne Sprache wird nichts gesendet, mit Sprache geht der zugeschnittene Ausschnitt an die Erkennung. Audio bleibt im Arbeitsspeicher, es wird nie eine Datei geschrieben." />
+
+            <DockPanel Margin="0,16,0,0">
+                <Button DockPanel.Dock="Right" Content="Schließen" Padding="16,6" Click="OnQuitClick" />
+                <Button Content="Verlauf" HorizontalAlignment="Left" Padding="16,6" Click="OnHistoryClick" />
+            </DockPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

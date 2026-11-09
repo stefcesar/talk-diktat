@@ -1,0 +1,103 @@
+<Window x:Class="Talk.App.Ui.HistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Talk Verlauf"
+        Width="620"
+        Height="600"
+        MinWidth="420"
+        MinHeight="360"
+        WindowStartupLocation="CenterScreen">
+    <!--
+      Die letzten Diktate, neuestes zuerst. Jeder Knopf braucht nur einen einzelnen Klick. Die Texte erscheinen nur hier, nie im Protokoll.
+      Optik nach DESIGN.md: Titel oben, die Liste in der Mitte, Hinweis und Knöpfe unten. Nur "Kopieren" am neuesten Eintrag ist orange.
+      In der Mitte steht je nach Lage die Liste, der leere Zustand oder der Fehler beim Lesen.
+    -->
+    <DockPanel Margin="24,24,24,16">
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+            <TextBlock Text="Verlauf" Style="{StaticResource TitleText}" />
+            <TextBlock x:Name="SummaryText" Style="{StaticResource HintText}" Margin="0,8,0,0" />
+            <!-- Meldung nach gescheitertem Löschen, in Warn. Leer heißt verborgen. -->
+            <TextBlock x:Name="MessageText" Style="{StaticResource WarnText}" Margin="0,8,0,0" Visibility="Collapsed" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Margin="0,16,0,0">
+            <TextBlock x:Name="FooterText" Style="{StaticResource HintText}"
+                       Text="Der Verlauf liegt verschlüsselt auf diesem Rechner und ist nur mit deinem Windows Konto lesbar. Einträge verschwinden nach 30 Tagen von selbst." />
+            <DockPanel Margin="0,16,0,0">
+                <Button DockPanel.Dock="Left" x:Name="ClearButton" Content="Alles löschen" Style="{StaticResource DangerButton}" Click="OnClearClick" />
+                <Button DockPanel.Dock="Right" Content="Schließen" Margin="8,0,0,0" Click="OnCloseClick" />
+                <Button DockPanel.Dock="Right" Content="Neu laden" Click="OnReloadClick" HorizontalAlignment="Right" />
+            </DockPanel>
+        </StackPanel>
+
+        <Border BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,1">
+            <Grid>
+                <ScrollViewer x:Name="EntriesScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl x:Name="EntriesList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="Entry" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1" Padding="0,16,8,16">
+                                    <DockPanel>
+                                        <!-- Rechts untereinander: "Kopieren" und "Wort korrigieren" (ein falsch geschriebenes Wort aus diesem Text
+                                             ins Wörterbuch übernehmen, Playbook Abschnitt 27). -->
+                                        <StackPanel DockPanel.Dock="Right" VerticalAlignment="Top" Margin="16,0,0,0">
+                                        <Button Content="Kopieren"
+                                                MinWidth="160"
+                                                Tag="{Binding Text}"
+                                                Click="OnCopyClick">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                    <Style.Triggers>
+                                                        <!-- Der neueste Text ist der, den man am häufigsten noch einmal braucht: nur er trägt das Orange. -->
+                                                        <DataTrigger Binding="{Binding IsNewest}" Value="True">
+                                                            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                                                            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                                                            <Setter Property="Foreground" Value="{StaticResource OnAccentBrush}" />
+                                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Content="Wort korrigieren"
+                                                MinWidth="160"
+                                                Margin="0,8,0,0"
+                                                Tag="{Binding Text}"
+                                                Click="OnFixClick" />
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Stamp}" Style="{StaticResource MonoText}" />
+                                            <TextBlock Text="{Binding Text}" TextWrapping="Wrap" LineHeight="22" Margin="0,6,0,0" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <!-- Unter dem letzten Eintrag liegt schon die Linie des Rahmens; keine zweite. -->
+                                    <DataTrigger Binding="{Binding IsLast}" Value="True">
+                                        <Setter TargetName="Entry" Property="BorderThickness" Value="0" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <!-- Leer: ein Satz, was hier erscheint, und wie man es füllt. -->
+                <!-- Leer: ein Satz, der immer stimmt, und wie man die Liste füllt (Entscheid 66). -->
+                <StackPanel x:Name="EmptyPanel" VerticalAlignment="Center" MaxWidth="420" Visibility="Collapsed">
+                    <TextBlock Text="Noch keine Einträge." Style="{StaticResource StateText}" TextAlignment="Center" />
+                    <TextBlock Style="{StaticResource HintText}" TextAlignment="Center" Margin="0,12,0,0"
+                               Text="Tippe zweimal auf ⇧ Caps, sprich, und tippe dann einmal auf ⇧ Caps. Jeder Text landet hier, auch wenn das Einfügen einmal nicht klappt." />
+                </StackPanel>
+
+                <!-- Fehler: sagt nur, was ist, ohne Ursache, Rat oder Versprechen (Entscheid 66). -->
+                <StackPanel x:Name="ErrorPanel" VerticalAlignment="Center" MaxWidth="420" Visibility="Collapsed">
+                    <TextBlock Text="Der Verlauf ließ sich gerade nicht anzeigen." Style="{StaticResource StateText}" TextAlignment="Center" Margin="0,0,0,16" />
+                    <Button Content="Noch einmal versuchen" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Center" Click="OnReloadClick" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+    </DockPanel>
+</Window>

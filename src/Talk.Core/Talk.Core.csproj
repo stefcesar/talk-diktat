@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Kernbibliothek: nur Schnittstellen und Datentypen, keine Windows Abhängigkeiten, keine Pakete. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Talk.Core</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Wörterbücher für Schweizerdeutsch und Mundart (Playbook Abschnitt 26), fest in der Bibliothek. -->
+  <ItemGroup>
+    <EmbeddedResource Include="Processing\Swiss\*.txt" LogicalName="Talk.Core.Swiss.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Talk Kurzanleitung</title>
+<!--
+  Kurzanleitung für die Weitergabe von Talk (Playbook Entscheid 70 und 71). Inhalt wie installer\Liesmich.txt, Optik nach DESIGN.md,
+  für Papier hell gesetzt. Schriften: Bricolage Grotesque für Überschriften, Public Sans für Text, beide aus src\Talk.App\Ui\Fonts.
+  PDF erzeugen: installer\kurzanleitung\baue-pdf.ps1
+-->
+<style>
+  @font-face { font-family: "Bricolage"; src: url("../../src/Talk.App/Ui/Fonts/BricolageGrotesque-ExtraBold.ttf"); font-weight: 800; }
+  @font-face { font-family: "Public Sans"; src: url("../../src/Talk.App/Ui/Fonts/PublicSans-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "Public Sans"; src: url("../../src/Talk.App/Ui/Fonts/PublicSans-SemiBold.ttf"); font-weight: 600; }
+
+  :root {
+    --ink: #15171B;
+    --muted: #5C5A55;
+    --paper: #FBFAF7;
+    --line: #E4E2DC;
+    --soft: #F2F0EA;
+    --accent: #FF6A3D;
+    --dark: #15171B;
+    --on-dark: #ECEBE7;
+    --on-dark-muted: #A3A19B;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: "Public Sans", sans-serif; font-size: 10.5pt; line-height: 1.55; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* Gleicher Rand auf allen vier Seiten (15 mm); Kopf, Inhalt und Fuß stehen innerhalb davon, der Fuß unten am Rand. */
+  .page { width: 210mm; height: 297mm; padding: 15mm; display: flex; flex-direction: column; overflow: hidden; page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+  .content { padding: 6mm 0 0 0; flex: 1; }
+
+  /* Kopf der ersten Seite */
+  .hero { background: var(--dark); color: var(--on-dark); padding: 7mm 10mm; border-radius: 4mm; }
+  .brand { display: flex; align-items: center; justify-content: center; gap: 6mm; }
+  .brand svg { width: 18mm; height: 18mm; flex: none; }
+  h1 { font-family: "Bricolage", sans-serif; font-weight: 800; font-size: 38pt; line-height: 1; margin: 0; letter-spacing: -0.5pt; }
+  .tagline { font-size: 13pt; color: var(--on-dark); margin: 3mm 0 0 0; }
+  .hero .meta { margin-top: 6mm; display: flex; gap: 8mm; font-size: 9pt; color: var(--on-dark-muted); }
+  .hero .meta b { color: var(--on-dark); font-weight: 600; }
+
+  /* Kopfzeile der Folgeseite */
+  .runhead { display: flex; align-items: center; gap: 3mm; padding: 10mm 18mm 0 18mm; color: var(--muted); font-size: 9pt; }
+  .runhead svg { width: 7mm; height: 7mm; }
+  .runhead span { font-family: "Bricolage", sans-serif; font-weight: 800; color: var(--ink); font-size: 11pt; }
+
+  h2 { font-family: "Bricolage", sans-serif; font-weight: 800; font-size: 18pt; line-height: 1.15; margin: 6mm 0 2mm 0; }
+  .content > h2:first-child { margin-top: 0; }
+  h2 .num { color: var(--accent); margin-right: 2.5mm; }
+  h3 { font-family: "Public Sans", sans-serif; font-weight: 600; font-size: 11.5pt; margin: 4mm 0 1mm 0; }
+  p { margin: 0 0 2.5mm 0; }
+  .muted { color: var(--muted); }
+
+  /* Nummerierte Schritte */
+  ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; }
+  /* Jeder Schritt ist mindestens so hoch wie seine Nummer, damit die Nummern auch bei einzeiligen Schritten gleich weit auseinander stehen. */
+  ol.steps li { counter-increment: s; position: relative; padding: 0 0 3mm 11mm; min-height: 6.8mm; }
+  ol.steps li::before { content: counter(s); position: absolute; left: 0; top: 0.2mm; width: 6.5mm; height: 6.5mm; border-radius: 50%;
+    background: var(--ink); color: var(--paper); font-weight: 600; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+
+  /* Tasten */
+  .key { display: inline-block; font-weight: 600; font-size: 9.5pt; padding: 0.4mm 2.2mm; border: 0.35mm solid #C9C6BE; border-bottom-width: 0.8mm;
+    border-radius: 1.5mm; background: #FFFFFF; white-space: nowrap; line-height: 1.4; }
+
+  /* Ablauf beim Diktieren */
+  .flow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; margin: 2mm 0 1mm 0; }
+  .flow .card { border: 0.3mm solid var(--line); border-radius: 2.5mm; padding: 3mm 4mm; background: #FFFFFF; }
+  .flow .label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.6pt; color: var(--muted); font-weight: 600; }
+  .flow .what { font-family: "Bricolage", sans-serif; font-weight: 800; font-size: 13pt; margin: 1.5mm 0 2mm 0; }
+
+  /* Hinweis und Voraussetzungen */
+  .note { border-left: 1mm solid var(--accent); background: var(--soft); padding: 3mm 4mm; border-radius: 0 2mm 2mm 0; margin: 3mm 0; }
+  .note p:last-child { margin: 0; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+  ul.plain { margin: 0; padding-left: 4.5mm; }
+  ul.plain li { margin-bottom: 1.5mm; }
+  .path { font-weight: 600; background: var(--soft); padding: 0.2mm 1.5mm; border-radius: 1mm; white-space: nowrap; }
+
+  /* Seite 2 trägt mehr Text: etwas enger gesetzt, damit alles auf die Seite passt. */
+  .tight { font-size: 9.8pt; line-height: 1.45; }
+  .tight h2 { margin-top: 4.5mm; font-size: 16pt; }
+  .tight h3 { margin-top: 3mm; }
+  .tight ol.steps li { padding-bottom: 2.2mm; }
+  /* Liste mit gleich hohen Schritten (je zwei Zeilen), damit die Nummern im gleichen Abstand stehen. */
+  .tight ol.steps.even li { min-height: 12.2mm; }
+  .tight .note { margin: 2mm 0; padding: 2.5mm 4mm; }
+
+  /* Seite 3: Tabelle der Listen und Bilder neben den Schritten. */
+  table.lists { width: 100%; border-collapse: collapse; margin: 1mm 0 2mm 0; font-size: 9.5pt; }
+  table.lists th, table.lists td { text-align: left; vertical-align: top; padding: 1.6mm 2.5mm; border-bottom: 0.3mm solid var(--line); }
+  table.lists th { font-weight: 600; background: var(--soft); }
+  table.lists td:first-child { font-weight: 600; white-space: nowrap; }
+  .withshot { display: grid; grid-template-columns: 1fr 56mm; gap: 6mm; align-items: start; }
+  .shot { width: 56mm; overflow: hidden; border-radius: 2.5mm; border: 0.3mm solid var(--line); }
+  .shot img { display: block; width: 56mm; }
+  .caption { font-size: 8pt; color: var(--muted); margin-top: 1mm; }
+
+  .foot { margin: 0; border-top: 0.3mm solid var(--line); padding-top: 3mm;
+    display: flex; justify-content: space-between; font-size: 8pt; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- Seite 1 -->
+<section class="page">
+  <header class="hero">
+    <div class="brand">
+      <svg viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" rx="56" fill="#262A30"/><g transform="translate(48 48) scale(0.625)"><g fill="#ECEBE7"><rect x="112" y="16" width="32" height="224" rx="16"/><rect x="80" y="16" width="96" height="32" rx="16"/><rect x="80" y="208" width="96" height="32" rx="16"/></g><g fill="#FF6A3D"><rect x="16" y="64" width="32" height="128" rx="16"/><rect x="208" y="96" width="32" height="64" rx="16"/></g></g></svg>
+      <div>
+        <h1>Talk</h1>
+        <p class="tagline">Sprechen statt tippen, in jedem Programm. Kurzanleitung.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="content">
+    <h2><span class="num">1</span>Das brauchst du</h2>
+    <div class="two">
+      <ul class="plain">
+        <li>Windows 11, 64 Bit.</li>
+        <li>Einen Rechner ab etwa 2015 (genauer: einen Prozessor mit AVX2).</li>
+      </ul>
+      <ul class="plain">
+        <li>Ein Mikrofon.</li>
+        <li>Etwa 1 GB freien Platz.</li>
+      </ul>
+    </div>
+
+    <h2><span class="num">2</span>Installieren</h2>
+    <ol class="steps">
+      <li><b>TalkSetup doppelt anklicken</b> und den Schritten folgen.</li>
+      <li><b>Fertig.</b> Talk läuft unsichtbar im Hintergrund. Das Symbol steht rechts unten neben der Uhr, eventuell hinter dem kleinen Pfeil.</li>
+    </ol>
+
+    <h2><span class="num">3</span>Diktieren</h2>
+    <p>Talk startest du mit der Taste <span class="key">Caps Lock</span>, auf deutschen Tastaturen auch <b>Feststelltaste</b> genannt (links, über Umschalt).</p>
+    <div class="flow">
+      <div class="card"><div class="label">Starten</div><div class="what">Zweimal kurz tippen</div><span class="key">Caps Lock</span> <span class="key">Caps Lock</span><p class="muted" style="margin-top:2mm">Die Aufnahme beginnt, unten erscheint eine kleine Anzeige.</p></div>
+      <div class="card"><div class="label">Sprechen</div><div class="what">Einfach reden</div><p class="muted">Ganz normal, in ganzen Sätzen.</p></div>
+      <div class="card"><div class="label">Einfügen</div><div class="what">Einmal tippen</div><span class="key">Caps Lock</span><p class="muted" style="margin-top:2mm">Der Text erscheint dort, wo du gerade schreibst.</p></div>
+    </div>
+    <p class="muted">Mit der Bildschirmtastatur geht das genauso: die Taste zweimal kurz hintereinander antippen. Ist dir das zu schnell, stellst du in den
+      Einstellungen unter „Zeit zwischen den beiden Tipps“ mehr Zeit ein.</p>
+    <div class="two">
+      <div>
+        <h3>Abbrechen</h3>
+        <p><span class="key">Esc</span> bricht die Aufnahme ab, nichts wird eingefügt.</p>
+      </div>
+      <div>
+        <h3>Alles groß schreiben</h3>
+        <p>Die Feststelltaste wie früher einschalten: <span class="key">Umschalt</span> und dazu <span class="key">Caps Lock</span>, denn Caps Lock allein startet jetzt Talk.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot"><span>Talk Kurzanleitung</span><span>Seite 1 von 6 · Version 0.4.1</span></div>
+</section>
+
+<!-- Seite 2 -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">4</span>Das Menü</h2>
+    <p>Ein Klick auf das Talk Symbol rechts unten neben der Uhr öffnet das Menü. Steht es dort nicht, zuerst auf den kleinen Pfeil neben der Uhr klicken.
+      Im Menü stehen: Letzten Text kopieren, Verlauf, Nur lokal, Glätten, Einstellungen, Diagnose, Talk beenden.</p>
+    <div class="two">
+      <div>
+    <h3>Verlauf</h3>
+    <p>Hier stehen deine Texte der letzten 30 Tage. „Kopieren“ legt einen Text in die Zwischenablage; eingefügt wird er mit einem Rechtsklick
+      an der gewünschten Stelle und „Einfügen“.</p>
+      </div>
+      <div>
+    <h3>Talk beenden</h3>
+    <p>Im Menü auf „Talk beenden“ klicken. Eine Pause gibt es nicht: Später über das Startmenü (Eintrag „Talk“) wieder starten.</p>
+      </div>
+    </div>
+
+    <h2><span class="num">5</span>Einstellungen und Sprache</h2>
+    <ol class="steps">
+      <li>Im Menü auf <b>„Einstellungen“</b> klicken. Jede Änderung gilt sofort und wird gespeichert; mit „Schließen“ geht das Fenster zu.</li>
+      <li>Unter <b>„Sprache“</b> die Liste anklicken und die Sprache wählen: Deutsch, Italienisch, Englisch, Schweizerdeutsch oder Mundart.</li>
+      <li>Bei <b>Mundart</b> erscheint darunter die Liste <b>„Dialekt“</b>: Zürich, Bern, Basel oder gemischt.</li>
+    </ol>
+    <div class="two">
+      <div>
+        <h3>Schweizerdeutsch</h3>
+        <p>Du sprichst Dialekt, Talk schreibt Schweizer Hochdeutsch: ss statt ß, Schweizer Wörter wie Velo, Spital oder parkieren.</p>
+      </div>
+      <div>
+        <h3>Mundart</h3>
+        <p>Du sprichst Dialekt, Talk schreibt auch im Dialekt. Das geht nur mit Groq (siehe 6) und ist noch ein Versuch; ohne Groq schreibt Talk
+          Schweizer Hochdeutsch.</p>
+      </div>
+    </div>
+    <p class="muted">Soll Talk nach dem Einschalten des Rechners von selbst laufen, ganz unten in den Einstellungen „Talk mit Windows starten“ einschalten.</p>
+
+    <h2><span class="num">6</span>Groq: wofür und wie</h2>
+    <p>Talk erkennt das Gesprochene auf deinem Rechner, ganz ohne Internet. <b>Groq</b> ist ein Dienst im Internet, der das stattdessen übernehmen kann.
+      Mit einem Groq Schlüssel geht die Aufnahme an Groq. Das ist meist etwas schneller, besonders beim ersten Diktat nach dem Start, und nur mit Groq
+      gibt es „Glätten“ (der Text wird sauber ausformuliert) und Mundart. Fällt Groq aus, erkennt Talk von selbst auf dem Rechner weiter.</p>
+    <div class="note"><p>Ohne Schlüssel verlässt nichts deinen Rechner. Mit Schlüssel gehen Aufnahme und Text an Groq; <b>„Nur lokal“</b> im Menü
+      schaltet das jederzeit ab, bis du es wieder anklickst.</p></div>
+    <h3>Schlüssel bekommen und eintragen</h3>
+    <ol class="steps even">
+      <li>Im Browser <span class="path">console.groq.com</span> öffnen, ein Konto anlegen oder anmelden. Die Seite ist auf Englisch.</li>
+      <li>Links auf <b>„API Keys“</b> klicken, dann auf <b>„Create API Key“</b>, einen Namen eingeben (zum Beispiel „Talk“) und bestätigen.
+        Heißen die Knöpfe inzwischen anders, nach „API Key“ suchen.</li>
+      <li>Den angezeigten Schlüssel mit dem Kopierknopf daneben kopieren. Er wird nur einmal angezeigt.</li>
+      <li>In Talk unter Einstellungen, Abschnitt „Datenschutz“, auf <b>„Groq Schlüssel“</b> klicken, im neuen Fenster
+        <b>„Aus Zwischenablage einfügen“</b> und dann <b>„Speichern“</b>.</li>
+    </ol>
+    <p class="muted">Im selben Fenster zeigt „Prüfen“, ob der Schlüssel gilt, und „Löschen“ entfernt ihn wieder. Der Schlüssel liegt nur in der
+      Windows Anmeldeinformationsverwaltung und wird nie angezeigt.
+      Ob Groq kostenlos bleibt und wie viel am Tag geht, steht auf der Seite von Groq.</p>
+  </div>
+
+  <div class="foot"><span>Talk Kurzanleitung</span><span>Seite 2 von 6 · Version 0.4.1</span></div>
+</section>
+
+<!-- Seite 3: Glätten (Playbook Abschnitte 21, 23, 26). Das Beispiel ist echt mit --smoothtest aus einem erfundenen Diktatsatz entstanden. -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">7</span>Text glätten</h2>
+    <p>Gesprochen klingt anders als geschrieben: Satzzeichen fehlen, Sätze laufen ineinander, man setzt neu an. <b>Glätten</b> räumt das auf.
+      Nach der Erkennung geht der Text an ein Sprachmodell bei Groq, das ihn überarbeitet; erst dann fügt Talk ihn ein.</p>
+    <div class="note"><p>Glätten braucht einen Groq Schlüssel (siehe 6). Es läuft nie bei „Nur lokal“ und nie in einem Terminal. Klappt es einmal nicht,
+      fügt Talk den Text ungeglättet ein; der Grund steht im Menü unter „Diagnose“.</p></div>
+
+    <h3>Was Glätten nicht macht</h3>
+    <p>Es übersetzt nicht, erfindet nichts dazu und lässt nichts Gesagtes weg. Namen und Fachwörter bleiben, wie sie sind. Steht im Diktat eine
+      Frage oder ein Auftrag, beantwortet es die Frage nicht, sondern schreibt sie nur sauber auf.</p>
+
+    <h3>Die drei Stufen</h3>
+    <table class="lists">
+      <tr><th>Stufe</th><th>Was passiert</th><th>Gut für</th></tr>
+      <tr><td>Nur Fehler beheben</td><td>Satzzeichen, Groß und Klein, Grammatik, falsch verstandene Wörter. Die Wortwahl bleibt.</td>
+        <td>Texte, die genau so bleiben sollen, wie gesagt</td></tr>
+      <tr><td>Sätze glätten</td><td>Dazu: Satzbau ordnen, Versprecher und doppelte Ansätze heraus. Inhalt, Ton und Anrede bleiben. Das ist die Vorgabe.</td>
+        <td>die meisten Texte, E-Mails</td></tr>
+      <tr><td>Als Nachricht<br>ausformulieren</td><td>Vollständige Sätze, klarer Aufbau, freundlich und sachlich. Erfindet keine Anrede und keinen Gruß.</td>
+        <td>WhatsApp, Chats, kurze Nachrichten</td></tr>
+    </table>
+
+    <h3>Beispiel</h3>
+    <div class="flow">
+      <div class="card"><div class="label">So erkannt</div><p class="muted" style="margin-top:1.5mm">hey wegen samstag ich hab überlegt wir könnten vielleicht grillen also
+        wenn das wetter mitspielt und du könntest ja den salat mitbringen und ich mach das fleisch so um sechs oder so sag einfach bescheid</p></div>
+      <div class="card"><div class="label">Nur Fehler beheben</div><p style="margin-top:1.5mm">Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen,
+        also wenn das Wetter mitspielt und du könntest ja den Salat mitbringen, und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.</p></div>
+      <div class="card"><div class="label">Sätze glätten</div><p style="margin-top:1.5mm">Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen,
+        also wenn das Wetter mitspielt. Du könntest ja den Salat mitbringen und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.</p></div>
+    </div>
+    <p class="muted">Bei kurzen Texten liegen die Stufen nah beieinander; der Unterschied zeigt sich bei längeren, verschachtelten Diktaten.</p>
+
+    <h3>Einschalten und Stufe ändern</h3>
+    <ol class="steps">
+      <li><b>Ein und aus:</b> Im Menü auf <b>„Glätten“</b> klicken; ein Haken davor heißt an. Derselbe Schalter steht in den Einstellungen unter „Text glätten“.</li>
+      <li><b>Stufe für alles:</b> In den Einstellungen, Abschnitt <b>„Text glätten“</b>, unter <b>„Stufe“</b> die Liste anklicken und eine Stufe wählen.</li>
+      <li><b>Stufe je Programm:</b> Darunter erscheint jedes Programm, in das du einmal diktiert hast. Daneben eine eigene Stufe wählen, zum Beispiel
+        für WhatsApp „Als Nachricht ausformulieren“; „Wie Standard“ nimmt die Stufe oben, „Aus“ glättet in diesem Programm nie.
+        Das gilt nur, wenn Glätten oben eingeschaltet ist.</li>
+    </ol>
+    <p><b>Was es bewirkt:</b> sauberere Texte, die man selten nachbessern muss. Dafür dauert jedes Diktat etwa eine halbe Sekunde länger, bei Schweizerdeutsch
+      bis zu einer Sekunde, und der Text geht über das Internet. Bei <b>Mundart</b> übernimmt Groq auch das Umschreiben in den Dialekt; das passiert immer,
+      auch wenn Glätten aus ist.</p>
+  </div>
+
+  <div class="foot"><span>Talk Kurzanleitung</span><span>Seite 3 von 6 · Version 0.4.1</span></div>
+</section>
+
+<!-- Seite 3: das Wörterbuch genau erklärt (Playbook Abschnitt 27). Bilder aus --uishots, nur erfundene Musterwörter. -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">8</span>Talk Wörter beibringen</h2>
+    <p>Namen, Marken und Fachwörter kennt Talk oft nicht und schreibt sie falsch, zum Beispiel <span class="path">Cesareti</span> statt
+      <span class="path">Cesaretti</span>. Du kannst Talk solche Wörter beibringen; ab dem nächsten Diktat stimmen sie, ohne Neustart.
+      Jedes Wort kommt in eine von drei Listen:</p>
+    <table class="lists">
+      <tr><th>Liste</th><th>Wofür</th><th>Was passiert</th></tr>
+      <tr><td>Privat</td><td>Namen von Menschen, Ärzte, Praxen, Kliniken, alles rund um Gesundheit, auch wenn ein Ort im Namen steckt</td>
+        <td>Bleibt immer auf deinem Rechner. Talk verbessert das Wort nach der Erkennung, darum die Falschschreibungen mit eintragen.</td></tr>
+      <tr><td>Allgemein</td><td>Marken, Firmen, Orte, Fachwörter</td>
+        <td>Talk verbessert das Wort genauso. Mit Groq geht es zusätzlich als Hinweis mit jedem Diktat an Groq, damit Groq es gleich richtig erkennt.</td></tr>
+      <tr><td>Schweiz</td><td>Schweizer Wörter (Velo statt Fahrrad)</td>
+        <td>Nur bei Schweizerdeutsch und Mundart: Talk ersetzt das Wort aus Deutschland durch das Schweizer Wort.</td></tr>
+    </table>
+    <p class="muted">Faustregel: im Zweifel „Privat“. Was in „Privat“ steht, verlässt nie deinen Rechner, und die Verbesserung wirkt trotzdem.</p>
+
+    <h2><span class="num">9</span>Weg 1: in den Einstellungen</h2>
+    <div class="withshot">
+      <ol class="steps">
+        <li>Im Menü auf <b>„Einstellungen“</b> klicken und nach unten rollen bis <b>„Wörterbuch“</b>.</li>
+        <li>Unter „Liste“ <b>Privat</b>, <b>Allgemein</b> oder <b>Schweiz</b> anklicken (Privat ist vorgewählt). Darunter stehen alle Wörter dieser Liste.</li>
+        <li>In <b>„Richtiges Wort“</b> das Wort so eintragen, wie es geschrieben werden soll.</li>
+        <li>Ins Feld darunter, wie Talk es bisher falsch schreibt, mehrere mit Komma getrennt. Freiwillig, hilft aber sehr. Bei <b>Schweiz</b> heißt
+          das Feld „Wort aus Deutschland“ und muss ausgefüllt sein, zum Beispiel <span class="path">Fahrrad</span>.</li>
+        <li><b>„Hinzufügen“</b> klicken. Die Meldung darunter sagt, was passiert ist; das Wort steht jetzt in der Liste.</li>
+      </ol>
+      <div><div class="shot" style="height:57.1mm"><img src="bilder/einstellungen-woerterbuch.png" style="margin-top:-19.0mm" alt=""></div>
+        <div class="caption">Einstellungen, Abschnitt „Wörterbuch“ (erfundene Beispiele)</div></div>
+    </div>
+    <h3>Später ergänzen</h3>
+    <p>Schreibt Talk das Wort noch auf eine andere Art falsch: dasselbe richtige Wort noch einmal eintragen, mit der neuen Falschschreibung.
+      Die Meldung sagt dann „hat neue Schreibweisen dazubekommen“.</p>
+    <h3>Entfernen</h3>
+    <p>Rechts neben dem Wort auf <b>„Entfernen“</b> klicken. Der Knopf zeigt dann „Wirklich entfernen?“; jetzt noch einmal klicken, und das Wort ist weg.
+      Klickst du 5 Sekunden lang nicht, zeigt er wieder „Entfernen“ und es passiert nichts. Entfernen geht nur hier in den Einstellungen.</p>
+  </div>
+
+  <div class="foot"><span>Talk Kurzanleitung</span><span>Seite 4 von 6 · Version 0.4.1</span></div>
+</section>
+
+<!-- Seite 4 -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">10</span>Weg 2: im Verlauf, direkt aus einem Fehler</h2>
+    <div class="withshot">
+      <ol class="steps">
+        <li>Im Menü auf <b>„Verlauf“</b> klicken und beim Text mit dem Fehler auf <b>„Wort korrigieren“</b>.</li>
+        <li>Das falsch geschriebene Wort anklicken. Besteht der Fehler aus zwei Wörtern (zum Beispiel „Lumi Ora“), auch das Nachbarwort anklicken.</li>
+        <li>In <b>„Richtig geschrieben“</b> das richtige Wort eintragen.</li>
+        <li>Liste wählen: <b>Privat</b> ist vorgewählt, das passt meistens; „Allgemein“ für Marken und Fachwörter. Die Liste Schweiz gibt es nur in den Einstellungen.</li>
+        <li><b>„Merken“</b> klicken. Der Text im Verlauf bleibt, wie er ist; ab dem nächsten Diktat stimmt das Wort.</li>
+      </ol>
+      <div><div class="shot" style="height:51.5mm"><img src="bilder/wort-korrigieren.png" alt=""></div>
+        <div class="caption">Verlauf, „Wort korrigieren“</div></div>
+    </div>
+
+    <h2><span class="num">11</span>Gut zu wissen</h2>
+    <ul class="plain">
+      <li><b>Nur besondere Wörter eintragen.</b> Ein eingetragenes Wort schreibt Talk immer genau so; nur am Satzanfang wird ein klein eingetragenes
+        Wort groß („eBay“ bleibt). Ein gewöhnliches Wort wie „haus“ stünde mitten im Satz dann überall klein.</li>
+      <li><b>„Steht schon als … in der Liste“</b> kommt, wenn du ein Wort einträgst, das schon da ist, ohne eine neue Falschschreibung. Steht es dort
+        anders geschrieben, als du es willst: erst entfernen, dann neu eintragen.</li>
+      <li>Ein Wort gilt nur für die Liste, in der es steht. Wechselst du die Liste oben, siehst du ihre Wörter.</li>
+    </ul>
+
+  </div>
+
+  <div class="foot"><span>Talk Kurzanleitung</span><span>Seite 5 von 6 · Version 0.4.1</span></div>
+</section>
+
+<!-- Seite 6: Hilfe und Technik -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">12</span>Für Fortgeschrittene</h2>
+    <p>Die Listen sind einfache Textdateien im Ordner <span class="path">%LOCALAPPDATA%\Talk</span> (im Explorer oben in die Adresszeile klicken,
+      das eintippen und <span class="key">Enter</span> tippen): <span class="path">woerterbuch-lokal.txt</span> (Privat), <span class="path">woerterbuch.txt</span>
+      (Allgemein), <span class="path">woerterbuch-ch.txt</span> (Schweiz). Du darfst sie auch im Editor bearbeiten, eine Zeile je Wort:
+      <span class="path">Cesaretti = Cesareti | Cäsaretti</span>.</p>
+    <ul class="plain">
+      <li>Beim Speichern im Editor unten bei „Codierung“ <b>UTF-8</b> wählen. Sonst meldet Talk „nicht als UTF-8 gespeichert“ und ändert die Datei nicht,
+        damit keine Umlaute verloren gehen.</li>
+      <li>Vor der ersten Änderung eines Tages legt Talk eine Sicherung daneben, zum Beispiel <span class="path">woerterbuch.txt.sicherung-2026-11-02</span>.</li>
+    </ul>
+
+    <h2><span class="num">13</span>Diagnose: wenn etwas nicht klappt</h2>
+    <p>Im Menü öffnet <b>„Diagnose“</b> ein Fenster, das zeigt, was beim letzten Diktat passiert ist. Im Alltag brauchst du es nicht, nur wenn etwas hakt.</p>
+    <ul class="plain">
+      <li><b>Zustand:</b> ob Talk gerade aufnimmt; die Zähler für Start, Stopp und Abbruch zeigen, ob dein Tippen auf Caps Lock ankommt.</li>
+      <li><b>Mikrofon und Pegel:</b> welches Mikrofon gilt und ob Ton ankommt (der Balken bewegt sich beim Sprechen).</li>
+      <li><b>Erkennung:</b> ob ein Groq Schlüssel hinterlegt ist, ob „Nur lokal“ an ist und ob das lokale Modell geladen ist.</li>
+      <li><b>Erkannter Text:</b> was Talk verstanden hat, darunter der Text vor der Verbesserung und vor dem Glätten, warum nicht geglättet wurde und ob eingefügt wurde.</li>
+      <li><b>„Erneut versuchen“:</b> Ist die Erkennung gescheitert (zum Beispiel ohne Internet), schickt dieser Knopf die letzte Aufnahme noch einmal.</li>
+      <li><b>„Zusätzliche Begriffe für diesen Lauf“:</b> Wörter, die nur bis zum Beenden gelten. Für immer gehören sie ins Wörterbuch (Abschnitt 8).</li>
+    </ul>
+    <h3>Typische Probleme</h3>
+    <table class="lists">
+      <tr><th>Problem</th><th>In der Diagnose</th><th>Was tun</th></tr>
+      <tr><td>Caps Lock startet nichts</td><td>Der Zähler „Start“ zählt nicht hoch.</td>
+        <td>Zweimal schneller tippen oder in den Einstellungen mehr Zeit zwischen den Tipps einstellen; sonst Talk beenden und neu starten.</td></tr>
+      <tr><td>Aufnahme läuft, kein Text</td><td>Der Pegel bewegt sich beim Sprechen nicht.</td>
+        <td>In den Einstellungen unter „Mikrofon“ ein anderes wählen oder „Neu laden“ klicken.</td></tr>
+      <tr><td>Ein Wort ist immer falsch</td><td>Unter „Erkannter Text“ steht, wie Talk es gehört hat.</td>
+        <td>Im Verlauf „Wort korrigieren“ (Abschnitt 10).</td></tr>
+      <tr><td>Text nicht geglättet</td><td>„Nicht geglättet:“ mit Grund, etwa kein Schlüssel, Text zu kurz, nur lokal, Terminal.</td>
+        <td>Je nach Grund Schlüssel eintragen oder „Nur lokal“ ausschalten; kurze Texte unter vier Wörtern glättet Talk nie.</td></tr>
+      <tr><td>Erkennung gescheitert</td><td>Eine Meldung statt Text, etwa ohne Internet.</td>
+        <td>„Erneut versuchen“ klicken, sobald das Internet wieder da ist.</td></tr>
+    </table>
+    <p class="muted">Tipp: Klappt etwas nicht, die Diagnose öffnen und ein Foto davon machen. Damit lässt sich der Fehler meist schnell finden.</p>
+  </div>
+
+  <div class="foot"><span>Talk Kurzanleitung</span><span>Seite 6 von 6 · Version 0.4.1</span></div>
+</section>
+
+</body>
+</html>

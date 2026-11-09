@@ -1,0 +1,12 @@
+# Zeilenenden: Git normalisiert Textdateien, Windows Dateien bleiben CRLF
+* text=auto
+
+# C# und Projektmappe immer mit Windows Zeilenenden
+*.cs text eol=crlf
+*.sln text eol=crlf
+*.slnx text eol=crlf
+
+# Binärdateien nie anfassen
+*.png binary
+*.ico binary
+*.wav binary

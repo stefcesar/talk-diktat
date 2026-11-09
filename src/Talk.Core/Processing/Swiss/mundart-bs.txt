@@ -1,0 +1,27 @@
+# Mundart Basel.
+# Format: Mundart = Hochdeutsch. Die Paare gehen als Beispiele für die Schreibweise in die Anweisung an das Sprachmodell
+# bei Groq, das den erkannten Text in Mundart umschreibt (Sprache "Mundart", Playbook Abschnitt 26). Mundart hat keine feste
+# Rechtschreibung; die Formen hier legen eine Schreibweise fest. Nicht von Muttersprachlern geprüft.
+nit = nicht
+ebbis = etwas
+e bitzli = ein bisschen
+gsi = gewesen
+i ha = ich habe
+mir hän = wir haben
+isch = ist
+gseh = gesehen
+gange = gegangen
+hit = heute
+geschter = gestern
+moorn = morgen
+luege = schauen
+poschte = einkaufen
+schaffe = arbeiten
+Kinder = Kinder
+Huus = Haus
+Kuchi = Küche
+mache = machen
+kemme = kommen
+nyt = nichts
+vyl = viel
+gärn = gern

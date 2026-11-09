@@ -1,0 +1,51 @@
+﻿Talk enthält folgende Bestandteile, die unter der MIT Lizenz stehen.
+Für jeden gilt der Copyright Vermerk unten zusammen mit dem Lizenztext am Ende dieser Datei.
+
+NAudio (Aufnahme)
+Copyright 2020 Mark Heath
+
+Whisper.net (Spracherkennung, Anbindung)
+Copyright (c) 2024 sandrohanea
+
+whisper.cpp (Spracherkennung, in Whisper.net enthalten)
+Copyright (c) 2023-2026 The ggml authors
+
+Whisper Modell ggml-large-v3-turbo (Sprachmodell von OpenAI, umgewandelt von whisper.cpp)
+Copyright (c) 2022 OpenAI
+
+Silero VAD Modell ggml-silero-v6.2.0 (Stilleerkennung)
+Copyright (c) 2020-present Silero Team
+
+Meziantou.Framework.Win32.CredentialManager (Ablage des Groq Schlüssels)
+Copyright (c) Gérald Barré
+
+Microsoft.Extensions.AI.Abstractions (von Whisper.net verwendet)
+Copyright (c) .NET Foundation and Contributors
+
+.NET und Windows Desktop Laufzeit (mitgeliefert)
+Copyright (c) .NET Foundation and Contributors
+(Lizenz und Hinweise zu weiteren Bestandteilen: dotnet-LICENSE.txt, dotnet-THIRD-PARTY-NOTICES.txt, windowsdesktop-LICENSE.txt)
+
+Die Schriften Bricolage Grotesque, Public Sans und Geist Mono stehen unter der SIL Open Font License 1.1 (Dateien OFL-*.txt).
+
+----------------------------------------------------------------------
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

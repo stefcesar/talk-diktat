@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Talk.App/Talk.App.csproj" />
+    <Project Path="src/Talk.Core/Talk.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Talk.Core.Tests/Talk.Core.Tests.csproj" />
+  </Folder>
+</Solution>

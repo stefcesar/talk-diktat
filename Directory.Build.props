@@ -1,0 +1,21 @@
+<Project>
+
+  <!-- Gemeinsame Einstellungen für alle Projekte der Solution Talk. -->
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+    <Authors>Stefano Cesaretti</Authors>
+    <Product>Talk</Product>
+    <Version>0.4.1</Version>
+    <Copyright>Stefano Cesaretti</Copyright>
+    <NeutralLanguage>de-DE</NeutralLanguage>
+  </PropertyGroup>
+
+  <!-- XML Dokumentation nur für die Kernbibliothek, dort sind alle öffentlichen Deklarationen kommentiert. -->
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Talk.Core'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>

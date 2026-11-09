@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Talk Symbol, Entwurf B</title>
+<style>
+  body { font: 14px/1.4 "Segoe UI", sans-serif; margin: 24px; color: #1b1f24; background: #f3f3f3; }
+  h1 { font-size: 20px; }
+  h2 { font-size: 15px; margin: 28px 0 8px; }
+  table { border-collapse: collapse; }
+  th, td { padding: 10px 14px; text-align: center; }
+  th { font-weight: 600; font-size: 12px; }
+  th.zeile { text-align: left; }
+  .dunkel td { background: #202020; }
+  .hell td { background: #e9eef6; }
+  .grau img { filter: grayscale(1); }
+  .app { display: flex; align-items: flex-end; gap: 24px; }
+  img { display: block; margin: 0 auto; }
+  p { max-width: 60em; }
+</style>
+</head>
+<body>
+<h1>Talk Symbol, Entwurf B: Stimme wird Cursor</h1>
+<p>Jede Zeile zeigt einen Zustand in den vier Tray Größen (100, 125, 150, 200 Prozent). Die Größen 20 und 24 sind hier nur hochgerechnet und werden für die fertigen Dateien eigens auf ganze Pixel gesetzt.</p>
+
+<h2>Dunkle Taskleiste</h2>
+<table class="dunkel">
+<tr><th></th><th>16</th><th>20</th><th>24</th><th>32</th></tr>
+<tr><th class="zeile">Ruhe</th><td><img src="tray-ruhe-dunkel-16.svg" width="16"></td><td><img src="tray-ruhe-dunkel-16.svg" width="20"></td><td><img src="tray-ruhe-dunkel-16.svg" width="24"></td><td><img src="tray-ruhe-dunkel-16.svg" width="32"></td></tr>
+<tr><th class="zeile">Aufnahme</th><td><img src="tray-aufnahme-dunkel-16.svg" width="16"></td><td><img src="tray-aufnahme-dunkel-16.svg" width="20"></td><td><img src="tray-aufnahme-dunkel-16.svg" width="24"></td><td><img src="tray-aufnahme-dunkel-16.svg" width="32"></td></tr>
+<tr><th class="zeile">Verarbeitung</th><td><img src="tray-verarbeitung-dunkel-16.svg" width="16"></td><td><img src="tray-verarbeitung-dunkel-16.svg" width="20"></td><td><img src="tray-verarbeitung-dunkel-16.svg" width="24"></td><td><img src="tray-verarbeitung-dunkel-16.svg" width="32"></td></tr>
+<tr><th class="zeile">Fehler</th><td><img src="tray-fehler-dunkel-16.svg" width="16"></td><td><img src="tray-fehler-dunkel-16.svg" width="20"></td><td><img src="tray-fehler-dunkel-16.svg" width="24"></td><td><img src="tray-fehler-dunkel-16.svg" width="32"></td></tr>
+</table>
+
+<h2>Helle Taskleiste</h2>
+<table class="hell">
+<tr><th></th><th>16</th><th>20</th><th>24</th><th>32</th></tr>
+<tr><th class="zeile">Ruhe</th><td><img src="tray-ruhe-hell-16.svg" width="16"></td><td><img src="tray-ruhe-hell-16.svg" width="20"></td><td><img src="tray-ruhe-hell-16.svg" width="24"></td><td><img src="tray-ruhe-hell-16.svg" width="32"></td></tr>
+<tr><th class="zeile">Aufnahme</th><td><img src="tray-aufnahme-hell-16.svg" width="16"></td><td><img src="tray-aufnahme-hell-16.svg" width="20"></td><td><img src="tray-aufnahme-hell-16.svg" width="24"></td><td><img src="tray-aufnahme-hell-16.svg" width="32"></td></tr>
+<tr><th class="zeile">Verarbeitung</th><td><img src="tray-verarbeitung-hell-16.svg" width="16"></td><td><img src="tray-verarbeitung-hell-16.svg" width="20"></td><td><img src="tray-verarbeitung-hell-16.svg" width="24"></td><td><img src="tray-verarbeitung-hell-16.svg" width="32"></td></tr>
+<tr><th class="zeile">Fehler</th><td><img src="tray-fehler-hell-16.svg" width="16"></td><td><img src="tray-fehler-hell-16.svg" width="20"></td><td><img src="tray-fehler-hell-16.svg" width="24"></td><td><img src="tray-fehler-hell-16.svg" width="32"></td></tr>
+</table>
+
+<h2>Graustufen, 16 px (Unterschied ohne Farbe)</h2>
+<table class="dunkel grau">
+<tr><th>Ruhe</th><th>Aufnahme</th><th>Verarbeitung</th><th>Fehler</th></tr>
+<tr><td><img src="tray-ruhe-dunkel-16.svg" width="16"></td><td><img src="tray-aufnahme-dunkel-16.svg" width="16"></td><td><img src="tray-verarbeitung-dunkel-16.svg" width="16"></td><td><img src="tray-fehler-dunkel-16.svg" width="16"></td></tr>
+</table>
+
+<h2>Programmsymbol</h2>
+<div class="app">
+  <img src="app-16.svg" width="16">
+  <img src="app-16.svg" width="32">
+  <img src="app-256.svg" width="48">
+  <img src="app-256.svg" width="64">
+  <img src="app-256.svg" width="256">
+</div>
+
+<h2>Große Zeichnung für das Overlay</h2>
+<div class="app">
+  <img src="zeichen-ruhe-256.svg" width="96">
+  <img src="zeichen-aufnahme-256.svg" width="96">
+  <img src="zeichen-verarbeitung-256.svg" width="96">
+  <img src="zeichen-fehler-256.svg" width="96">
+</div>
+</body>
+</html>

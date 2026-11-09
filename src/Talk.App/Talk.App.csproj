@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Windows App: WPF für Overlay und Einstellungen, Windows Forms nur für das Tray Icon. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>Talk</AssemblyName>
+    <RootNamespace>Talk.App</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- Programmsymbol, erzeugt von assets\symbol\erzeuge-symbole.ps1. -->
+    <ApplicationIcon>..\..\assets\symbol\fertig\talk.ico</ApplicationIcon>
+    <!--
+      WFO0003: Windows Forms rät, DPI Einstellungen nicht im Manifest zu setzen.
+      Talk ist eine WPF App, WPF liest die DPI Einstellung aus dem Manifest (PerMonitorV2).
+      Windows Forms dient später nur dem Tray Icon und ruft ApplicationConfiguration.Initialize nie auf.
+    -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Talk.Core\Talk.Core.csproj" />
+  </ItemGroup>
+
+  <!-- Tray Symbole je Zustand, eingebettet unter Talk.App.Tray.tray-ruhe.ico und so weiter. -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\assets\symbol\fertig\tray-*.ico" LogicalName="Talk.App.Tray.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- Schriften nach DESIGN.md, als Ressource im Programm; die Fenster laden sie über pack://application:,,,/Ui/Fonts/. -->
+  <ItemGroup>
+    <Resource Include="Ui\Fonts\*.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Meziantou.Framework.Win32.CredentialManager" Version="3.0.4" />
+    <PackageReference Include="NAudio.Wasapi" Version="3.1.0" />
+    <PackageReference Include="Whisper.net" Version="1.9.1" />
+    <PackageReference Include="Whisper.net.Runtime" Version="1.9.1" />
+    <PackageReference Include="Whisper.net.Runtime.Vulkan" Version="1.9.1" />
+  </ItemGroup>
+
+</Project>

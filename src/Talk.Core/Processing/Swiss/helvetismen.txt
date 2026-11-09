@@ -1,0 +1,54 @@
+# Helvetismen für "Schweizerdeutsch" (de-ch), Playbook Abschnitt 26.
+# Format wie woerterbuch.txt: Schweizer Wort = Form aus Deutschland | weitere Form
+# Links steht, was Talk schreibt; rechts, was Whisper oft daraus macht. Jede Zeile ist eine genaue Wortform,
+# verglichen ohne Groß und Klein. Beginnt das Wort im Text groß, beginnt auch der Ersatz groß.
+# Nur Wörter, die in der Schweiz klar anders geschrieben werden und dasselbe Geschlecht haben, damit der Artikel davor
+# stimmt ("die Fahrkarte" würde sonst "die Billett"). Darum stehen manche Wörter nur in der Mehrzahl da.
+# Mehrdeutiges (Rad, Handy, Abendessen, Brötchen, Urlaub) bleibt draußen, ebenso Wörter, deren Einzahl und Mehrzahl gleich
+# lauten, der Ersatz aber nicht (Hausmeister, Hähnchen). Bekannte Grenze: Groß und Klein zählen nicht, darum würde aus dem
+# Insekt "die Grillen" auch "die Grillieren"; das ist selten genug, um es hinzunehmen.
+
+# Verkehr
+Velo = Fahrrad
+Velos = Fahrräder | Fahrrads | Fahrrades | Fahrrädern
+Velofahrer = Fahrradfahrer | Radfahrer
+Velofahrerin = Fahrradfahrerin | Radfahrerin
+Velofahrerinnen = Fahrradfahrerinnen | Radfahrerinnen
+Veloweg = Fahrradweg | Radweg
+Velowege = Fahrradwege | Radwege
+Velowegen = Fahrradwegen | Radwegen
+Velohelm = Fahrradhelm
+Trottoirs = Bürgersteige | Bürgersteigen | Gehsteige | Gehsteigen
+Trams = Straßenbahnen | Strassenbahnen
+Perron = Bahnsteig
+Perrons = Bahnsteige | Bahnsteigen | Bahnsteigs
+Billette = Fahrkarten | Fahrscheine
+Führerausweis = Führerschein
+Führerausweise = Führerscheine
+Führerausweises = Führerscheins
+parkieren = parken
+parkiert = parkt | geparkt
+parkierte = parkte
+parkierten = parkten
+parkierst = parkst
+
+# Essen
+Rüebli = Möhren | Mohrrüben
+grillieren = grillen
+grilliert = grillt | gegrillt
+grillierte = grillte
+grillierten = grillten
+
+# Haus und Alltag
+Spital = Krankenhaus
+Spitals = Krankenhauses
+Spitäler = Krankenhäuser
+Spitälern = Krankenhäusern
+Estrich = Dachboden
+Abwartin = Hausmeisterin
+Zündholz = Streichholz
+Zündhölzer = Streichhölzer
+Bancomat = Geldautomat
+Bancomaten = Geldautomaten
+Coiffeur = Friseur | Frisör
+Coiffeuse = Friseurin | Frisörin

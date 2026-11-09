@@ -1,0 +1,33 @@
+<Window x:Class="Talk.App.Ui.OverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Talk Overlay"
+        Width="270"
+        Height="56"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        Focusable="False"
+        IsHitTestVisible="False"
+        Topmost="True"
+        WindowStartupLocation="Manual"
+        FontFamily="{StaticResource TextFont}"
+        FontSize="15">
+    <!-- Die Pille über der Taskleiste: Talk Zeichen und Zustand, Farben und Schrift nach DESIGN.md (Grund wie BgColor, leicht durchscheinend; der helle Rand hebt sie vom Desktop ab). Sie nimmt nie den Fokus und lässt Klicks hindurch. -->
+    <Border x:Name="Pill" CornerRadius="28" Background="#F015171B" BorderBrush="#33FFFFFF" BorderThickness="1" Padding="16,0">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <!-- Das Talk Zeichen auf einem Raster von 32: Textcursor in der Mitte, links und rechts die Pegelbalken. -->
+            <Canvas Width="32" Height="32" VerticalAlignment="Center">
+                <Rectangle Canvas.Left="14" Canvas.Top="2" Width="4" Height="28" RadiusX="2" RadiusY="2" Fill="{StaticResource TextBrush}" />
+                <Rectangle Canvas.Left="10" Canvas.Top="2" Width="12" Height="4" RadiusX="2" RadiusY="2" Fill="{StaticResource TextBrush}" />
+                <Rectangle Canvas.Left="10" Canvas.Top="26" Width="12" Height="4" RadiusX="2" RadiusY="2" Fill="{StaticResource TextBrush}" />
+                <Rectangle x:Name="LeftBar" Canvas.Left="2" Canvas.Top="14" Width="4" Height="4" RadiusX="2" RadiusY="2" Fill="{StaticResource AccentBrush}" />
+                <Rectangle x:Name="RightBar" Canvas.Left="26" Canvas.Top="14" Width="4" Height="4" RadiusX="2" RadiusY="2" Fill="{StaticResource AccentBrush}" />
+            </Canvas>
+            <TextBlock x:Name="StateText" Text="Aufnahme" Foreground="{StaticResource TextBrush}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="14,0,0,0" />
+        </StackPanel>
+    </Border>
+</Window>

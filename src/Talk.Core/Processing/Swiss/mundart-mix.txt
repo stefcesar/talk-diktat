@@ -1,0 +1,27 @@
+# Mundart gemischt: allgemein verständliche Deutschschweizer Mundart, nahe am Zürichdeutschen.
+# Format: Mundart = Hochdeutsch. Die Paare gehen als Beispiele für die Schreibweise in die Anweisung an das Sprachmodell
+# bei Groq, das den erkannten Text in Mundart umschreibt (Sprache "Mundart", Playbook Abschnitt 26). Mundart hat keine feste
+# Rechtschreibung; die Formen hier legen eine Schreibweise fest. Nicht von Muttersprachlern geprüft.
+nöd = nicht
+öppis = etwas
+chli = ein bisschen
+gsi = gewesen
+ich ha = ich habe
+mir händ = wir haben
+isch = ist
+gseh = gesehen
+gange = gegangen
+hüt = heute
+geschter = gestern
+morn = morgen
+luege = schauen
+poschte = einkaufen
+schaffe = arbeiten
+Chind = Kinder
+Huus = Haus
+Chuchi = Küche
+mache = machen
+chömed = kommen
+nüt = nichts
+vill = viel
+gärn = gern

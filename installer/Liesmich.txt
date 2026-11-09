@@ -1,0 +1,127 @@
+﻿Talk: Kurzanleitung (Version 0.4.1)
+
+Das brauchst du
+
+1. Windows 11, 64 Bit.
+2. Einen Rechner ab etwa 2015 (genauer: einen Prozessor mit AVX2).
+3. Ein Mikrofon.
+4. Etwa 1 GB freien Platz.
+
+Installieren
+
+1. TalkSetup doppelt anklicken und den Schritten folgen.
+2. Fertig. Talk läuft unsichtbar im Hintergrund. Das Symbol steht rechts unten neben der Uhr, eventuell hinter dem kleinen Pfeil.
+
+Diktieren
+
+Talk startest du mit der Taste Caps Lock, auf deutschen Tastaturen auch Feststelltaste genannt (links, über Umschalt).
+1. Zweimal kurz auf Caps Lock tippen: Die Aufnahme beginnt, unten erscheint eine kleine Anzeige.
+2. Ganz normal sprechen, in ganzen Sätzen.
+3. Einmal auf Caps Lock tippen: Der Text erscheint dort, wo du gerade schreibst.
+Mit der Bildschirmtastatur geht das genauso: die Taste zweimal kurz hintereinander antippen. Ist dir das zu schnell, stellst du in den Einstellungen unter "Zeit zwischen den beiden Tipps" mehr Zeit ein.
+
+Abbrechen: Esc bricht die Aufnahme ab, nichts wird eingefügt.
+Alles groß schreiben: Die Feststelltaste wie früher einschalten mit Umschalt und dazu Caps Lock, denn Caps Lock allein startet jetzt Talk.
+
+Das Menü
+
+Ein Klick auf das Talk Symbol rechts unten neben der Uhr öffnet das Menü. Steht es dort nicht, zuerst auf den kleinen Pfeil neben der Uhr klicken. Im Menü stehen: Letzten Text kopieren, Verlauf, Nur lokal, Glätten, Einstellungen, Diagnose, Talk beenden.
+Verlauf: Hier stehen deine Texte der letzten 30 Tage. "Kopieren" legt einen Text in die Zwischenablage; eingefügt wird er mit einem Rechtsklick an der gewünschten Stelle und "Einfügen".
+Talk beenden: Im Menü auf "Talk beenden" klicken. Eine Pause gibt es nicht. Später über das Startmenü (Eintrag "Talk") wieder starten.
+
+Einstellungen und Sprache
+
+1. Im Menü auf "Einstellungen" klicken. Jede Änderung gilt sofort und wird gespeichert; mit "Schließen" geht das Fenster zu.
+2. Unter "Sprache" die Liste anklicken und die Sprache wählen: Deutsch, Italienisch, Englisch, Schweizerdeutsch oder Mundart.
+3. Bei Mundart erscheint darunter die Liste "Dialekt": Zürich, Bern, Basel oder gemischt.
+
+Schweizerdeutsch: Du sprichst Dialekt, Talk schreibt Schweizer Hochdeutsch: ss statt ß, Schweizer Wörter wie Velo, Spital oder parkieren.
+Mundart: Du sprichst Dialekt, Talk schreibt auch im Dialekt. Das geht nur mit Groq und ist noch ein Versuch; ohne Groq schreibt Talk Schweizer Hochdeutsch.
+Soll Talk nach dem Einschalten des Rechners von selbst laufen, ganz unten in den Einstellungen "Talk mit Windows starten" einschalten.
+
+Groq: wofür und wie
+
+Talk erkennt das Gesprochene auf deinem Rechner, ganz ohne Internet. Groq ist ein Dienst im Internet, der das stattdessen übernehmen kann. Mit einem Groq Schlüssel geht die Aufnahme an Groq. Das ist meist etwas schneller, besonders beim ersten Diktat nach dem Start, und nur mit Groq gibt es "Glätten" (der Text wird sauber ausformuliert) und Mundart. Fällt Groq aus, erkennt Talk von selbst auf dem Rechner weiter.
+Ohne Schlüssel verlässt nichts deinen Rechner. Mit Schlüssel gehen Aufnahme und Text an Groq; "Nur lokal" im Menü schaltet das jederzeit ab, bis du es wieder anklickst.
+
+Schlüssel bekommen und eintragen:
+1. Im Browser console.groq.com öffnen, ein Konto anlegen oder anmelden. Die Seite ist auf Englisch.
+2. Links auf "API Keys" klicken, dann auf "Create API Key", einen Namen eingeben (zum Beispiel "Talk") und bestätigen. Heißen die Knöpfe inzwischen anders, nach "API Key" suchen.
+3. Den angezeigten Schlüssel mit dem Kopierknopf daneben kopieren. Er wird nur einmal angezeigt.
+4. In Talk unter Einstellungen, Abschnitt "Datenschutz", auf "Groq Schlüssel" klicken, im neuen Fenster "Aus Zwischenablage einfügen" und dann "Speichern".
+Im selben Fenster zeigt "Prüfen", ob der Schlüssel gilt, und "Löschen" entfernt ihn wieder. Der Schlüssel liegt nur in der Windows Anmeldeinformationsverwaltung und wird nie angezeigt. Ob Groq kostenlos bleibt und wie viel am Tag geht, steht auf der Seite von Groq.
+
+Text glätten
+
+Gesprochen klingt anders als geschrieben: Satzzeichen fehlen, Sätze laufen ineinander, man setzt neu an. Glätten räumt das auf. Nach der Erkennung geht der Text an ein Sprachmodell bei Groq, das ihn überarbeitet; erst dann fügt Talk ihn ein.
+Glätten braucht einen Groq Schlüssel. Es läuft nie bei "Nur lokal" und nie in einem Terminal. Klappt es einmal nicht, fügt Talk den Text ungeglättet ein; der Grund steht im Menü unter "Diagnose".
+
+Was Glätten nicht macht: Es übersetzt nicht, erfindet nichts dazu und lässt nichts Gesagtes weg. Namen und Fachwörter bleiben, wie sie sind. Steht im Diktat eine Frage oder ein Auftrag, beantwortet es die Frage nicht, sondern schreibt sie nur sauber auf.
+
+Die drei Stufen:
+- Nur Fehler beheben: Satzzeichen, Groß und Klein, Grammatik, falsch verstandene Wörter. Die Wortwahl bleibt. Gut für Texte, die genau so bleiben sollen, wie gesagt.
+- Sätze glätten: dazu Satzbau ordnen, Versprecher und doppelte Ansätze heraus. Inhalt, Ton und Anrede bleiben. Das ist die Vorgabe, gut für die meisten Texte und E-Mails.
+- Als Nachricht ausformulieren: vollständige Sätze, klarer Aufbau, freundlich und sachlich. Erfindet keine Anrede und keinen Gruß. Gut für WhatsApp, Chats und kurze Nachrichten.
+
+Beispiel:
+So erkannt: hey wegen samstag ich hab überlegt wir könnten vielleicht grillen also wenn das wetter mitspielt und du könntest ja den salat mitbringen und ich mach das fleisch so um sechs oder so sag einfach bescheid
+Nur Fehler beheben: Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen, also wenn das Wetter mitspielt und du könntest ja den Salat mitbringen, und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.
+Sätze glätten: Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen, also wenn das Wetter mitspielt. Du könntest ja den Salat mitbringen und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.
+Bei kurzen Texten liegen die Stufen nah beieinander; der Unterschied zeigt sich bei längeren, verschachtelten Diktaten.
+
+Einschalten und Stufe ändern:
+1. Ein und aus: Im Menü auf "Glätten" klicken; ein Haken davor heißt an. Derselbe Schalter steht in den Einstellungen unter "Text glätten".
+2. Stufe für alles: In den Einstellungen, Abschnitt "Text glätten", unter "Stufe" die Liste anklicken und eine Stufe wählen.
+3. Stufe je Programm: Darunter erscheint jedes Programm, in das du einmal diktiert hast. Daneben eine eigene Stufe wählen, zum Beispiel für WhatsApp "Als Nachricht ausformulieren"; "Wie Standard" nimmt die Stufe oben, "Aus" glättet in diesem Programm nie. Das gilt nur, wenn Glätten oben eingeschaltet ist.
+Was es bewirkt: sauberere Texte, die man selten nachbessern muss. Dafür dauert jedes Diktat etwa eine halbe Sekunde länger, bei Schweizerdeutsch bis zu einer Sekunde, und der Text geht über das Internet. Bei Mundart übernimmt Groq auch das Umschreiben in den Dialekt; das passiert immer, auch wenn Glätten aus ist.
+
+Talk Wörter beibringen
+
+Namen, Marken und Fachwörter kennt Talk oft nicht und schreibt sie falsch, zum Beispiel Cesareti statt Cesaretti. Du kannst Talk solche Wörter beibringen; ab dem nächsten Diktat stimmen sie, ohne Neustart. Jedes Wort kommt in eine von drei Listen:
+- Privat: Namen von Menschen, Ärzte, Praxen, Kliniken, alles rund um Gesundheit, auch wenn ein Ort im Namen steckt. Bleibt immer auf deinem Rechner. Talk verbessert das Wort nach der Erkennung, darum die Falschschreibungen mit eintragen.
+- Allgemein: Marken, Firmen, Orte, Fachwörter. Talk verbessert das Wort genauso. Mit Groq geht es zusätzlich als Hinweis mit jedem Diktat an Groq, damit Groq es gleich richtig erkennt.
+- Schweiz: Schweizer Wörter (Velo statt Fahrrad). Nur bei Schweizerdeutsch und Mundart: Talk ersetzt das Wort aus Deutschland durch das Schweizer Wort.
+Faustregel: im Zweifel "Privat". Was in "Privat" steht, verlässt nie deinen Rechner, und die Verbesserung wirkt trotzdem.
+
+Weg 1: in den Einstellungen
+1. Im Menü auf "Einstellungen" klicken und nach unten rollen bis "Wörterbuch".
+2. Unter "Liste" Privat, Allgemein oder Schweiz anklicken (Privat ist vorgewählt). Darunter stehen alle Wörter dieser Liste.
+3. In "Richtiges Wort" das Wort so eintragen, wie es geschrieben werden soll.
+4. Ins Feld darunter, wie Talk es bisher falsch schreibt, mehrere mit Komma getrennt. Freiwillig, hilft aber sehr. Bei Schweiz heißt das Feld "Wort aus Deutschland" und muss ausgefüllt sein, zum Beispiel Fahrrad.
+5. "Hinzufügen" klicken. Die Meldung darunter sagt, was passiert ist; das Wort steht jetzt in der Liste.
+Später ergänzen: Schreibt Talk das Wort noch auf eine andere Art falsch, dasselbe richtige Wort noch einmal eintragen, mit der neuen Falschschreibung. Die Meldung sagt dann "hat neue Schreibweisen dazubekommen".
+Entfernen: Rechts neben dem Wort auf "Entfernen" klicken. Der Knopf zeigt dann "Wirklich entfernen?"; jetzt noch einmal klicken, und das Wort ist weg. Klickst du 5 Sekunden lang nicht, zeigt er wieder "Entfernen" und es passiert nichts. Entfernen geht nur hier in den Einstellungen.
+
+Weg 2: im Verlauf, direkt aus einem Fehler
+1. Im Menü auf "Verlauf" klicken und beim Text mit dem Fehler auf "Wort korrigieren".
+2. Das falsch geschriebene Wort anklicken. Besteht der Fehler aus zwei Wörtern (zum Beispiel "Lumi Ora"), auch das Nachbarwort anklicken.
+3. In "Richtig geschrieben" das richtige Wort eintragen.
+4. Liste wählen: Privat ist vorgewählt, das passt meistens; "Allgemein" für Marken und Fachwörter. Die Liste Schweiz gibt es nur in den Einstellungen.
+5. "Merken" klicken. Der Text im Verlauf bleibt, wie er ist; ab dem nächsten Diktat stimmt das Wort.
+
+Gut zu wissen
+- Nur besondere Wörter eintragen. Ein eingetragenes Wort schreibt Talk immer genau so; nur am Satzanfang wird ein klein eingetragenes Wort groß ("eBay" bleibt). Ein gewöhnliches Wort wie "haus" stünde mitten im Satz dann überall klein.
+- "Steht schon als ... in der Liste" kommt, wenn du ein Wort einträgst, das schon da ist, ohne eine neue Falschschreibung. Steht es dort anders geschrieben, als du es willst: erst entfernen, dann neu eintragen.
+- Ein Wort gilt nur für die Liste, in der es steht. Wechselst du die Liste oben, siehst du ihre Wörter.
+
+Für Fortgeschrittene
+Die Listen sind einfache Textdateien im Ordner %LOCALAPPDATA%\Talk (im Explorer oben in die Adresszeile klicken, das eintippen und Enter tippen): woerterbuch-lokal.txt (Privat), woerterbuch.txt (Allgemein), woerterbuch-ch.txt (Schweiz). Du darfst sie auch im Editor bearbeiten, eine Zeile je Wort: Cesaretti = Cesareti | Cäsaretti.
+- Beim Speichern im Editor unten bei "Codierung" UTF-8 wählen. Sonst meldet Talk "nicht als UTF-8 gespeichert" und ändert die Datei nicht, damit keine Umlaute verloren gehen.
+- Vor der ersten Änderung eines Tages legt Talk eine Sicherung daneben, zum Beispiel woerterbuch.txt.sicherung-2026-11-02.
+
+Diagnose: wenn etwas nicht klappt
+
+Im Menü öffnet "Diagnose" ein Fenster, das zeigt, was beim letzten Diktat passiert ist. Im Alltag brauchst du es nicht, nur wenn etwas hakt.
+- Zustand: ob Talk gerade aufnimmt; die Zähler für Start, Stopp und Abbruch zeigen, ob dein Tippen auf Caps Lock ankommt.
+- Mikrofon und Pegel: welches Mikrofon gilt und ob Ton ankommt (der Balken bewegt sich beim Sprechen).
+- Erkennung: ob ein Groq Schlüssel hinterlegt ist, ob "Nur lokal" an ist und ob das lokale Modell geladen ist.
+- Erkannter Text: was Talk verstanden hat, darunter der Text vor der Verbesserung und vor dem Glätten, warum nicht geglättet wurde und ob eingefügt wurde.
+- "Erneut versuchen": Ist die Erkennung gescheitert (zum Beispiel ohne Internet), schickt dieser Knopf die letzte Aufnahme noch einmal.
+- "Zusätzliche Begriffe für diesen Lauf": Wörter, die nur bis zum Beenden gelten. Für immer gehören sie ins Wörterbuch.
+Typische Probleme:
+- Caps Lock startet nichts: In der Diagnose zählt "Start" nicht hoch. Zweimal schneller tippen oder in den Einstellungen mehr Zeit zwischen den Tipps einstellen; sonst Talk beenden und neu starten.
+- Aufnahme läuft, kein Text: Der Pegel bewegt sich beim Sprechen nicht. In den Einstellungen unter "Mikrofon" ein anderes wählen oder "Neu laden" klicken.
+- Ein Wort ist immer falsch: Unter "Erkannter Text" steht, wie Talk es gehört hat. Im Verlauf "Wort korrigieren".
+- Text nicht geglättet: Dort steht "Nicht geglättet:" mit Grund, etwa kein Schlüssel, Text zu kurz, nur lokal, Terminal. Je nach Grund Schlüssel eintragen oder "Nur lokal" ausschalten; kurze Texte unter vier Wörtern glättet Talk nie.
+- Erkennung gescheitert: Eine Meldung statt Text, etwa ohne Internet. "Erneut versuchen" klicken, sobald das Internet wieder da ist.
+Tipp: Klappt etwas nicht, die Diagnose öffnen und ein Foto davon machen. Damit lässt sich der Fehler meist schnell finden.

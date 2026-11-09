@@ -1,0 +1,8 @@
+﻿Talk ist eine Diktier App für Windows. Sie läuft im Hintergrund und schreibt gesprochenen Text in das Programm, in dem du gerade schreibst.
+
+Das brauchst du
+
+1. Windows 11, 64 Bit.
+2. Einen Prozessor mit AVX2 (die meisten ab etwa 2015).
+3. Ein Mikrofon.
+4. Etwa 1 GB freien Platz.
