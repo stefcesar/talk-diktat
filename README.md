@@ -13,7 +13,7 @@ Talk läuft unsichtbar im Hintergrund. Zweimal kurz auf **Caps Lock** tippen, sp
 
 ## Installieren
 
-1. Unter [Releases](../../releases) die neueste Datei **`TalkSetup-…-komplett.exe`** herunterladen (rund 570 MB, enthält die Sprachmodelle).
+1. Unter [Releases](../../releases) die neueste Datei **`TalkSetup-…-komplett.exe`** herunterladen (rund 570 MB, enthält die Sprachmodelle). Daneben liegt die **Kurzanleitung als PDF**.
 2. Doppelklicken. Windows zeigt wahrscheinlich **„Der Computer wurde durch Windows geschützt“** – das Setup ist nicht kostenpflichtig signiert. Auf **„Weitere Informationen“** und dann **„Trotzdem ausführen“** klicken.
 3. Den Schritten folgen. Keine Administratorrechte nötig, Talk landet in `%LOCALAPPDATA%\Programs\Talk`.
 
@@ -34,7 +34,7 @@ Das Talk-Symbol steht danach rechts unten neben der Uhr (eventuell hinter dem kl
 | Abbrechen | Esc |
 | Feststelltaste wie früher | Umschalt + Caps Lock |
 
-Die ausführliche Anleitung (Wörterbuch, Glätten, Diagnose) liegt nach der Installation als `Liesmich.txt` im Programmordner und hier unter [`installer/Liesmich.txt`](installer/Liesmich.txt).
+**Anleitung mit Bildern:** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Kurzanleitung.pdf) (6 Seiten: Installieren, Diktieren, Menü, Groq, Glätten, Wörterbuch, Diagnose). Dieselbe Anleitung als reiner Text liegt nach der Installation als `Liesmich.txt` im Programmordner und hier unter [`installer/Liesmich.txt`](installer/Liesmich.txt).
 
 ## Groq (optional)
 
