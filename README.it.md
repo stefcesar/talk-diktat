@@ -9,7 +9,7 @@
 Talk funziona in modo invisibile in background. Tocca due volte **Bloc Maiusc** (Caps Lock), parla, tocca ancora una volta, e il testo appare dove stai scrivendo: in Word, nel browser, in WhatsApp, in qualsiasi campo di testo.
 
 - Riconosce la voce **sul tuo computer**, senza internet (Whisper, sulla scheda grafica se presente)
-- In opzione più veloce tramite **Groq** con una tua chiave, in più "Glätten" (rendere il testo scorrevole)
+- In opzione più veloce tramite **Groq** con una tua chiave, in più la "rifinitura" del testo
 - Interruttore **"Nur lokal"** (solo locale): così nulla lascia mai il tuo computer
 - Un tuo **dizionario** per nomi, marchi e termini tecnici
 - Tedesco, italiano, inglese, svizzero tedesco e dialetto svizzero
@@ -52,13 +52,13 @@ Talk riconosce la voce sul tuo computer, senza internet. Groq è un servizio in 
 | Account | nessuno | account presso Groq, inserire una chiave una volta |
 | I tuoi dati | restano sul tuo computer | registrazione e testo vanno a Groq (USA) |
 | Velocità | il primo dettato dopo l'avvio richiede più tempo | di solito un po' più veloce, soprattutto il primo dettato |
-| Extra | nessuno | „Glätten“ (testo scorrevole) e dialetto svizzero |
+| Extra | nessuno | rifinitura del testo e dialetto svizzero |
 
-**Regola pratica:** inizia senza Groq. Se Talk è troppo lento per te o vuoi il testo scorrevole, collega Groq. Se Groq non funziona, Talk continua da solo a riconoscere sul computer.
+**Regola pratica:** inizia senza Groq. Se Talk è troppo lento per te o vuoi la rifinitura, collega Groq. Se Groq non funziona, Talk continua da solo a riconoscere sul computer.
 
 ## Groq (facoltativo)
 
-Senza chiave, Talk riconosce tutto in locale. Con una chiave Groq **tua** di solito è un po' più veloce, e diventano possibili "Glätten" (testo scorrevole) e il dialetto svizzero.
+Senza chiave, Talk riconosce tutto in locale. Con una chiave Groq **tua** di solito è un po' più veloce, e diventano possibili la rifinitura del testo e il dialetto svizzero.
 
 1. Crea un account su [console.groq.com](https://console.groq.com), sotto "API Keys" crea una chiave e copiala.
 2. In Talk: „Einstellungen“ (impostazioni) → „Datenschutz“ (privacy) → „Groq Schlüssel“ (chiave Groq) → „Aus Zwischenablage einfügen“ (incolla dagli appunti) → „Speichern“ (salva).
@@ -87,7 +87,7 @@ L'avviso compare perché il setup non ha una firma digitale, non perché sia sta
 Talk ascolta il tasto Bloc Maiusc in tutto il sistema. Alcuni antivirus considerano sospetti per precauzione i programmi che ascoltano i tasti. Talk valuta solo Bloc Maiusc, Maiusc ed Esc; il codice sorgente è qui, aperto da verificare.
 
 **Serve internet?**
-No. Senza chiave Groq, Talk riconosce tutto sul tuo computer. Internet serve solo per Groq, "Glätten" e il dialetto svizzero.
+No. Senza chiave Groq, Talk riconosce tutto sul tuo computer. Internet serve solo per Groq, la rifinitura e il dialetto svizzero.
 
 **Talk funziona su Mac, Linux o Windows 10?**
 No, per ora solo su Windows 11 (64 bit), testato su pochi computer.
@@ -153,7 +153,7 @@ Il risultato finisce in `ausgabe\`. Per `-Komplett` indica i modelli con `-Model
 
 | Percorso | Contenuto |
 |---|---|
-| `src/Talk.Core` | Logica pura (net10.0): regole del tasto, rielaborazione, dizionario, testo scorrevole, regole di inserimento |
+| `src/Talk.Core` | Logica pura (net10.0): regole del tasto, rielaborazione, dizionario, rifinitura, regole di inserimento |
 | `src/Talk.App` | App Windows (WPF, icona nell'area di notifica), registrazione, riconoscimento tramite Groq e Whisper.net |
 | `tests/Talk.Core.Tests` | Test xUnit |
 | `installer/` | Script Inno Setup, script di compilazione, guida breve, licenze di terzi |

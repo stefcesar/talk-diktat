@@ -52,13 +52,13 @@ Talk recognizes speech on your computer, without any internet. Groq is an intern
 | Account | none | account at Groq, enter a key once |
 | Your data | stays on your computer | recording and text go to Groq (USA) |
 | Speed | the first dictation after starting takes longer | usually a little faster, especially the first dictation |
-| Extras | none | „Glätten“ (smoothing) and Swiss dialect |
+| Extras | none | smoothing and Swiss dialect |
 
 **Rule of thumb:** Start without Groq. If Talk is too slow for you or you want smoothing, connect Groq. If Groq fails, Talk automatically continues recognizing on your computer.
 
 ## Groq (optional)
 
-Without a key, Talk recognizes everything locally. With your **own** Groq key it is usually a little faster, and "Glätten" (smoothing) and Swiss dialect output become possible.
+Without a key, Talk recognizes everything locally. With your **own** Groq key it is usually a little faster, and smoothing and Swiss dialect output become possible.
 
 1. Create an account at [console.groq.com](https://console.groq.com), create a key under "API Keys" and copy it.
 2. In Talk: „Einstellungen“ (Settings) → „Datenschutz“ (Privacy) → „Groq Schlüssel“ (Groq key) → „Aus Zwischenablage einfügen“ (paste from clipboard) → „Speichern“ (save).

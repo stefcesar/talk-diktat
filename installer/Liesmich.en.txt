@@ -28,7 +28,7 @@ Write in capitals: switch on Caps Lock as before with Shift and then Caps Lock, 
 
 The menu
 
-One click on the Talk icon at the bottom right next to the clock opens the menu. If it is not there, first click the small arrow next to the clock. The menu contains: "Letzten Text kopieren" (copy last text), "Verlauf" (history), "Nur lokal" (local only), "Glätten" (smoothing), "Einstellungen" (settings), "Diagnose" (diagnostics), "Talk beenden" (quit Talk).
+One click on the Talk icon at the bottom right next to the clock opens the menu. If it is not there, first click the small arrow next to the clock. The menu contains: "Letzten Text kopieren" (copy last text), "Verlauf" (history), "Nur lokal" (local only), "Glätten" (Smoothing), "Einstellungen" (settings), "Diagnose" (diagnostics), "Talk beenden" (quit Talk).
 History: here are your texts from the last 30 days. "Kopieren" (copy) puts a text on the clipboard; insert it with a right-click where you want it and "Paste".
 Quit Talk: click "Talk beenden" in the menu. There is no pause. Start it again later from the Start menu (entry "Talk").
 
@@ -54,7 +54,7 @@ With Groq:
 - Internet: needed. Account at Groq, enter a key once (see below).
 - Recording and text go to Groq (USA).
 - Usually a little faster, especially the first dictation.
-- Only with Groq: "Glätten" (smoothing: the text is cleanly worded) and Swiss dialect.
+- Only with Groq: Smoothing (the text is cleanly worded) and Swiss dialect.
 
 Rule of thumb: start without Groq. If Talk is too slow for you or you want smoothing, connect Groq. If Groq fails, Talk automatically continues recognizing on your computer, and "Nur lokal" (local only) in the menu switches Groq off at any time until you click it again.
 
@@ -71,7 +71,7 @@ In the same window, "Prüfen" (check) shows whether the key is valid, and "Lösc
 How to see that it works: click "Diagnose" (diagnostics) in the menu. Under "Erkennung" (recognition) it shows whether a Groq key is stored and whether "Nur lokal" is on.
 Switch Groq off again: for a while, click "Nur lokal" in the menu until you click it again. For good, click "Löschen" (delete) in the "Groq Schlüssel" window.
 
-Smooth text ("Glätten")
+Smoothing
 
 Spoken language sounds different from written language: punctuation is missing, sentences run into each other, you start again. Smoothing tidies this up. After recognition the text goes to a language model at Groq, which revises it; only then does Talk insert it.
 Smoothing needs a Groq key. It never runs with "Nur lokal" and never in a terminal. If it ever fails, Talk inserts the text unsmoothed; the reason is shown in the menu under "Diagnose".
@@ -90,7 +90,7 @@ Smooth sentences: Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht
 With short texts the levels are close together; the difference shows with longer, nested dictations.
 
 Switch on and change the level:
-1. On and off: click "Glätten" in the menu; a check mark in front means on. The same switch is in the settings under "Text glätten".
+1. On and off: click "Glätten" (Smoothing) in the menu; a check mark in front means on. The same switch is in the settings under "Text glätten".
 2. Level for everything: in the settings, section "Text glätten", click the list under "Stufe" (level) and choose a level.
 3. Level per program: below it, every program you have dictated into once appears. Choose a separate level next to it, for example "Als Nachricht ausformulieren" for WhatsApp; "Wie Standard" (as default) uses the level above, "Aus" (off) never smooths in this program. This only applies if smoothing is switched on above.
 What it does: cleaner texts that rarely need correcting. In return every dictation takes about half a second longer, with Swiss German up to one second, and the text goes over the internet. With Swiss dialect, Groq also does the rewriting into dialect; this always happens, even if smoothing is off.

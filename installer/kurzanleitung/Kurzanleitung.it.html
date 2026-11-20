@@ -175,7 +175,7 @@
   <div class="content tight">
     <h2 style="margin-top:0"><span class="num">4</span>Il menu</h2>
     <p>Un clic sull'icona di Talk in basso a destra accanto all'orologio apre il menu. Se non c'è, clicca prima sulla piccola freccia accanto all'orologio.
-      Nel menu ci sono: „Letzten Text kopieren“ (copia l'ultimo testo), „Verlauf“ (cronologia), „Nur lokal“ (solo locale), „Glätten“ (testo scorrevole),
+      Nel menu ci sono: „Letzten Text kopieren“ (copia l'ultimo testo), „Verlauf“ (cronologia), „Nur lokal“ (solo locale), „Glätten“ (rifinitura),
       „Einstellungen“ (impostazioni), „Diagnose“ (diagnostica), „Talk beenden“ (chiudi Talk).</p>
     <div class="two">
       <div>
@@ -216,9 +216,9 @@
       <tr><td>Account</td><td>nessuno</td><td>account presso Groq, inserire una chiave una volta (vedi sotto)</td></tr>
       <tr><td>I tuoi dati</td><td>restano sul tuo computer</td><td>registrazione e testo vanno a Groq (USA)</td></tr>
       <tr><td>Velocità</td><td>il primo dettato dopo l'avvio richiede più tempo</td><td>di solito un po' più veloce, soprattutto il primo dettato</td></tr>
-      <tr><td>Extra</td><td>nessuno</td><td>„Glätten“ (il testo viene riformulato in modo pulito) e dialetto svizzero</td></tr>
+      <tr><td>Extra</td><td>nessuno</td><td>Rifinitura (il testo viene riformulato in modo pulito) e dialetto svizzero</td></tr>
     </table>
-    <div class="note"><p><b>Regola pratica:</b> inizia senza Groq. Se Talk è troppo lento per te o vuoi il testo scorrevole, collega Groq. Se Groq non funziona,
+    <div class="note"><p><b>Regola pratica:</b> inizia senza Groq. Se Talk è troppo lento per te o vuoi la rifinitura, collega Groq. Se Groq non funziona,
       Talk continua da solo a riconoscere sul computer, e <b>„Nur lokal“</b> (solo locale) nel menu spegne Groq in qualsiasi momento, finché non lo clicchi di nuovo.</p></div>
   </div>
 
@@ -256,13 +256,13 @@
 <!-- Pagina 4: testo scorrevole. L'esempio è un risultato reale in tedesco e non viene tradotto. -->
 <section class="page">
   <div class="content tight dense">
-    <h2 style="margin-top:0"><span class="num">8</span>Testo scorrevole („Glätten“)</h2>
-    <p>Il parlato suona diverso dallo scritto: mancano i segni di punteggiatura, le frasi si accavallano, si ricomincia. <b>Glätten</b> mette ordine.
+    <h2 style="margin-top:0"><span class="num">8</span>Rifinitura del testo</h2>
+    <p>Il parlato suona diverso dallo scritto: mancano i segni di punteggiatura, le frasi si accavallano, si ricomincia. <b>La rifinitura</b> mette ordine.
       Dopo il riconoscimento il testo va a un modello linguistico presso Groq, che lo rielabora; solo dopo Talk lo inserisce.</p>
-    <div class="note"><p>Glätten richiede una chiave Groq (vedi 7). Non funziona mai con „Nur lokal“ e mai in un terminale. Se capita che non riesca,
-      Talk inserisce il testo non rielaborato; il motivo è nel menu sotto „Diagnose“.</p></div>
+    <div class="note"><p>La rifinitura richiede una chiave Groq (vedi 7). Non funziona mai con „Nur lokal“ e mai in un terminale. Se capita che non riesca,
+      Talk inserisce il testo non rifinito; il motivo è nel menu sotto „Diagnose“.</p></div>
 
-    <h3>Cosa Glätten non fa</h3>
+    <h3>Cosa non fa la rifinitura</h3>
     <p>Non traduce, non aggiunge nulla e non tralascia nulla di ciò che è stato detto. Nomi e termini tecnici restano come sono. Se nel dettato c'è una
       domanda o una richiesta, non risponde alla domanda, ma la scrive solo in modo pulito.</p>
 
@@ -290,15 +290,15 @@
 
     <h3>Attivare e cambiare livello</h3>
     <ol class="steps">
-      <li><b>Acceso e spento:</b> nel menu clicca su <b>„Glätten“</b>; un segno di spunta davanti significa acceso. Lo stesso interruttore è nelle impostazioni sotto „Text glätten“.</li>
+      <li><b>Acceso e spento:</b> nel menu clicca su <b>„Glätten“</b> (rifinitura); un segno di spunta davanti significa acceso. Lo stesso interruttore è nelle impostazioni sotto „Text glätten“.</li>
       <li><b>Livello per tutto:</b> nelle impostazioni, sezione <b>„Text glätten“</b>, sotto <b>„Stufe“</b> (livello) clicca sulla lista e scegli un livello.</li>
       <li><b>Livello per programma:</b> sotto compare ogni programma in cui hai dettato almeno una volta. Accanto scegli un livello proprio, per esempio
-        per WhatsApp „Als Nachricht ausformulieren“; „Wie Standard“ (come predefinito) usa il livello sopra, „Aus“ (spento) non rielabora mai in quel programma.
-        Vale solo se Glätten è attivo sopra.</li>
+        per WhatsApp „Als Nachricht ausformulieren“; „Wie Standard“ (come predefinito) usa il livello sopra, „Aus“ (spento) non rifinisce mai in quel programma.
+        Vale solo se la rifinitura è attiva sopra.</li>
     </ol>
     <p><b>Cosa ottieni:</b> testi più puliti che raramente vanno ritoccati. In cambio ogni dettato dura circa mezzo secondo in più, con lo svizzero tedesco
       fino a un secondo, e il testo passa per internet. Con il <b>dialetto svizzero</b> Groq si occupa anche della riscrittura in dialetto; succede sempre,
-      anche se Glätten è spento.</p>
+      anche se la rifinitura è spenta.</p>
   </div>
 
   <div class="foot"><span>Talk guida breve · Created by Stefano Cesaretti</span><span>Pagina 4 di 7 · Versione 0.4.1</span></div>
@@ -396,7 +396,7 @@
       <li><b>„Zustand“ (stato):</b> se Talk sta registrando; i contatori di avvio, stop e annullamento mostrano se i tuoi tocchi su Bloc Maiusc arrivano.</li>
       <li><b>„Mikrofon“ e „Pegel“ (microfono e livello):</b> quale microfono è in uso e se arriva suono (la barra si muove quando parli).</li>
       <li><b>„Erkennung“ (riconoscimento):</b> se è salvata una chiave Groq, se „Nur lokal“ è attivo e se il modello locale è caricato.</li>
-      <li><b>„Erkannter Text“ (testo riconosciuto):</b> cosa ha capito Talk, sotto il testo prima della correzione e prima di Glätten, perché non è stato rielaborato e se è stato inserito.</li>
+      <li><b>„Erkannter Text“ (testo riconosciuto):</b> cosa ha capito Talk, sotto il testo prima della correzione e prima della rifinitura, perché non è stato rifinito e se è stato inserito.</li>
       <li><b>„Erneut versuchen“ (riprova):</b> se il riconoscimento non è riuscito (per esempio senza internet), questo pulsante invia di nuovo l'ultima registrazione.</li>
       <li><b>„Zusätzliche Begriffe für diesen Lauf“ (termini aggiuntivi per questa sessione):</b> parole che valgono solo fino alla chiusura. Per sempre vanno nel dizionario (sezione 9).</li>
     </ul>
@@ -409,8 +409,8 @@
         <td>Nelle impostazioni sotto „Mikrofon“ scegline un altro o clicca su „Neu laden“ (ricarica).</td></tr>
       <tr><td>Una parola è sempre sbagliata</td><td>Sotto „Erkannter Text“ c'è come Talk l'ha sentita.</td>
         <td>Nella cronologia „Wort korrigieren“ (sezione 11).</td></tr>
-      <tr><td>Testo non rielaborato</td><td>„Nicht geglättet:“ (non rielaborato) con un motivo, per esempio nessuna chiave, testo troppo corto, solo locale, terminale.</td>
-        <td>A seconda del motivo inserisci una chiave o spegni „Nur lokal“; Talk non rielabora mai testi brevi sotto le quattro parole.</td></tr>
+      <tr><td>Testo non rifinito</td><td>„Nicht geglättet:“ (non rifinito) con un motivo, per esempio nessuna chiave, testo troppo corto, solo locale, terminale.</td>
+        <td>A seconda del motivo inserisci una chiave o spegni „Nur lokal“; Talk non rifinisce mai testi brevi sotto le quattro parole.</td></tr>
       <tr><td>Riconoscimento fallito</td><td>Un messaggio invece del testo, per esempio senza internet.</td>
         <td>Clicca su „Erneut versuchen“ appena internet torna.</td></tr>
     </table>

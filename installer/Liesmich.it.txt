@@ -28,7 +28,7 @@ Scrivere tutto maiuscolo: attiva Bloc Maiusc come prima con Maiusc e poi Bloc Ma
 
 Il menu
 
-Un clic sull'icona di Talk in basso a destra accanto all'orologio apre il menu. Se non c'è, clicca prima sulla piccola freccia accanto all'orologio. Nel menu ci sono: "Letzten Text kopieren" (copia l'ultimo testo), "Verlauf" (cronologia), "Nur lokal" (solo locale), "Glätten" (testo scorrevole), "Einstellungen" (impostazioni), "Diagnose" (diagnostica), "Talk beenden" (chiudi Talk).
+Un clic sull'icona di Talk in basso a destra accanto all'orologio apre il menu. Se non c'è, clicca prima sulla piccola freccia accanto all'orologio. Nel menu ci sono: "Letzten Text kopieren" (copia l'ultimo testo), "Verlauf" (cronologia), "Nur lokal" (solo locale), "Glätten" (rifinitura), "Einstellungen" (impostazioni), "Diagnose" (diagnostica), "Talk beenden" (chiudi Talk).
 Cronologia: qui ci sono i tuoi testi degli ultimi 30 giorni. "Kopieren" (copia) mette un testo negli appunti; lo inserisci con un clic destro nel punto desiderato e "Incolla".
 Chiudere Talk: nel menu clicca su "Talk beenden". Non c'è una pausa. Più tardi riavvialo dal menu Start (voce "Talk").
 
@@ -54,9 +54,9 @@ Con Groq:
 - Internet: serve. Account presso Groq, inserire una chiave una volta (vedi sotto).
 - Registrazione e testo vanno a Groq (USA).
 - Di solito un po' più veloce, soprattutto il primo dettato.
-- Solo con Groq: "Glätten" (il testo viene riformulato in modo pulito) e dialetto svizzero.
+- Solo con Groq: Rifinitura (il testo viene riformulato in modo pulito) e dialetto svizzero.
 
-Regola pratica: inizia senza Groq. Se Talk è troppo lento per te o vuoi il testo scorrevole, collega Groq. Se Groq non funziona, Talk continua da solo a riconoscere sul computer, e "Nur lokal" (solo locale) nel menu spegne Groq in qualsiasi momento, finché non lo clicchi di nuovo.
+Regola pratica: inizia senza Groq. Se Talk è troppo lento per te o vuoi la rifinitura, collega Groq. Se Groq non funziona, Talk continua da solo a riconoscere sul computer, e "Nur lokal" (solo locale) nel menu spegne Groq in qualsiasi momento, finché non lo clicchi di nuovo.
 
 Collegare Groq
 
@@ -71,12 +71,12 @@ Nella stessa finestra "Prüfen" (verifica) mostra se la chiave è valida, e "Lö
 Come vedere se funziona: nel menu clicca su "Diagnose" (diagnostica). Sotto "Erkennung" (riconoscimento) c'è scritto se è salvata una chiave Groq e se "Nur lokal" è attivo.
 Spegnere di nuovo Groq: per un po', nel menu clicca su "Nur lokal" finché non lo clicchi di nuovo. Per sempre, nella finestra "Groq Schlüssel" clicca su "Löschen" (elimina).
 
-Testo scorrevole ("Glätten")
+Rifinitura del testo
 
-Il parlato suona diverso dallo scritto: mancano i segni di punteggiatura, le frasi si accavallano, si ricomincia. Glätten mette ordine. Dopo il riconoscimento il testo va a un modello linguistico presso Groq, che lo rielabora; solo dopo Talk lo inserisce.
-Glätten richiede una chiave Groq. Non funziona mai con "Nur lokal" e mai in un terminale. Se capita che non riesca, Talk inserisce il testo non rielaborato; il motivo è nel menu sotto "Diagnose".
+Il parlato suona diverso dallo scritto: mancano i segni di punteggiatura, le frasi si accavallano, si ricomincia. La rifinitura mette ordine. Dopo il riconoscimento il testo va a un modello linguistico presso Groq, che lo rielabora; solo dopo Talk lo inserisce.
+La rifinitura richiede una chiave Groq. Non funziona mai con "Nur lokal" e mai in un terminale. Se capita che non riesca, Talk inserisce il testo non rifinito; il motivo è nel menu sotto "Diagnose".
 
-Cosa Glätten non fa: non traduce, non aggiunge nulla e non tralascia nulla di ciò che è stato detto. Nomi e termini tecnici restano come sono. Se nel dettato c'è una domanda o una richiesta, non risponde alla domanda, ma la scrive solo in modo pulito.
+Cosa non fa la rifinitura: non traduce, non aggiunge nulla e non tralascia nulla di ciò che è stato detto. Nomi e termini tecnici restano come sono. Se nel dettato c'è una domanda o una richiesta, non risponde alla domanda, ma la scrive solo in modo pulito.
 
 I tre livelli:
 - "Nur Fehler beheben" (solo correggere errori): punteggiatura, maiuscole e minuscole, grammatica, parole capite male. Le parole scelte restano. Adatto per testi che devono restare esattamente come detti.
@@ -90,10 +90,10 @@ Frasi scorrevoli: Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht
 Con testi brevi i livelli sono molto simili; la differenza si vede con dettati più lunghi e articolati.
 
 Attivare e cambiare livello:
-1. Acceso e spento: nel menu clicca su "Glätten"; un segno di spunta davanti significa acceso. Lo stesso interruttore è nelle impostazioni sotto "Text glätten".
+1. Acceso e spento: nel menu clicca su "Glätten" (rifinitura); un segno di spunta davanti significa acceso. Lo stesso interruttore è nelle impostazioni sotto "Text glätten".
 2. Livello per tutto: nelle impostazioni, sezione "Text glätten", sotto "Stufe" (livello) clicca sulla lista e scegli un livello.
-3. Livello per programma: sotto compare ogni programma in cui hai dettato almeno una volta. Accanto scegli un livello proprio, per esempio per WhatsApp "Als Nachricht ausformulieren"; "Wie Standard" (come predefinito) usa il livello sopra, "Aus" (spento) non rielabora mai in quel programma. Vale solo se Glätten è attivo sopra.
-Cosa ottieni: testi più puliti che raramente vanno ritoccati. In cambio ogni dettato dura circa mezzo secondo in più, con lo svizzero tedesco fino a un secondo, e il testo passa per internet. Con il dialetto svizzero Groq si occupa anche della riscrittura in dialetto; succede sempre, anche se Glätten è spento.
+3. Livello per programma: sotto compare ogni programma in cui hai dettato almeno una volta. Accanto scegli un livello proprio, per esempio per WhatsApp "Als Nachricht ausformulieren"; "Wie Standard" (come predefinito) usa il livello sopra, "Aus" (spento) non rifinisce mai in quel programma. Vale solo se la rifinitura è attiva sopra.
+Cosa ottieni: testi più puliti che raramente vanno ritoccati. In cambio ogni dettato dura circa mezzo secondo in più, con lo svizzero tedesco fino a un secondo, e il testo passa per internet. Con il dialetto svizzero Groq si occupa anche della riscrittura in dialetto; succede sempre, anche se la rifinitura è spenta.
 
 Insegnare parole a Talk
 
@@ -135,14 +135,14 @@ Nel menu "Diagnose" apre una finestra che mostra cosa è successo durante l'ulti
 - "Zustand" (stato): se Talk sta registrando; i contatori di avvio, stop e annullamento mostrano se i tuoi tocchi su Bloc Maiusc arrivano.
 - "Mikrofon" e "Pegel" (microfono e livello): quale microfono è in uso e se arriva suono (la barra si muove quando parli).
 - "Erkennung" (riconoscimento): se è salvata una chiave Groq, se "Nur lokal" è attivo e se il modello locale è caricato.
-- "Erkannter Text" (testo riconosciuto): cosa ha capito Talk, sotto il testo prima della correzione e prima di Glätten, perché non è stato rielaborato e se è stato inserito.
+- "Erkannter Text" (testo riconosciuto): cosa ha capito Talk, sotto il testo prima della correzione e prima della rifinitura, perché non è stato rifinito e se è stato inserito.
 - "Erneut versuchen" (riprova): se il riconoscimento non è riuscito (per esempio senza internet), questo pulsante invia di nuovo l'ultima registrazione.
 - "Zusätzliche Begriffe für diesen Lauf" (termini aggiuntivi per questa sessione): parole che valgono solo fino alla chiusura. Per sempre vanno nel dizionario.
 Problemi tipici:
 - Bloc Maiusc non avvia nulla: nella diagnostica "Start" non aumenta. Tocca due volte più velocemente o imposta più tempo tra i tocchi nelle impostazioni; altrimenti chiudi Talk e riavvialo.
 - Registra, ma niente testo: il livello non si muove quando parli. Nelle impostazioni sotto "Mikrofon" scegline un altro o clicca su "Neu laden" (ricarica).
 - Una parola è sempre sbagliata: sotto "Erkannter Text" c'è come Talk l'ha sentita. Nella cronologia "Wort korrigieren".
-- Testo non rielaborato: c'è "Nicht geglättet:" (non rielaborato) con un motivo, per esempio nessuna chiave, testo troppo corto, solo locale, terminale. A seconda del motivo inserisci una chiave o spegni "Nur lokal"; Talk non rielabora mai testi brevi sotto le quattro parole.
+- Testo non rifinito: c'è "Nicht geglättet:" (non rifinito) con un motivo, per esempio nessuna chiave, testo troppo corto, solo locale, terminale. A seconda del motivo inserisci una chiave o spegni "Nur lokal"; Talk non rifinisce mai testi brevi sotto le quattro parole.
 - Riconoscimento fallito: un messaggio invece del testo, per esempio senza internet. Clicca su "Erneut versuchen" appena internet torna.
 Consiglio: se qualcosa non funziona, apri la diagnostica e fanne una foto. Così di solito il problema si trova in fretta.
 
