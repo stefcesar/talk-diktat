@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="Stefano Cesaretti">
+<title>Talk short guide</title>
+<!--
+  Kurzanleitung für die Weitergabe von Talk (Playbook Entscheid 70 und 71). Inhalt wie installer\Liesmich.txt, Optik nach DESIGN.md,
+  für Papier hell gesetzt. Schriften: Bricolage Grotesque für Überschriften, Public Sans für Text, beide aus src\Talk.App\Ui\Fonts.
+  PDF erzeugen: installer\kurzanleitung\baue-pdf.ps1
+-->
+<style>
+  @font-face { font-family: "Bricolage"; src: url("../../src/Talk.App/Ui/Fonts/BricolageGrotesque-ExtraBold.ttf"); font-weight: 800; }
+  @font-face { font-family: "Public Sans"; src: url("../../src/Talk.App/Ui/Fonts/PublicSans-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "Public Sans"; src: url("../../src/Talk.App/Ui/Fonts/PublicSans-SemiBold.ttf"); font-weight: 600; }
+
+  :root {
+    --ink: #15171B;
+    --muted: #5C5A55;
+    --paper: #FBFAF7;
+    --line: #E4E2DC;
+    --soft: #F2F0EA;
+    --accent: #FF6A3D;
+    --dark: #15171B;
+    --on-dark: #ECEBE7;
+    --on-dark-muted: #A3A19B;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: "Public Sans", sans-serif; font-size: 10.5pt; line-height: 1.55; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* Gleicher Rand auf allen vier Seiten (15 mm); Kopf, Inhalt und Fuß stehen innerhalb davon, der Fuß unten am Rand. */
+  .page { width: 210mm; height: 297mm; padding: 15mm; display: flex; flex-direction: column; overflow: hidden; page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+  .content { padding: 6mm 0 0 0; flex: 1; }
+
+  /* Kopf der ersten Seite */
+  .hero { background: var(--dark); color: var(--on-dark); padding: 7mm 10mm; border-radius: 4mm; }
+  .brand { display: flex; align-items: center; justify-content: center; gap: 6mm; }
+  .brand svg { width: 18mm; height: 18mm; flex: none; }
+  h1 { font-family: "Bricolage", sans-serif; font-weight: 800; font-size: 38pt; line-height: 1; margin: 0; letter-spacing: -0.5pt; }
+  .tagline { font-size: 13pt; color: var(--on-dark); margin: 3mm 0 0 0; }
+  .hero .meta { margin-top: 6mm; display: flex; gap: 8mm; font-size: 9pt; color: var(--on-dark-muted); }
+  .hero .meta b { color: var(--on-dark); font-weight: 600; }
+
+  /* Kopfzeile der Folgeseite */
+  .runhead { display: flex; align-items: center; gap: 3mm; padding: 10mm 18mm 0 18mm; color: var(--muted); font-size: 9pt; }
+  .runhead svg { width: 7mm; height: 7mm; }
+  .runhead span { font-family: "Bricolage", sans-serif; font-weight: 800; color: var(--ink); font-size: 11pt; }
+
+  h2 { font-family: "Bricolage", sans-serif; font-weight: 800; font-size: 18pt; line-height: 1.15; margin: 6mm 0 2mm 0; }
+  .content > h2:first-child { margin-top: 0; }
+  h2 .num { color: var(--accent); margin-right: 2.5mm; }
+  h3 { font-family: "Public Sans", sans-serif; font-weight: 600; font-size: 11.5pt; margin: 4mm 0 1mm 0; }
+  p { margin: 0 0 2.5mm 0; }
+  .muted { color: var(--muted); }
+
+  /* Nummerierte Schritte */
+  ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; }
+  /* Jeder Schritt ist mindestens so hoch wie seine Nummer, damit die Nummern auch bei einzeiligen Schritten gleich weit auseinander stehen. */
+  ol.steps li { counter-increment: s; position: relative; padding: 0 0 3mm 11mm; min-height: 6.8mm; }
+  ol.steps li::before { content: counter(s); position: absolute; left: 0; top: 0.2mm; width: 6.5mm; height: 6.5mm; border-radius: 50%;
+    background: var(--ink); color: var(--paper); font-weight: 600; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+
+  /* Tasten */
+  .key { display: inline-block; font-weight: 600; font-size: 9.5pt; padding: 0.4mm 2.2mm; border: 0.35mm solid #C9C6BE; border-bottom-width: 0.8mm;
+    border-radius: 1.5mm; background: #FFFFFF; white-space: nowrap; line-height: 1.4; }
+
+  /* Ablauf beim Diktieren */
+  .flow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; margin: 2mm 0 1mm 0; }
+  .flow .card { border: 0.3mm solid var(--line); border-radius: 2.5mm; padding: 3mm 4mm; background: #FFFFFF; }
+  .flow .label { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.6pt; color: var(--muted); font-weight: 600; }
+  .flow .what { font-family: "Bricolage", sans-serif; font-weight: 800; font-size: 13pt; margin: 1.5mm 0 2mm 0; }
+
+  /* Hinweis und Voraussetzungen */
+  .note { border-left: 1mm solid var(--accent); background: var(--soft); padding: 3mm 4mm; border-radius: 0 2mm 2mm 0; margin: 3mm 0; }
+  .note p:last-child { margin: 0; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+  ul.plain { margin: 0; padding-left: 4.5mm; }
+  ul.plain li { margin-bottom: 1.5mm; }
+  .path { font-weight: 600; background: var(--soft); padding: 0.2mm 1.5mm; border-radius: 1mm; white-space: nowrap; }
+
+  /* Seite 2 trägt mehr Text: etwas enger gesetzt, damit alles auf die Seite passt. */
+  .tight { font-size: 9.8pt; line-height: 1.45; }
+  .tight h2 { margin-top: 4.5mm; font-size: 16pt; }
+  .tight h3 { margin-top: 3mm; }
+  .tight ol.steps li { padding-bottom: 2.2mm; }
+  /* Liste mit gleich hohen Schritten (je zwei Zeilen), damit die Nummern im gleichen Abstand stehen. */
+  .tight ol.steps.even li { min-height: 12.2mm; }
+  .tight .note { margin: 2mm 0; padding: 2.5mm 4mm; }
+
+  /* Seite 3: Tabelle der Listen und Bilder neben den Schritten. */
+  table.lists { width: 100%; border-collapse: collapse; margin: 1mm 0 2mm 0; font-size: 9.5pt; }
+  table.lists th, table.lists td { text-align: left; vertical-align: top; padding: 1.6mm 2.5mm; border-bottom: 0.3mm solid var(--line); }
+  table.lists th { font-weight: 600; background: var(--soft); }
+  table.lists td:first-child { font-weight: 600; white-space: nowrap; }
+  .withshot { display: grid; grid-template-columns: 1fr 56mm; gap: 6mm; align-items: start; }
+  .shot { width: 56mm; overflow: hidden; border-radius: 2.5mm; border: 0.3mm solid var(--line); }
+  .shot img { display: block; width: 56mm; }
+  table.lists.groq { margin: 0.5mm 0 1mm 0; }
+  table.lists.groq th, table.lists.groq td { padding: 1mm 2.5mm; }
+  /* Seite 4 der Übersetzungen ist länger: enger gesetzt. */
+  .dense { font-size: 9.3pt; line-height: 1.38; }
+  .dense h3 { margin-top: 2.4mm; }
+  .dense .flow .card { padding: 2.5mm 3.5mm; }
+  .caption { font-size: 8pt; color: var(--muted); margin-top: 1mm; }
+
+  .foot { margin: 0; border-top: 0.3mm solid var(--line); padding-top: 3mm;
+    display: flex; justify-content: space-between; font-size: 8pt; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- Page 1 -->
+<section class="page">
+  <header class="hero">
+    <div class="brand">
+      <svg viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" rx="56" fill="#262A30"/><g transform="translate(48 48) scale(0.625)"><g fill="#ECEBE7"><rect x="112" y="16" width="32" height="224" rx="16"/><rect x="80" y="16" width="96" height="32" rx="16"/><rect x="80" y="208" width="96" height="32" rx="16"/></g><g fill="#FF6A3D"><rect x="16" y="64" width="32" height="128" rx="16"/><rect x="208" y="96" width="32" height="64" rx="16"/></g></g></svg>
+      <div>
+        <h1>Talk</h1>
+        <p class="tagline">Speak instead of typing, in any program. Short guide.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="note"><p><b>English version.</b> Talk's menus and settings are in German for now. German labels are quoted here with their meaning in brackets,
+      for example „Einstellungen“ (Settings), so you can find them on screen.</p></div>
+
+    <h2><span class="num">1</span>What you need</h2>
+    <div class="two">
+      <ul class="plain">
+        <li>Windows 11, 64-bit.</li>
+        <li>A computer from about 2015 or newer (more precisely: a processor with AVX2).</li>
+      </ul>
+      <ul class="plain">
+        <li>A microphone.</li>
+        <li>About 1 GB of free space.</li>
+      </ul>
+    </div>
+
+    <h2><span class="num">2</span>Install</h2>
+    <ol class="steps">
+      <li><b>Double-click TalkSetup</b> and follow the steps.</li>
+      <li><b>Done.</b> Talk runs invisibly in the background. Its icon is at the bottom right next to the clock, possibly behind the small arrow.</li>
+    </ol>
+
+    <h2><span class="num">3</span>Dictate</h2>
+    <p>You start Talk with the <span class="key">Caps Lock</span> key (on the left, above Shift).</p>
+    <div class="flow">
+      <div class="card"><div class="label">Start</div><div class="what">Tap twice quickly</div><span class="key">Caps Lock</span> <span class="key">Caps Lock</span><p class="muted" style="margin-top:2mm">Recording starts, a small display appears at the bottom.</p></div>
+      <div class="card"><div class="label">Speak</div><div class="what">Just talk</div><p class="muted">Normally, in full sentences.</p></div>
+      <div class="card"><div class="label">Insert</div><div class="what">Tap once</div><span class="key">Caps Lock</span><p class="muted" style="margin-top:2mm">The text appears where you are typing.</p></div>
+    </div>
+    <p class="muted">It works the same with the on-screen keyboard: tap the key twice in quick succession. If that is too fast for you, set more time in the
+      settings under „Zeit zwischen den beiden Tipps“ (time between the two taps).</p>
+    <div class="two">
+      <div>
+        <h3>Cancel</h3>
+        <p><span class="key">Esc</span> cancels the recording, nothing is inserted.</p>
+      </div>
+      <div>
+        <h3>Write in capitals</h3>
+        <p>Switch on Caps Lock as before: <span class="key">Shift</span> and then <span class="key">Caps Lock</span>, because Caps Lock alone now starts Talk.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot"><span>Talk short guide · Created by Stefano Cesaretti</span><span>Page 1 of 7 · Version 0.4.1</span></div>
+</section>
+
+<!-- Page 2 -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">4</span>The menu</h2>
+    <p>One click on the Talk icon at the bottom right next to the clock opens the menu. If it is not there, first click the small arrow next to the clock.
+      The menu contains: „Letzten Text kopieren“ (copy last text), „Verlauf“ (history), „Nur lokal“ (local only), „Glätten“ (smoothing),
+      „Einstellungen“ (settings), „Diagnose“ (diagnostics), „Talk beenden“ (quit Talk).</p>
+    <div class="two">
+      <div>
+    <h3>History</h3>
+    <p>Here are your texts from the last 30 days. „Kopieren“ (copy) puts a text on the clipboard; insert it with a right-click
+      where you want it and "Paste".</p>
+      </div>
+      <div>
+    <h3>Quit Talk</h3>
+    <p>Click „Talk beenden“ in the menu. There is no pause: start it again later from the Start menu (entry „Talk“).</p>
+      </div>
+    </div>
+
+    <h2><span class="num">5</span>Settings and language</h2>
+    <ol class="steps">
+      <li>Click <b>„Einstellungen“</b> (settings) in the menu. Every change applies immediately and is saved; „Schließen“ (close) closes the window.</li>
+      <li>Under <b>„Sprache“</b> (language), click the list and choose the language: „Deutsch“ (German), „Italienisch“ (Italian), „Englisch“ (English), „Schweizerdeutsch“ (Swiss German) or „Mundart“ (Swiss dialect).</li>
+      <li>For <b>„Mundart“</b> (Swiss dialect), the list <b>„Dialekt“</b> appears below it: Zürich, Bern, Basel or „gemischt“ (mixed).</li>
+    </ol>
+    <div class="two">
+      <div>
+        <h3>Swiss German</h3>
+        <p>You speak dialect, Talk writes Swiss Standard German: ss instead of ß, Swiss words such as Velo, Spital or parkieren.</p>
+      </div>
+      <div>
+        <h3>Swiss dialect</h3>
+        <p>You speak dialect, Talk also writes in dialect. This only works with Groq (see 6) and is still experimental; without Groq Talk writes
+          Swiss Standard German.</p>
+      </div>
+    </div>
+    <p class="muted">If Talk should run by itself when the computer starts, switch on „Talk mit Windows starten“ (start Talk with Windows) at the very bottom of the settings.</p>
+
+    <h2><span class="num">6</span>With or without Groq</h2>
+    <p>Talk recognizes speech on your computer, without any internet. <b>Groq</b> is an internet service that can do this instead.</p>
+    <table class="lists groq">
+      <tr><th></th><th>Without Groq (how Talk starts)</th><th>With Groq</th></tr>
+      <tr><td>Internet</td><td>not needed</td><td>needed</td></tr>
+      <tr><td>Account</td><td>none</td><td>account at Groq, enter a key once (see below)</td></tr>
+      <tr><td>Your data</td><td>stays on your computer</td><td>recording and text go to Groq (USA)</td></tr>
+      <tr><td>Speed</td><td>the first dictation after starting takes longer</td><td>usually a little faster, especially the first dictation</td></tr>
+      <tr><td>Extras</td><td>none</td><td>„Glätten“ (smoothing: the text is cleanly worded) and Swiss dialect</td></tr>
+    </table>
+    <div class="note"><p><b>Rule of thumb:</b> Start without Groq. If Talk is too slow for you or you want smoothing, connect Groq. If Groq fails, Talk
+      automatically continues recognizing on your computer, and <b>„Nur lokal“</b> (local only) in the menu switches Groq off at any time until you click it again.</p></div>
+  </div>
+
+  <div class="foot"><span>Talk short guide · Created by Stefano Cesaretti</span><span>Page 2 of 7 · Version 0.4.1</span></div>
+</section>
+
+<!-- Page 3: connect Groq -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">7</span>Connect Groq</h2>
+    <p>For Groq you need a <b>key</b>. It is something like a password that Talk uses to ask Groq on your behalf. You get it once,
+      enter it in Talk and then you don't have to do anything else. Never give the key to anyone.</p>
+    <h3>Get the key and enter it</h3>
+    <ol class="steps even">
+      <li>Open <span class="path">console.groq.com</span> in the browser, create an account or sign in.</li>
+      <li>Click <b>"API Keys"</b> on the left, then <b>"Create API Key"</b>, enter a name (for example "Talk") and confirm.
+        If the buttons are named differently by now, look for "API Key".</li>
+      <li>Copy the key shown with the copy button next to it. It is shown only once.</li>
+      <li>In Talk, under „Einstellungen“ (settings), section „Datenschutz“ (privacy), click <b>„Groq Schlüssel“</b> (Groq key), in the new window
+        <b>„Aus Zwischenablage einfügen“</b> (paste from clipboard) and then <b>„Speichern“</b> (save).</li>
+    </ol>
+    <p class="muted">In the same window, „Prüfen“ (check) shows whether the key is valid, and „Löschen“ (delete) removes it again. The key is stored only in the
+      Windows Credential Manager and is never displayed.
+      Whether Groq stays free and how much you can use per day is stated on Groq's website.</p>
+
+    <h3>How to see that it works</h3>
+    <p>Click <b>„Diagnose“</b> (diagnostics) in the menu. Under „Erkennung“ (recognition) it shows whether a Groq key is stored and whether „Nur lokal“ is on (more in section 14).</p>
+    <h3>Switch Groq off again</h3>
+    <p>For a while: click <b>„Nur lokal“</b> in the menu until you click it again. For good: click „Löschen“ (delete) in the „Groq Schlüssel“ window.</p>
+  </div>
+
+  <div class="foot"><span>Talk short guide · Created by Stefano Cesaretti</span><span>Page 3 of 7 · Version 0.4.1</span></div>
+</section>
+
+<!-- Page 4: smoothing. The example is real German output and is not translated. -->
+<section class="page">
+  <div class="content tight dense">
+    <h2 style="margin-top:0"><span class="num">8</span>Smooth text („Glätten“)</h2>
+    <p>Spoken language sounds different from written language: punctuation is missing, sentences run into each other, you start again. <b>Smoothing</b> tidies this up.
+      After recognition the text goes to a language model at Groq, which revises it; only then does Talk insert it.</p>
+    <div class="note"><p>Smoothing needs a Groq key (see 7). It never runs with „Nur lokal“ and never in a terminal. If it ever fails,
+      Talk inserts the text unsmoothed; the reason is shown in the menu under „Diagnose“.</p></div>
+
+    <h3>What smoothing does not do</h3>
+    <p>It does not translate, does not add anything and does not leave out anything that was said. Names and technical terms stay as they are. If the dictation contains a
+      question or a request, it does not answer the question but just writes it down cleanly.</p>
+
+    <h3>The three levels</h3>
+    <table class="lists">
+      <tr><th>Level</th><th>What happens</th><th>Good for</th></tr>
+      <tr><td>Nur Fehler beheben<br><span class="muted">(fix errors only)</span></td><td>Punctuation, capitalization, grammar, misheard words. The wording stays.</td>
+        <td>Texts that should stay exactly as spoken</td></tr>
+      <tr><td>Sätze glätten<br><span class="muted">(smooth sentences)</span></td><td>Also: tidies up sentence structure, removes slips of the tongue and restarts. Content, tone and form of address stay. This is the default.</td>
+        <td>most texts, e-mails</td></tr>
+      <tr><td>Als Nachricht<br>ausformulieren<br><span class="muted">(word as a message)</span></td><td>Complete sentences, clear structure, friendly and factual. Does not invent a greeting or sign-off.</td>
+        <td>WhatsApp, chats, short messages</td></tr>
+    </table>
+
+    <h3>Example (real result, in German)</h3>
+    <div class="flow">
+      <div class="card"><div class="label">As recognized</div><p class="muted" style="margin-top:1.5mm">hey wegen samstag ich hab überlegt wir könnten vielleicht grillen also
+        wenn das wetter mitspielt und du könntest ja den salat mitbringen und ich mach das fleisch so um sechs oder so sag einfach bescheid</p></div>
+      <div class="card"><div class="label">Fix errors only</div><p style="margin-top:1.5mm">Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen,
+        also wenn das Wetter mitspielt und du könntest ja den Salat mitbringen, und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.</p></div>
+      <div class="card"><div class="label">Smooth sentences</div><p style="margin-top:1.5mm">Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen,
+        also wenn das Wetter mitspielt. Du könntest ja den Salat mitbringen und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.</p></div>
+    </div>
+    <p class="muted">With short texts the levels are close together; the difference shows with longer, nested dictations.</p>
+
+    <h3>Switch on and change the level</h3>
+    <ol class="steps">
+      <li><b>On and off:</b> click <b>„Glätten“</b> in the menu; a check mark in front means on. The same switch is in the settings under „Text glätten“.</li>
+      <li><b>Level for everything:</b> in the settings, section <b>„Text glätten“</b>, click the list under <b>„Stufe“</b> (level) and choose a level.</li>
+      <li><b>Level per program:</b> below it, every program you have dictated into once appears. Choose a separate level next to it, for example
+        „Als Nachricht ausformulieren“ for WhatsApp; „Wie Standard“ (as default) uses the level above, „Aus“ (off) never smooths in this program.
+        This only applies if smoothing is switched on above.</li>
+    </ol>
+    <p><b>What it does:</b> cleaner texts that rarely need correcting. In return every dictation takes about half a second longer, with Swiss German
+      up to one second, and the text goes over the internet. With <b>Swiss dialect</b>, Groq also does the rewriting into dialect; this always happens,
+      even if smoothing is off.</p>
+  </div>
+
+  <div class="foot"><span>Talk short guide · Created by Stefano Cesaretti</span><span>Page 4 of 7 · Version 0.4.1</span></div>
+</section>
+
+<!-- Page 5: dictionary. Pictures from --uishots, invented sample words only. -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">9</span>Teach Talk words</h2>
+    <p>Talk often does not know names, brands and technical terms and misspells them, for example <span class="path">Cesareti</span> instead of
+      <span class="path">Cesaretti</span>. You can teach Talk such words; from the next dictation on they are right, without restarting.
+      Every word goes into one of three lists:</p>
+    <table class="lists">
+      <tr><th>List</th><th>What for</th><th>What happens</th></tr>
+      <tr><td>Privat<br><span class="muted">(private)</span></td><td>Names of people, doctors, practices, clinics, everything about health, even if a place is part of the name</td>
+        <td>Always stays on your computer. Talk corrects the word after recognition, so also enter the misspellings.</td></tr>
+      <tr><td>Allgemein<br><span class="muted">(general)</span></td><td>Brands, companies, places, technical terms</td>
+        <td>Talk corrects the word the same way. With Groq it is also sent to Groq as a hint with every dictation, so Groq recognizes it right away.</td></tr>
+      <tr><td>Schweiz<br><span class="muted">(Switzerland)</span></td><td>Swiss words (Velo instead of Fahrrad)</td>
+        <td>Only with Swiss German and Swiss dialect: Talk replaces the word used in Germany with the Swiss word.</td></tr>
+    </table>
+    <p class="muted">Rule of thumb: if in doubt, „Privat“. Whatever is in „Privat“ never leaves your computer, and the correction still works.</p>
+
+    <h2><span class="num">10</span>Way 1: in the settings</h2>
+    <div class="withshot">
+      <ol class="steps">
+        <li>Click <b>„Einstellungen“</b> in the menu and scroll down to <b>„Wörterbuch“</b> (dictionary).</li>
+        <li>Under „Liste“ (list), click <b>Privat</b>, <b>Allgemein</b> or <b>Schweiz</b> (Privat is preselected). Below are all the words in this list.</li>
+        <li>In <b>„Richtiges Wort“</b> (correct word), enter the word the way it should be written.</li>
+        <li>In the field below, enter how Talk has misspelled it so far, several separated by commas. Optional, but it helps a lot. For <b>Schweiz</b> the field
+          is called „Wort aus Deutschland“ (word used in Germany) and must be filled in, for example <span class="path">Fahrrad</span>.</li>
+        <li>Click <b>„Hinzufügen“</b> (add). The message below says what happened; the word is now in the list.</li>
+      </ol>
+      <div><div class="shot" style="height:57.1mm"><img src="bilder/einstellungen-woerterbuch.png" style="margin-top:-19.0mm" alt=""></div>
+        <div class="caption">Settings, section „Wörterbuch“ (invented examples)</div></div>
+    </div>
+    <h3>Add more later</h3>
+    <p>If Talk still misspells the word another way: enter the same correct word again, with the new misspelling.
+      The message then says „hat neue Schreibweisen dazubekommen“ (has new spellings added).</p>
+    <h3>Remove</h3>
+    <p>Click <b>„Entfernen“</b> (remove) to the right of the word. The button then shows „Wirklich entfernen?“ (really remove?); click again now, and the word is gone.
+      If you don't click for 5 seconds, it shows „Entfernen“ again and nothing happens. Removing only works here in the settings.</p>
+  </div>
+
+  <div class="foot"><span>Talk short guide · Created by Stefano Cesaretti</span><span>Page 5 of 7 · Version 0.4.1</span></div>
+</section>
+
+<!-- Page 6 -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">11</span>Way 2: in the history, straight from a mistake</h2>
+    <div class="withshot">
+      <ol class="steps">
+        <li>Click <b>„Verlauf“</b> (history) in the menu, and next to the text with the mistake click <b>„Wort korrigieren“</b> (correct word).</li>
+        <li>Click the misspelled word. If the mistake consists of two words (for example „Lumi Ora“), also click the neighbouring word.</li>
+        <li>In <b>„Richtig geschrieben“</b> (spelled correctly), enter the correct word.</li>
+        <li>Choose the list: <b>Privat</b> is preselected, which usually fits; „Allgemein“ for brands and technical terms. The Schweiz list is only in the settings.</li>
+        <li>Click <b>„Merken“</b> (remember). The text in the history stays as it is; from the next dictation on the word is right.</li>
+      </ol>
+      <div><div class="shot" style="height:51.5mm"><img src="bilder/wort-korrigieren.png" alt=""></div>
+        <div class="caption">History, „Wort korrigieren“</div></div>
+    </div>
+
+    <h2><span class="num">12</span>Good to know</h2>
+    <ul class="plain">
+      <li><b>Only enter special words.</b> Talk always writes an entered word exactly like that; only at the start of a sentence is a word entered in lower case
+        capitalized („eBay“ stays). An ordinary word like „haus“ would then be lower case everywhere in the middle of a sentence.</li>
+      <li><b>„Steht schon als … in der Liste“</b> (already in the list as …) appears when you enter a word that is already there, without a new misspelling. If it is
+        written there differently from how you want it: remove it first, then enter it again.</li>
+      <li>A word only applies to the list it is in. If you switch the list at the top, you see its words.</li>
+    </ul>
+
+  </div>
+
+  <div class="foot"><span>Talk short guide · Created by Stefano Cesaretti</span><span>Page 6 of 7 · Version 0.4.1</span></div>
+</section>
+
+<!-- Page 7: help and technology -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">13</span>For advanced users</h2>
+    <p>The lists are simple text files in the folder <span class="path">%LOCALAPPDATA%\Talk</span> (in Explorer, click the address bar at the top,
+      type that and tap <span class="key">Enter</span>): <span class="path">woerterbuch-lokal.txt</span> (Privat), <span class="path">woerterbuch.txt</span>
+      (Allgemein), <span class="path">woerterbuch-ch.txt</span> (Schweiz). You may also edit them in Notepad, one line per word:
+      <span class="path">Cesaretti = Cesareti | Cäsaretti</span>.</p>
+    <ul class="plain">
+      <li>When saving in Notepad, choose <b>UTF-8</b> under „Encoding“ at the bottom. Otherwise Talk reports „nicht als UTF-8 gespeichert“ (not saved as UTF-8) and does not change the file,
+        so that no umlauts are lost.</li>
+      <li>Before the first change of a day, Talk puts a backup next to it, for example <span class="path">woerterbuch.txt.sicherung-2026-11-02</span>.</li>
+    </ul>
+
+    <h2><span class="num">14</span>Diagnostics: when something doesn't work</h2>
+    <p>In the menu, <b>„Diagnose“</b> opens a window that shows what happened during the last dictation. You don't need it day to day, only when something is stuck.</p>
+    <ul class="plain">
+      <li><b>„Zustand“ (state):</b> whether Talk is recording; the counters for start, stop and cancel show whether your taps on Caps Lock arrive.</li>
+      <li><b>„Mikrofon“ and „Pegel“ (microphone and level):</b> which microphone is used and whether sound arrives (the bar moves when you speak).</li>
+      <li><b>„Erkennung“ (recognition):</b> whether a Groq key is stored, whether „Nur lokal“ is on and whether the local model is loaded.</li>
+      <li><b>„Erkannter Text“ (recognized text):</b> what Talk understood, below it the text before correction and before smoothing, why it was not smoothed and whether it was inserted.</li>
+      <li><b>„Erneut versuchen“ (try again):</b> if recognition failed (for example without internet), this button sends the last recording again.</li>
+      <li><b>„Zusätzliche Begriffe für diesen Lauf“ (extra terms for this run):</b> words that only apply until you quit. For good, they belong in the dictionary (section 9).</li>
+    </ul>
+    <h3>Typical problems</h3>
+    <table class="lists">
+      <tr><th>Problem</th><th>In the diagnostics</th><th>What to do</th></tr>
+      <tr><td>Caps Lock starts nothing</td><td>The „Start“ counter does not count up.</td>
+        <td>Tap twice faster or set more time between the taps in the settings; otherwise quit Talk and start it again.</td></tr>
+      <tr><td>Recording runs, no text</td><td>The level does not move when you speak.</td>
+        <td>In the settings under „Mikrofon“, choose another one or click „Neu laden“ (reload).</td></tr>
+      <tr><td>A word is always wrong</td><td>„Erkannter Text“ shows how Talk heard it.</td>
+        <td>In the history, „Wort korrigieren“ (section 11).</td></tr>
+      <tr><td>Text not smoothed</td><td>„Nicht geglättet:“ (not smoothed) with a reason, such as no key, text too short, local only, terminal.</td>
+        <td>Depending on the reason, enter a key or switch off „Nur lokal“; Talk never smooths short texts under four words.</td></tr>
+      <tr><td>Recognition failed</td><td>A message instead of text, for example without internet.</td>
+        <td>Click „Erneut versuchen“ as soon as the internet is back.</td></tr>
+    </table>
+    <p class="muted">Tip: if something doesn't work, open the diagnostics and take a photo of it. That usually makes the problem quick to find.</p>
+  </div>
+
+  <div class="foot"><span>Talk short guide · Created by Stefano Cesaretti</span><span>Page 7 of 7 · Version 0.4.1</span></div>
+</section>
+
+</body>
+</html>

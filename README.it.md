@@ -40,7 +40,21 @@ L'icona di Talk appare poi in basso a destra accanto all'orologio (eventualmente
 | Annullare | Esc |
 | Bloc Maiusc come prima | Maiusc + Bloc Maiusc |
 
-**Guida con immagini (in tedesco):** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Kurzanleitung.pdf). La stessa guida come testo semplice: [`installer/Liesmich.txt`](installer/Liesmich.txt).
+**Guida con immagini:** [Talk-Guida-IT.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Guida-IT.pdf) (7 pagine). La stessa guida come testo semplice: [`installer/Liesmich.it.txt`](installer/Liesmich.it.txt).
+
+## Con o senza Groq
+
+Talk riconosce la voce sul tuo computer, senza internet. Groq è un servizio in internet che può farlo al suo posto.
+
+| | Senza Groq (così parte Talk) | Con Groq |
+|---|---|---|
+| Internet | non serve | serve |
+| Account | nessuno | account presso Groq, inserire una chiave una volta |
+| I tuoi dati | restano sul tuo computer | registrazione e testo vanno a Groq (USA) |
+| Velocità | il primo dettato dopo l'avvio richiede più tempo | di solito un po' più veloce, soprattutto il primo dettato |
+| Extra | nessuno | „Glätten“ (testo scorrevole) e dialetto svizzero |
+
+**Regola pratica:** inizia senza Groq. Se Talk è troppo lento per te o vuoi il testo scorrevole, collega Groq. Se Groq non funziona, Talk continua da solo a riconoscere sul computer.
 
 ## Groq (facoltativo)
 

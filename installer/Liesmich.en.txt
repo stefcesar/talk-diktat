@@ -1,0 +1,150 @@
+﻿Talk: short guide (version 0.4.1)
+Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+
+English version. Talk's menus and settings are in German for now. German labels are quoted here with their meaning in brackets, so you can find them on screen.
+
+What you need
+
+1. Windows 11, 64-bit.
+2. A computer from about 2015 or newer (more precisely: a processor with AVX2).
+3. A microphone.
+4. About 1 GB of free space.
+
+Install
+
+1. Double-click TalkSetup and follow the steps.
+2. Done. Talk runs invisibly in the background. Its icon is at the bottom right next to the clock, possibly behind the small arrow.
+
+Dictate
+
+You start Talk with the Caps Lock key (on the left, above Shift).
+1. Tap Caps Lock twice quickly: recording starts, a small display appears at the bottom.
+2. Speak normally, in full sentences.
+3. Tap Caps Lock once: the text appears where you are typing.
+It works the same with the on-screen keyboard: tap the key twice in quick succession. If that is too fast for you, set more time in the settings under "Zeit zwischen den beiden Tipps" (time between the two taps).
+
+Cancel: Esc cancels the recording, nothing is inserted.
+Write in capitals: switch on Caps Lock as before with Shift and then Caps Lock, because Caps Lock alone now starts Talk.
+
+The menu
+
+One click on the Talk icon at the bottom right next to the clock opens the menu. If it is not there, first click the small arrow next to the clock. The menu contains: "Letzten Text kopieren" (copy last text), "Verlauf" (history), "Nur lokal" (local only), "Glätten" (smoothing), "Einstellungen" (settings), "Diagnose" (diagnostics), "Talk beenden" (quit Talk).
+History: here are your texts from the last 30 days. "Kopieren" (copy) puts a text on the clipboard; insert it with a right-click where you want it and "Paste".
+Quit Talk: click "Talk beenden" in the menu. There is no pause. Start it again later from the Start menu (entry "Talk").
+
+Settings and language
+
+1. Click "Einstellungen" (settings) in the menu. Every change applies immediately and is saved; "Schließen" (close) closes the window.
+2. Under "Sprache" (language), click the list and choose the language: "Deutsch" (German), "Italienisch" (Italian), "Englisch" (English), "Schweizerdeutsch" (Swiss German) or "Mundart" (Swiss dialect).
+3. For "Mundart", the list "Dialekt" appears below it: Zürich, Bern, Basel or "gemischt" (mixed).
+
+Swiss German: you speak dialect, Talk writes Swiss Standard German: ss instead of ß, Swiss words such as Velo, Spital or parkieren.
+Swiss dialect: you speak dialect, Talk also writes in dialect. This only works with Groq and is still experimental; without Groq Talk writes Swiss Standard German.
+If Talk should run by itself when the computer starts, switch on "Talk mit Windows starten" (start Talk with Windows) at the very bottom of the settings.
+
+With or without Groq
+
+Talk recognizes speech on your computer, without any internet. Groq is an internet service that can do this instead.
+
+Without Groq (how Talk starts):
+- Internet: not needed. Account: none.
+- Your data stays on your computer.
+- The first dictation after starting takes longer.
+With Groq:
+- Internet: needed. Account at Groq, enter a key once (see below).
+- Recording and text go to Groq (USA).
+- Usually a little faster, especially the first dictation.
+- Only with Groq: "Glätten" (smoothing: the text is cleanly worded) and Swiss dialect.
+
+Rule of thumb: start without Groq. If Talk is too slow for you or you want smoothing, connect Groq. If Groq fails, Talk automatically continues recognizing on your computer, and "Nur lokal" (local only) in the menu switches Groq off at any time until you click it again.
+
+Connect Groq
+
+For Groq you need a key. It is something like a password that Talk uses to ask Groq on your behalf. You get it once, enter it in Talk and then you don't have to do anything else. Never give the key to anyone.
+
+Get the key and enter it:
+1. Open console.groq.com in the browser, create an account or sign in.
+2. Click "API Keys" on the left, then "Create API Key", enter a name (for example "Talk") and confirm. If the buttons are named differently by now, look for "API Key".
+3. Copy the key shown with the copy button next to it. It is shown only once.
+4. In Talk, under "Einstellungen" (settings), section "Datenschutz" (privacy), click "Groq Schlüssel" (Groq key), in the new window "Aus Zwischenablage einfügen" (paste from clipboard) and then "Speichern" (save).
+In the same window, "Prüfen" (check) shows whether the key is valid, and "Löschen" (delete) removes it again. The key is stored only in the Windows Credential Manager and is never displayed. Whether Groq stays free and how much you can use per day is stated on Groq's website.
+How to see that it works: click "Diagnose" (diagnostics) in the menu. Under "Erkennung" (recognition) it shows whether a Groq key is stored and whether "Nur lokal" is on.
+Switch Groq off again: for a while, click "Nur lokal" in the menu until you click it again. For good, click "Löschen" (delete) in the "Groq Schlüssel" window.
+
+Smooth text ("Glätten")
+
+Spoken language sounds different from written language: punctuation is missing, sentences run into each other, you start again. Smoothing tidies this up. After recognition the text goes to a language model at Groq, which revises it; only then does Talk insert it.
+Smoothing needs a Groq key. It never runs with "Nur lokal" and never in a terminal. If it ever fails, Talk inserts the text unsmoothed; the reason is shown in the menu under "Diagnose".
+
+What smoothing does not do: it does not translate, does not add anything and does not leave out anything that was said. Names and technical terms stay as they are. If the dictation contains a question or a request, it does not answer the question but just writes it down cleanly.
+
+The three levels:
+- "Nur Fehler beheben" (fix errors only): punctuation, capitalization, grammar, misheard words. The wording stays. Good for texts that should stay exactly as spoken.
+- "Sätze glätten" (smooth sentences): also tidies up sentence structure, removes slips of the tongue and restarts. Content, tone and form of address stay. This is the default, good for most texts and e-mails.
+- "Als Nachricht ausformulieren" (word as a message): complete sentences, clear structure, friendly and factual. Does not invent a greeting or sign-off. Good for WhatsApp, chats and short messages.
+
+Example (real result, in German):
+As recognized: hey wegen samstag ich hab überlegt wir könnten vielleicht grillen also wenn das wetter mitspielt und du könntest ja den salat mitbringen und ich mach das fleisch so um sechs oder so sag einfach bescheid
+Fix errors only: Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen, also wenn das Wetter mitspielt und du könntest ja den Salat mitbringen, und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.
+Smooth sentences: Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen, also wenn das Wetter mitspielt. Du könntest ja den Salat mitbringen und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.
+With short texts the levels are close together; the difference shows with longer, nested dictations.
+
+Switch on and change the level:
+1. On and off: click "Glätten" in the menu; a check mark in front means on. The same switch is in the settings under "Text glätten".
+2. Level for everything: in the settings, section "Text glätten", click the list under "Stufe" (level) and choose a level.
+3. Level per program: below it, every program you have dictated into once appears. Choose a separate level next to it, for example "Als Nachricht ausformulieren" for WhatsApp; "Wie Standard" (as default) uses the level above, "Aus" (off) never smooths in this program. This only applies if smoothing is switched on above.
+What it does: cleaner texts that rarely need correcting. In return every dictation takes about half a second longer, with Swiss German up to one second, and the text goes over the internet. With Swiss dialect, Groq also does the rewriting into dialect; this always happens, even if smoothing is off.
+
+Teach Talk words
+
+Talk often does not know names, brands and technical terms and misspells them, for example Cesareti instead of Cesaretti. You can teach Talk such words; from the next dictation on they are right, without restarting. Every word goes into one of three lists:
+- "Privat" (private): names of people, doctors, practices, clinics, everything about health, even if a place is part of the name. Always stays on your computer. Talk corrects the word after recognition, so also enter the misspellings.
+- "Allgemein" (general): brands, companies, places, technical terms. Talk corrects the word the same way. With Groq it is also sent to Groq as a hint with every dictation, so Groq recognizes it right away.
+- "Schweiz" (Switzerland): Swiss words (Velo instead of Fahrrad). Only with Swiss German and Swiss dialect: Talk replaces the word used in Germany with the Swiss word.
+Rule of thumb: if in doubt, "Privat". Whatever is in "Privat" never leaves your computer, and the correction still works.
+
+Way 1: in the settings
+1. Click "Einstellungen" in the menu and scroll down to "Wörterbuch" (dictionary).
+2. Under "Liste" (list), click Privat, Allgemein or Schweiz (Privat is preselected). Below are all the words in this list.
+3. In "Richtiges Wort" (correct word), enter the word the way it should be written.
+4. In the field below, enter how Talk has misspelled it so far, several separated by commas. Optional, but it helps a lot. For Schweiz the field is called "Wort aus Deutschland" (word used in Germany) and must be filled in, for example Fahrrad.
+5. Click "Hinzufügen" (add). The message below says what happened; the word is now in the list.
+Add more later: if Talk still misspells the word another way, enter the same correct word again, with the new misspelling. The message then says "hat neue Schreibweisen dazubekommen" (has new spellings added).
+Remove: click "Entfernen" (remove) to the right of the word. The button then shows "Wirklich entfernen?" (really remove?); click again now, and the word is gone. If you don't click for 5 seconds, it shows "Entfernen" again and nothing happens. Removing only works here in the settings.
+
+Way 2: in the history, straight from a mistake
+1. Click "Verlauf" (history) in the menu, and next to the text with the mistake click "Wort korrigieren" (correct word).
+2. Click the misspelled word. If the mistake consists of two words (for example "Lumi Ora"), also click the neighbouring word.
+3. In "Richtig geschrieben" (spelled correctly), enter the correct word.
+4. Choose the list: Privat is preselected, which usually fits; "Allgemein" for brands and technical terms. The Schweiz list is only in the settings.
+5. Click "Merken" (remember). The text in the history stays as it is; from the next dictation on the word is right.
+
+Good to know
+- Only enter special words. Talk always writes an entered word exactly like that; only at the start of a sentence is a word entered in lower case capitalized ("eBay" stays). An ordinary word like "haus" would then be lower case everywhere in the middle of a sentence.
+- "Steht schon als ... in der Liste" (already in the list as ...) appears when you enter a word that is already there, without a new misspelling. If it is written there differently from how you want it: remove it first, then enter it again.
+- A word only applies to the list it is in. If you switch the list at the top, you see its words.
+
+For advanced users
+The lists are simple text files in the folder %LOCALAPPDATA%\Talk (in Explorer, click the address bar at the top, type that and tap Enter): woerterbuch-lokal.txt (Privat), woerterbuch.txt (Allgemein), woerterbuch-ch.txt (Schweiz). You may also edit them in Notepad, one line per word: Cesaretti = Cesareti | Cäsaretti.
+- When saving in Notepad, choose UTF-8 under "Encoding" at the bottom. Otherwise Talk reports "nicht als UTF-8 gespeichert" (not saved as UTF-8) and does not change the file, so that no umlauts are lost.
+- Before the first change of a day, Talk puts a backup next to it, for example woerterbuch.txt.sicherung-2026-11-02.
+
+Diagnostics: when something doesn't work
+
+In the menu, "Diagnose" opens a window that shows what happened during the last dictation. You don't need it day to day, only when something is stuck.
+- "Zustand" (state): whether Talk is recording; the counters for start, stop and cancel show whether your taps on Caps Lock arrive.
+- "Mikrofon" and "Pegel" (microphone and level): which microphone is used and whether sound arrives (the bar moves when you speak).
+- "Erkennung" (recognition): whether a Groq key is stored, whether "Nur lokal" is on and whether the local model is loaded.
+- "Erkannter Text" (recognized text): what Talk understood, below it the text before correction and before smoothing, why it was not smoothed and whether it was inserted.
+- "Erneut versuchen" (try again): if recognition failed (for example without internet), this button sends the last recording again.
+- "Zusätzliche Begriffe für diesen Lauf" (extra terms for this run): words that only apply until you quit. For good, they belong in the dictionary.
+Typical problems:
+- Caps Lock starts nothing: in the diagnostics, "Start" does not count up. Tap twice faster or set more time between the taps in the settings; otherwise quit Talk and start it again.
+- Recording runs, no text: the level does not move when you speak. In the settings under "Mikrofon", choose another one or click "Neu laden" (reload).
+- A word is always wrong: "Erkannter Text" shows how Talk heard it. In the history, "Wort korrigieren".
+- Text not smoothed: it says "Nicht geglättet:" (not smoothed) with a reason, such as no key, text too short, local only, terminal. Depending on the reason, enter a key or switch off "Nur lokal"; Talk never smooths short texts under four words.
+- Recognition failed: a message instead of text, for example without internet. Click "Erneut versuchen" as soon as the internet is back.
+Tip: if something doesn't work, open the diagnostics and take a photo of it. That usually makes the problem quick to find.
+
+---
+Talk · Created by Stefano Cesaretti · free and open source (MIT license) · https://github.com/stefcesar/talk-diktat

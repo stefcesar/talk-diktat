@@ -40,7 +40,21 @@ Das Talk-Symbol steht danach rechts unten neben der Uhr (eventuell hinter dem kl
 | Abbrechen | Esc |
 | Feststelltaste wie früher | Umschalt + Caps Lock |
 
-**Anleitung mit Bildern:** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Kurzanleitung.pdf) (6 Seiten: Installieren, Diktieren, Menü, Groq, Glätten, Wörterbuch, Diagnose). Dieselbe Anleitung als reiner Text liegt nach der Installation als `Liesmich.txt` im Programmordner und hier unter [`installer/Liesmich.txt`](installer/Liesmich.txt).
+**Anleitung mit Bildern:** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Kurzanleitung.pdf) (7 Seiten: Installieren, Diktieren, Menü, mit oder ohne Groq, Groq verbinden, Glätten, Wörterbuch, Diagnose). Dieselbe Anleitung als reiner Text liegt nach der Installation als `Liesmich.txt` im Programmordner und hier unter [`installer/Liesmich.txt`](installer/Liesmich.txt).
+
+## Mit oder ohne Groq
+
+Talk erkennt das Gesprochene auf deinem Rechner, ganz ohne Internet. Groq ist ein Dienst im Internet, der das stattdessen übernehmen kann.
+
+| | Ohne Groq (so startet Talk) | Mit Groq |
+|---|---|---|
+| Internet | nicht nötig | nötig |
+| Konto | keins | Konto bei Groq, Schlüssel einmal eintragen |
+| Deine Daten | bleiben auf deinem Rechner | Aufnahme und Text gehen an Groq (USA) |
+| Tempo | das erste Diktat nach dem Start dauert länger | meist etwas schneller, besonders beim ersten Diktat |
+| Extras | keine | „Glätten“ und Mundart |
+
+**Faustregel:** Fang ohne Groq an. Ist dir Talk zu langsam oder willst du Glätten, verbinde Groq. Fällt Groq aus, erkennt Talk von selbst auf dem Rechner weiter.
 
 ## Groq (optional)
 

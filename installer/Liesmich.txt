@@ -40,10 +40,25 @@ Schweizerdeutsch: Du sprichst Dialekt, Talk schreibt Schweizer Hochdeutsch: ss s
 Mundart: Du sprichst Dialekt, Talk schreibt auch im Dialekt. Das geht nur mit Groq und ist noch ein Versuch; ohne Groq schreibt Talk Schweizer Hochdeutsch.
 Soll Talk nach dem Einschalten des Rechners von selbst laufen, ganz unten in den Einstellungen "Talk mit Windows starten" einschalten.
 
-Groq: wofür und wie
+Mit oder ohne Groq
 
-Talk erkennt das Gesprochene auf deinem Rechner, ganz ohne Internet. Groq ist ein Dienst im Internet, der das stattdessen übernehmen kann. Mit einem Groq Schlüssel geht die Aufnahme an Groq. Das ist meist etwas schneller, besonders beim ersten Diktat nach dem Start, und nur mit Groq gibt es "Glätten" (der Text wird sauber ausformuliert) und Mundart. Fällt Groq aus, erkennt Talk von selbst auf dem Rechner weiter.
-Ohne Schlüssel verlässt nichts deinen Rechner. Mit Schlüssel gehen Aufnahme und Text an Groq; "Nur lokal" im Menü schaltet das jederzeit ab, bis du es wieder anklickst.
+Talk erkennt das Gesprochene auf deinem Rechner, ganz ohne Internet. Groq ist ein Dienst im Internet, der das stattdessen übernehmen kann.
+
+Ohne Groq (so startet Talk):
+- Internet: nicht nötig. Konto: keins.
+- Deine Daten bleiben auf deinem Rechner.
+- Das erste Diktat nach dem Start dauert länger.
+Mit Groq:
+- Internet: nötig. Konto bei Groq, Schlüssel einmal eintragen (siehe unten).
+- Aufnahme und Text gehen an Groq (USA).
+- Meist etwas schneller, besonders beim ersten Diktat.
+- Nur mit Groq gibt es "Glätten" (der Text wird sauber ausformuliert) und Mundart.
+
+Faustregel: Fang ohne Groq an. Ist dir Talk zu langsam oder willst du Glätten, verbinde Groq. Fällt Groq aus, erkennt Talk von selbst auf dem Rechner weiter, und "Nur lokal" im Menü schaltet Groq jederzeit ab, bis du es wieder anklickst.
+
+Groq verbinden
+
+Für Groq brauchst du einen Schlüssel. Er ist so etwas wie ein Passwort, mit dem Talk bei Groq für dich anfragt. Du holst ihn einmal, trägst ihn in Talk ein und musst danach nichts mehr tun. Gib den Schlüssel niemandem weiter.
 
 Schlüssel bekommen und eintragen:
 1. Im Browser console.groq.com öffnen, ein Konto anlegen oder anmelden. Die Seite ist auf Englisch.
@@ -51,6 +66,8 @@ Schlüssel bekommen und eintragen:
 3. Den angezeigten Schlüssel mit dem Kopierknopf daneben kopieren. Er wird nur einmal angezeigt.
 4. In Talk unter Einstellungen, Abschnitt "Datenschutz", auf "Groq Schlüssel" klicken, im neuen Fenster "Aus Zwischenablage einfügen" und dann "Speichern".
 Im selben Fenster zeigt "Prüfen", ob der Schlüssel gilt, und "Löschen" entfernt ihn wieder. Der Schlüssel liegt nur in der Windows Anmeldeinformationsverwaltung und wird nie angezeigt. Ob Groq kostenlos bleibt und wie viel am Tag geht, steht auf der Seite von Groq.
+So siehst du, ob es klappt: Im Menü auf "Diagnose" klicken. Unter "Erkennung" steht, ob ein Groq Schlüssel hinterlegt ist und ob "Nur lokal" an ist.
+Groq wieder abschalten: Kurz im Menü auf "Nur lokal" klicken, bis du es wieder anklickst. Für immer im Fenster "Groq Schlüssel" auf "Löschen" klicken.
 
 Text glätten
 

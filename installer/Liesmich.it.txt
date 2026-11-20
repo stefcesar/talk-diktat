@@ -1,0 +1,150 @@
+﻿Talk: guida breve (versione 0.4.1)
+Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
+
+Versione italiana. Menu e impostazioni di Talk sono per ora in tedesco. Qui i testi tedeschi sono citati con il loro significato tra parentesi, così li ritrovi sullo schermo.
+
+Cosa ti serve
+
+1. Windows 11, 64 bit.
+2. Un computer dal 2015 circa in poi (più precisamente: un processore con AVX2).
+3. Un microfono.
+4. Circa 1 GB di spazio libero.
+
+Installare
+
+1. Fai doppio clic su TalkSetup e segui i passaggi.
+2. Fatto. Talk funziona in modo invisibile in background. L'icona è in basso a destra accanto all'orologio, eventualmente dietro la piccola freccia.
+
+Dettare
+
+Talk si avvia con il tasto Bloc Maiusc (Caps Lock, a sinistra, sopra Maiusc).
+1. Tocca due volte velocemente Bloc Maiusc: la registrazione parte, in basso appare un piccolo indicatore.
+2. Parla in modo normale, con frasi intere.
+3. Tocca una volta Bloc Maiusc: il testo appare dove stai scrivendo.
+Con la tastiera su schermo funziona allo stesso modo: tocca il tasto due volte di seguito velocemente. Se è troppo veloce per te, nelle impostazioni imposta più tempo sotto "Zeit zwischen den beiden Tipps" (tempo tra i due tocchi).
+
+Annullare: Esc annulla la registrazione, non viene inserito nulla.
+Scrivere tutto maiuscolo: attiva Bloc Maiusc come prima con Maiusc e poi Bloc Maiusc, perché Bloc Maiusc da solo ora avvia Talk.
+
+Il menu
+
+Un clic sull'icona di Talk in basso a destra accanto all'orologio apre il menu. Se non c'è, clicca prima sulla piccola freccia accanto all'orologio. Nel menu ci sono: "Letzten Text kopieren" (copia l'ultimo testo), "Verlauf" (cronologia), "Nur lokal" (solo locale), "Glätten" (testo scorrevole), "Einstellungen" (impostazioni), "Diagnose" (diagnostica), "Talk beenden" (chiudi Talk).
+Cronologia: qui ci sono i tuoi testi degli ultimi 30 giorni. "Kopieren" (copia) mette un testo negli appunti; lo inserisci con un clic destro nel punto desiderato e "Incolla".
+Chiudere Talk: nel menu clicca su "Talk beenden". Non c'è una pausa. Più tardi riavvialo dal menu Start (voce "Talk").
+
+Impostazioni e lingua
+
+1. Nel menu clicca su "Einstellungen" (impostazioni). Ogni modifica vale subito e viene salvata; "Schließen" (chiudi) chiude la finestra.
+2. Sotto "Sprache" (lingua) clicca sulla lista e scegli la lingua: "Deutsch" (tedesco), "Italienisch" (italiano), "Englisch" (inglese), "Schweizerdeutsch" (svizzero tedesco) o "Mundart" (dialetto svizzero).
+3. Con "Mundart" sotto appare la lista "Dialekt": Zürich, Bern, Basel o "gemischt" (misto).
+
+Svizzero tedesco: parli in dialetto, Talk scrive in tedesco standard svizzero: ss invece di ß, parole svizzere come Velo, Spital o parkieren.
+Dialetto svizzero: parli in dialetto, Talk scrive anche in dialetto. Funziona solo con Groq ed è ancora un esperimento; senza Groq Talk scrive in tedesco standard svizzero.
+Se vuoi che Talk parta da solo all'accensione del computer, in fondo alle impostazioni attiva "Talk mit Windows starten" (avvia Talk con Windows).
+
+Con o senza Groq
+
+Talk riconosce la voce sul tuo computer, senza internet. Groq è un servizio in internet che può farlo al suo posto.
+
+Senza Groq (così parte Talk):
+- Internet: non serve. Account: nessuno.
+- I tuoi dati restano sul tuo computer.
+- Il primo dettato dopo l'avvio richiede più tempo.
+Con Groq:
+- Internet: serve. Account presso Groq, inserire una chiave una volta (vedi sotto).
+- Registrazione e testo vanno a Groq (USA).
+- Di solito un po' più veloce, soprattutto il primo dettato.
+- Solo con Groq: "Glätten" (il testo viene riformulato in modo pulito) e dialetto svizzero.
+
+Regola pratica: inizia senza Groq. Se Talk è troppo lento per te o vuoi il testo scorrevole, collega Groq. Se Groq non funziona, Talk continua da solo a riconoscere sul computer, e "Nur lokal" (solo locale) nel menu spegne Groq in qualsiasi momento, finché non lo clicchi di nuovo.
+
+Collegare Groq
+
+Per Groq ti serve una chiave. È qualcosa come una password con cui Talk fa le richieste a Groq per te. La prendi una volta, la inserisci in Talk e poi non devi fare più nulla. Non dare mai la chiave a nessuno.
+
+Ottenere la chiave e inserirla:
+1. Apri console.groq.com nel browser, crea un account o accedi. Il sito è in inglese.
+2. A sinistra clicca su "API Keys", poi su "Create API Key", inserisci un nome (per esempio "Talk") e conferma. Se nel frattempo i pulsanti si chiamano diversamente, cerca "API Key".
+3. Copia la chiave mostrata con il pulsante di copia accanto. Viene mostrata una sola volta.
+4. In Talk, in "Einstellungen" (impostazioni), sezione "Datenschutz" (privacy), clicca su "Groq Schlüssel" (chiave Groq), nella nuova finestra su "Aus Zwischenablage einfügen" (incolla dagli appunti) e poi su "Speichern" (salva).
+Nella stessa finestra "Prüfen" (verifica) mostra se la chiave è valida, e "Löschen" (elimina) la rimuove. La chiave viene salvata solo in Gestione credenziali di Windows e non viene mai mostrata. Se Groq resta gratuito e quanto si può usare al giorno, lo indica il sito di Groq.
+Come vedere se funziona: nel menu clicca su "Diagnose" (diagnostica). Sotto "Erkennung" (riconoscimento) c'è scritto se è salvata una chiave Groq e se "Nur lokal" è attivo.
+Spegnere di nuovo Groq: per un po', nel menu clicca su "Nur lokal" finché non lo clicchi di nuovo. Per sempre, nella finestra "Groq Schlüssel" clicca su "Löschen" (elimina).
+
+Testo scorrevole ("Glätten")
+
+Il parlato suona diverso dallo scritto: mancano i segni di punteggiatura, le frasi si accavallano, si ricomincia. Glätten mette ordine. Dopo il riconoscimento il testo va a un modello linguistico presso Groq, che lo rielabora; solo dopo Talk lo inserisce.
+Glätten richiede una chiave Groq. Non funziona mai con "Nur lokal" e mai in un terminale. Se capita che non riesca, Talk inserisce il testo non rielaborato; il motivo è nel menu sotto "Diagnose".
+
+Cosa Glätten non fa: non traduce, non aggiunge nulla e non tralascia nulla di ciò che è stato detto. Nomi e termini tecnici restano come sono. Se nel dettato c'è una domanda o una richiesta, non risponde alla domanda, ma la scrive solo in modo pulito.
+
+I tre livelli:
+- "Nur Fehler beheben" (solo correggere errori): punteggiatura, maiuscole e minuscole, grammatica, parole capite male. Le parole scelte restano. Adatto per testi che devono restare esattamente come detti.
+- "Sätze glätten" (rendere scorrevoli le frasi): in più ordina la struttura delle frasi, toglie lapsus e ripartenze. Contenuto, tono e forma di cortesia restano. È l'impostazione predefinita, adatta alla maggior parte dei testi e alle e-mail.
+- "Als Nachricht ausformulieren" (formulare come messaggio): frasi complete, struttura chiara, gentile e oggettivo. Non inventa saluti iniziali o finali. Adatto per WhatsApp, chat e messaggi brevi.
+
+Esempio (risultato reale, in tedesco):
+Come riconosciuto: hey wegen samstag ich hab überlegt wir könnten vielleicht grillen also wenn das wetter mitspielt und du könntest ja den salat mitbringen und ich mach das fleisch so um sechs oder so sag einfach bescheid
+Solo correggere errori: Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen, also wenn das Wetter mitspielt und du könntest ja den Salat mitbringen, und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.
+Frasi scorrevoli: Hey, wegen Samstag habe ich überlegt, wir könnten vielleicht grillen, also wenn das Wetter mitspielt. Du könntest ja den Salat mitbringen und ich mache das Fleisch um sechs oder so. Sag einfach Bescheid.
+Con testi brevi i livelli sono molto simili; la differenza si vede con dettati più lunghi e articolati.
+
+Attivare e cambiare livello:
+1. Acceso e spento: nel menu clicca su "Glätten"; un segno di spunta davanti significa acceso. Lo stesso interruttore è nelle impostazioni sotto "Text glätten".
+2. Livello per tutto: nelle impostazioni, sezione "Text glätten", sotto "Stufe" (livello) clicca sulla lista e scegli un livello.
+3. Livello per programma: sotto compare ogni programma in cui hai dettato almeno una volta. Accanto scegli un livello proprio, per esempio per WhatsApp "Als Nachricht ausformulieren"; "Wie Standard" (come predefinito) usa il livello sopra, "Aus" (spento) non rielabora mai in quel programma. Vale solo se Glätten è attivo sopra.
+Cosa ottieni: testi più puliti che raramente vanno ritoccati. In cambio ogni dettato dura circa mezzo secondo in più, con lo svizzero tedesco fino a un secondo, e il testo passa per internet. Con il dialetto svizzero Groq si occupa anche della riscrittura in dialetto; succede sempre, anche se Glätten è spento.
+
+Insegnare parole a Talk
+
+Spesso Talk non conosce nomi, marchi e termini tecnici e li scrive male, per esempio Cesareti invece di Cesaretti. Puoi insegnare a Talk queste parole; dal dettato successivo sono giuste, senza riavviare. Ogni parola va in una di tre liste:
+- "Privat" (privato): nomi di persone, medici, studi, cliniche, tutto ciò che riguarda la salute, anche se nel nome c'è un luogo. Resta sempre sul tuo computer. Talk corregge la parola dopo il riconoscimento, perciò inserisci anche le grafie sbagliate.
+- "Allgemein" (generale): marchi, aziende, luoghi, termini tecnici. Talk corregge la parola allo stesso modo. Con Groq viene inoltre inviata a Groq come suggerimento a ogni dettato, così Groq la riconosce subito.
+- "Schweiz" (Svizzera): parole svizzere (Velo invece di Fahrrad). Solo con svizzero tedesco e dialetto svizzero: Talk sostituisce la parola usata in Germania con quella svizzera.
+Regola pratica: nel dubbio "Privat". Quello che sta in "Privat" non lascia mai il tuo computer, e la correzione funziona lo stesso.
+
+Modo 1: nelle impostazioni
+1. Nel menu clicca su "Einstellungen" e scorri in basso fino a "Wörterbuch" (dizionario).
+2. Sotto "Liste" (lista) clicca su Privat, Allgemein o Schweiz (Privat è preselezionata). Sotto ci sono tutte le parole di questa lista.
+3. In "Richtiges Wort" (parola giusta) scrivi la parola come deve essere scritta.
+4. Nel campo sotto, come Talk l'ha scritta male finora, più grafie separate da virgola. Facoltativo, ma aiuta molto. Con Schweiz il campo si chiama "Wort aus Deutschland" (parola usata in Germania) ed è obbligatorio, per esempio Fahrrad.
+5. Clicca su "Hinzufügen" (aggiungi). Il messaggio sotto dice cosa è successo; ora la parola è nella lista.
+Aggiungere in seguito: se Talk scrive ancora la parola sbagliata in un altro modo, inserisci di nuovo la stessa parola giusta, con la nuova grafia sbagliata. Il messaggio allora dice "hat neue Schreibweisen dazubekommen" (ha ricevuto nuove grafie).
+Rimuovere: a destra della parola clicca su "Entfernen" (rimuovi). Il pulsante mostra allora "Wirklich entfernen?" (rimuovere davvero?); clicca ancora una volta e la parola sparisce. Se non clicchi per 5 secondi, torna a mostrare "Entfernen" e non succede nulla. Si rimuove solo qui nelle impostazioni.
+
+Modo 2: nella cronologia, direttamente da un errore
+1. Nel menu clicca su "Verlauf" (cronologia) e, accanto al testo con l'errore, su "Wort korrigieren" (correggi parola).
+2. Clicca sulla parola scritta male. Se l'errore è composto da due parole (per esempio "Lumi Ora"), clicca anche sulla parola vicina.
+3. In "Richtig geschrieben" (scritto correttamente) inserisci la parola giusta.
+4. Scegli la lista: Privat è preselezionata, di solito va bene; "Allgemein" per marchi e termini tecnici. La lista Schweiz c'è solo nelle impostazioni.
+5. Clicca su "Merken" (memorizza). Il testo nella cronologia resta com'è; dal dettato successivo la parola è giusta.
+
+Buono a sapersi
+- Inserisci solo parole particolari. Talk scrive una parola inserita sempre esattamente così; solo a inizio frase una parola inserita in minuscolo diventa maiuscola ("eBay" resta). Una parola comune come "haus" resterebbe minuscola ovunque in mezzo alla frase.
+- "Steht schon als ... in der Liste" (è già nella lista come ...) compare quando inserisci una parola che c'è già, senza una nuova grafia sbagliata. Se lì è scritta in modo diverso da come la vuoi: prima rimuovila, poi inseriscila di nuovo.
+- Una parola vale solo per la lista in cui si trova. Se cambi lista in alto, vedi le sue parole.
+
+Per utenti esperti
+Le liste sono semplici file di testo nella cartella %LOCALAPPDATA%\Talk (in Esplora file clicca sulla barra degli indirizzi in alto, scrivi questo e tocca Invio): woerterbuch-lokal.txt (Privat), woerterbuch.txt (Allgemein), woerterbuch-ch.txt (Schweiz). Puoi modificarle anche nel Blocco note, una riga per parola: Cesaretti = Cesareti | Cäsaretti.
+- Quando salvi nel Blocco note, in basso sotto "Codifica" scegli UTF-8. Altrimenti Talk segnala "nicht als UTF-8 gespeichert" (non salvato come UTF-8) e non modifica il file, così non si perdono le lettere come ä, ö, ü.
+- Prima della prima modifica di ogni giorno Talk mette accanto una copia di sicurezza, per esempio woerterbuch.txt.sicherung-2026-11-02.
+
+Diagnostica: quando qualcosa non va
+
+Nel menu "Diagnose" apre una finestra che mostra cosa è successo durante l'ultimo dettato. Nell'uso quotidiano non serve, solo quando qualcosa si blocca.
+- "Zustand" (stato): se Talk sta registrando; i contatori di avvio, stop e annullamento mostrano se i tuoi tocchi su Bloc Maiusc arrivano.
+- "Mikrofon" e "Pegel" (microfono e livello): quale microfono è in uso e se arriva suono (la barra si muove quando parli).
+- "Erkennung" (riconoscimento): se è salvata una chiave Groq, se "Nur lokal" è attivo e se il modello locale è caricato.
+- "Erkannter Text" (testo riconosciuto): cosa ha capito Talk, sotto il testo prima della correzione e prima di Glätten, perché non è stato rielaborato e se è stato inserito.
+- "Erneut versuchen" (riprova): se il riconoscimento non è riuscito (per esempio senza internet), questo pulsante invia di nuovo l'ultima registrazione.
+- "Zusätzliche Begriffe für diesen Lauf" (termini aggiuntivi per questa sessione): parole che valgono solo fino alla chiusura. Per sempre vanno nel dizionario.
+Problemi tipici:
+- Bloc Maiusc non avvia nulla: nella diagnostica "Start" non aumenta. Tocca due volte più velocemente o imposta più tempo tra i tocchi nelle impostazioni; altrimenti chiudi Talk e riavvialo.
+- Registra, ma niente testo: il livello non si muove quando parli. Nelle impostazioni sotto "Mikrofon" scegline un altro o clicca su "Neu laden" (ricarica).
+- Una parola è sempre sbagliata: sotto "Erkannter Text" c'è come Talk l'ha sentita. Nella cronologia "Wort korrigieren".
+- Testo non rielaborato: c'è "Nicht geglättet:" (non rielaborato) con un motivo, per esempio nessuna chiave, testo troppo corto, solo locale, terminale. A seconda del motivo inserisci una chiave o spegni "Nur lokal"; Talk non rielabora mai testi brevi sotto le quattro parole.
+- Riconoscimento fallito: un messaggio invece del testo, per esempio senza internet. Clicca su "Erneut versuchen" appena internet torna.
+Consiglio: se qualcosa non funziona, apri la diagnostica e fanne una foto. Così di solito il problema si trova in fretta.
+
+---
+Talk · Created by Stefano Cesaretti · gratuito e open source (licenza MIT) · https://github.com/stefcesar/talk-diktat

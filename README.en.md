@@ -40,7 +40,21 @@ The Talk icon then appears at the bottom right next to the clock (possibly behin
 | Cancel | Esc |
 | Normal Caps Lock | Shift + Caps Lock |
 
-**Guide with pictures (German):** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Kurzanleitung.pdf). The same guide as plain text: [`installer/Liesmich.txt`](installer/Liesmich.txt).
+**Guide with pictures:** [Talk-Guide-EN.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Guide-EN.pdf) (7 pages). The same guide as plain text: [`installer/Liesmich.en.txt`](installer/Liesmich.en.txt).
+
+## With or without Groq
+
+Talk recognizes speech on your computer, without any internet. Groq is an internet service that can do this instead.
+
+| | Without Groq (how Talk starts) | With Groq |
+|---|---|---|
+| Internet | not needed | needed |
+| Account | none | account at Groq, enter a key once |
+| Your data | stays on your computer | recording and text go to Groq (USA) |
+| Speed | the first dictation after starting takes longer | usually a little faster, especially the first dictation |
+| Extras | none | „Glätten“ (smoothing) and Swiss dialect |
+
+**Rule of thumb:** Start without Groq. If Talk is too slow for you or you want smoothing, connect Groq. If Groq fails, Talk automatically continues recognizing on your computer.
 
 ## Groq (optional)
 

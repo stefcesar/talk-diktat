@@ -98,6 +98,8 @@
   .withshot { display: grid; grid-template-columns: 1fr 56mm; gap: 6mm; align-items: start; }
   .shot { width: 56mm; overflow: hidden; border-radius: 2.5mm; border: 0.3mm solid var(--line); }
   .shot img { display: block; width: 56mm; }
+  table.lists.groq { margin: 0.5mm 0 1mm 0; }
+  table.lists.groq th, table.lists.groq td { padding: 1mm 2.5mm; }
   .caption { font-size: 8pt; color: var(--muted); margin-top: 1mm; }
 
   .foot { margin: 0; border-top: 0.3mm solid var(--line); padding-top: 3mm;
@@ -159,7 +161,7 @@
 
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 1 von 6 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 1 von 7 · Version 0.4.1</span></div>
 </section>
 
 <!-- Seite 2 -->
@@ -199,12 +201,29 @@
     </div>
     <p class="muted">Soll Talk nach dem Einschalten des Rechners von selbst laufen, ganz unten in den Einstellungen „Talk mit Windows starten“ einschalten.</p>
 
-    <h2><span class="num">6</span>Groq: wofür und wie</h2>
-    <p>Talk erkennt das Gesprochene auf deinem Rechner, ganz ohne Internet. <b>Groq</b> ist ein Dienst im Internet, der das stattdessen übernehmen kann.
-      Mit einem Groq Schlüssel geht die Aufnahme an Groq. Das ist meist etwas schneller, besonders beim ersten Diktat nach dem Start, und nur mit Groq
-      gibt es „Glätten“ (der Text wird sauber ausformuliert) und Mundart. Fällt Groq aus, erkennt Talk von selbst auf dem Rechner weiter.</p>
-    <div class="note"><p>Ohne Schlüssel verlässt nichts deinen Rechner. Mit Schlüssel gehen Aufnahme und Text an Groq; <b>„Nur lokal“</b> im Menü
-      schaltet das jederzeit ab, bis du es wieder anklickst.</p></div>
+    <h2><span class="num">6</span>Mit oder ohne Groq</h2>
+    <p>Talk erkennt das Gesprochene auf deinem Rechner, ganz ohne Internet. <b>Groq</b> ist ein Dienst im Internet, der das stattdessen übernehmen kann.</p>
+    <table class="lists groq">
+      <tr><th></th><th>Ohne Groq (so startet Talk)</th><th>Mit Groq</th></tr>
+      <tr><td>Internet</td><td>nicht nötig</td><td>nötig</td></tr>
+      <tr><td>Konto</td><td>keins</td><td>Konto bei Groq, Schlüssel einmal eintragen (siehe unten)</td></tr>
+      <tr><td>Deine Daten</td><td>bleiben auf deinem Rechner</td><td>Aufnahme und Text gehen an Groq (USA)</td></tr>
+      <tr><td>Tempo</td><td>das erste Diktat nach dem Start dauert länger</td><td>meist etwas schneller, besonders beim ersten Diktat</td></tr>
+      <tr><td>Extras</td><td>keine</td><td>„Glätten“ (der Text wird sauber ausformuliert) und Mundart</td></tr>
+    </table>
+    <div class="note"><p><b>Faustregel:</b> Fang ohne Groq an. Ist dir Talk zu langsam oder willst du Glätten, verbinde Groq. Fällt Groq aus, erkennt Talk
+      von selbst auf dem Rechner weiter, und <b>„Nur lokal“</b> im Menü schaltet Groq jederzeit ab, bis du es wieder anklickst.</p></div>
+  </div>
+
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 2 von 7 · Version 0.4.1</span></div>
+</section>
+
+<!-- Seite 3: Groq verbinden, Schritt für Schritt -->
+<section class="page">
+  <div class="content tight">
+    <h2 style="margin-top:0"><span class="num">7</span>Groq verbinden</h2>
+    <p>Für Groq brauchst du einen <b>Schlüssel</b>. Er ist so etwas wie ein Passwort, mit dem Talk bei Groq für dich anfragt. Du holst ihn einmal,
+      trägst ihn in Talk ein und musst danach nichts mehr tun. Gib den Schlüssel niemandem weiter.</p>
     <h3>Schlüssel bekommen und eintragen</h3>
     <ol class="steps even">
       <li>Im Browser <span class="path">console.groq.com</span> öffnen, ein Konto anlegen oder anmelden. Die Seite ist auf Englisch.</li>
@@ -217,18 +236,23 @@
     <p class="muted">Im selben Fenster zeigt „Prüfen“, ob der Schlüssel gilt, und „Löschen“ entfernt ihn wieder. Der Schlüssel liegt nur in der
       Windows Anmeldeinformationsverwaltung und wird nie angezeigt.
       Ob Groq kostenlos bleibt und wie viel am Tag geht, steht auf der Seite von Groq.</p>
+
+    <h3>So siehst du, ob es klappt</h3>
+    <p>Im Menü auf <b>„Diagnose“</b> klicken. Unter „Erkennung“ steht, ob ein Groq Schlüssel hinterlegt ist und ob „Nur lokal“ an ist (mehr dazu in Abschnitt 14).</p>
+    <h3>Groq wieder abschalten</h3>
+    <p>Kurz: im Menü auf <b>„Nur lokal“</b> klicken, bis du es wieder anklickst. Für immer: im Fenster „Groq Schlüssel“ auf „Löschen“ klicken.</p>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 2 von 6 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 3 von 7 · Version 0.4.1</span></div>
 </section>
 
 <!-- Seite 3: Glätten (Playbook Abschnitte 21, 23, 26). Das Beispiel ist echt mit --smoothtest aus einem erfundenen Diktatsatz entstanden. -->
 <section class="page">
   <div class="content tight">
-    <h2 style="margin-top:0"><span class="num">7</span>Text glätten</h2>
+    <h2 style="margin-top:0"><span class="num">8</span>Text glätten</h2>
     <p>Gesprochen klingt anders als geschrieben: Satzzeichen fehlen, Sätze laufen ineinander, man setzt neu an. <b>Glätten</b> räumt das auf.
       Nach der Erkennung geht der Text an ein Sprachmodell bei Groq, das ihn überarbeitet; erst dann fügt Talk ihn ein.</p>
-    <div class="note"><p>Glätten braucht einen Groq Schlüssel (siehe 6). Es läuft nie bei „Nur lokal“ und nie in einem Terminal. Klappt es einmal nicht,
+    <div class="note"><p>Glätten braucht einen Groq Schlüssel (siehe 7). Es läuft nie bei „Nur lokal“ und nie in einem Terminal. Klappt es einmal nicht,
       fügt Talk den Text ungeglättet ein; der Grund steht im Menü unter „Diagnose“.</p></div>
 
     <h3>Was Glätten nicht macht</h3>
@@ -270,13 +294,13 @@
       auch wenn Glätten aus ist.</p>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 3 von 6 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 4 von 7 · Version 0.4.1</span></div>
 </section>
 
 <!-- Seite 3: das Wörterbuch genau erklärt (Playbook Abschnitt 27). Bilder aus --uishots, nur erfundene Musterwörter. -->
 <section class="page">
   <div class="content tight">
-    <h2 style="margin-top:0"><span class="num">8</span>Talk Wörter beibringen</h2>
+    <h2 style="margin-top:0"><span class="num">9</span>Talk Wörter beibringen</h2>
     <p>Namen, Marken und Fachwörter kennt Talk oft nicht und schreibt sie falsch, zum Beispiel <span class="path">Cesareti</span> statt
       <span class="path">Cesaretti</span>. Du kannst Talk solche Wörter beibringen; ab dem nächsten Diktat stimmen sie, ohne Neustart.
       Jedes Wort kommt in eine von drei Listen:</p>
@@ -291,7 +315,7 @@
     </table>
     <p class="muted">Faustregel: im Zweifel „Privat“. Was in „Privat“ steht, verlässt nie deinen Rechner, und die Verbesserung wirkt trotzdem.</p>
 
-    <h2><span class="num">9</span>Weg 1: in den Einstellungen</h2>
+    <h2><span class="num">10</span>Weg 1: in den Einstellungen</h2>
     <div class="withshot">
       <ol class="steps">
         <li>Im Menü auf <b>„Einstellungen“</b> klicken und nach unten rollen bis <b>„Wörterbuch“</b>.</li>
@@ -312,13 +336,13 @@
       Klickst du 5 Sekunden lang nicht, zeigt er wieder „Entfernen“ und es passiert nichts. Entfernen geht nur hier in den Einstellungen.</p>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 4 von 6 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 5 von 7 · Version 0.4.1</span></div>
 </section>
 
 <!-- Seite 4 -->
 <section class="page">
   <div class="content tight">
-    <h2 style="margin-top:0"><span class="num">10</span>Weg 2: im Verlauf, direkt aus einem Fehler</h2>
+    <h2 style="margin-top:0"><span class="num">11</span>Weg 2: im Verlauf, direkt aus einem Fehler</h2>
     <div class="withshot">
       <ol class="steps">
         <li>Im Menü auf <b>„Verlauf“</b> klicken und beim Text mit dem Fehler auf <b>„Wort korrigieren“</b>.</li>
@@ -331,7 +355,7 @@
         <div class="caption">Verlauf, „Wort korrigieren“</div></div>
     </div>
 
-    <h2><span class="num">11</span>Gut zu wissen</h2>
+    <h2><span class="num">12</span>Gut zu wissen</h2>
     <ul class="plain">
       <li><b>Nur besondere Wörter eintragen.</b> Ein eingetragenes Wort schreibt Talk immer genau so; nur am Satzanfang wird ein klein eingetragenes
         Wort groß („eBay“ bleibt). Ein gewöhnliches Wort wie „haus“ stünde mitten im Satz dann überall klein.</li>
@@ -342,13 +366,13 @@
 
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 5 von 6 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 6 von 7 · Version 0.4.1</span></div>
 </section>
 
 <!-- Seite 6: Hilfe und Technik -->
 <section class="page">
   <div class="content tight">
-    <h2 style="margin-top:0"><span class="num">12</span>Für Fortgeschrittene</h2>
+    <h2 style="margin-top:0"><span class="num">13</span>Für Fortgeschrittene</h2>
     <p>Die Listen sind einfache Textdateien im Ordner <span class="path">%LOCALAPPDATA%\Talk</span> (im Explorer oben in die Adresszeile klicken,
       das eintippen und <span class="key">Enter</span> tippen): <span class="path">woerterbuch-lokal.txt</span> (Privat), <span class="path">woerterbuch.txt</span>
       (Allgemein), <span class="path">woerterbuch-ch.txt</span> (Schweiz). Du darfst sie auch im Editor bearbeiten, eine Zeile je Wort:
@@ -359,7 +383,7 @@
       <li>Vor der ersten Änderung eines Tages legt Talk eine Sicherung daneben, zum Beispiel <span class="path">woerterbuch.txt.sicherung-2026-11-02</span>.</li>
     </ul>
 
-    <h2><span class="num">13</span>Diagnose: wenn etwas nicht klappt</h2>
+    <h2><span class="num">14</span>Diagnose: wenn etwas nicht klappt</h2>
     <p>Im Menü öffnet <b>„Diagnose“</b> ein Fenster, das zeigt, was beim letzten Diktat passiert ist. Im Alltag brauchst du es nicht, nur wenn etwas hakt.</p>
     <ul class="plain">
       <li><b>Zustand:</b> ob Talk gerade aufnimmt; die Zähler für Start, Stopp und Abbruch zeigen, ob dein Tippen auf Caps Lock ankommt.</li>
@@ -367,7 +391,7 @@
       <li><b>Erkennung:</b> ob ein Groq Schlüssel hinterlegt ist, ob „Nur lokal“ an ist und ob das lokale Modell geladen ist.</li>
       <li><b>Erkannter Text:</b> was Talk verstanden hat, darunter der Text vor der Verbesserung und vor dem Glätten, warum nicht geglättet wurde und ob eingefügt wurde.</li>
       <li><b>„Erneut versuchen“:</b> Ist die Erkennung gescheitert (zum Beispiel ohne Internet), schickt dieser Knopf die letzte Aufnahme noch einmal.</li>
-      <li><b>„Zusätzliche Begriffe für diesen Lauf“:</b> Wörter, die nur bis zum Beenden gelten. Für immer gehören sie ins Wörterbuch (Abschnitt 8).</li>
+      <li><b>„Zusätzliche Begriffe für diesen Lauf“:</b> Wörter, die nur bis zum Beenden gelten. Für immer gehören sie ins Wörterbuch (Abschnitt 9).</li>
     </ul>
     <h3>Typische Probleme</h3>
     <table class="lists">
@@ -377,7 +401,7 @@
       <tr><td>Aufnahme läuft, kein Text</td><td>Der Pegel bewegt sich beim Sprechen nicht.</td>
         <td>In den Einstellungen unter „Mikrofon“ ein anderes wählen oder „Neu laden“ klicken.</td></tr>
       <tr><td>Ein Wort ist immer falsch</td><td>Unter „Erkannter Text“ steht, wie Talk es gehört hat.</td>
-        <td>Im Verlauf „Wort korrigieren“ (Abschnitt 10).</td></tr>
+        <td>Im Verlauf „Wort korrigieren“ (Abschnitt 11).</td></tr>
       <tr><td>Text nicht geglättet</td><td>„Nicht geglättet:“ mit Grund, etwa kein Schlüssel, Text zu kurz, nur lokal, Terminal.</td>
         <td>Je nach Grund Schlüssel eintragen oder „Nur lokal“ ausschalten; kurze Texte unter vier Wörtern glättet Talk nie.</td></tr>
       <tr><td>Erkennung gescheitert</td><td>Eine Meldung statt Text, etwa ohne Internet.</td>
@@ -386,7 +410,7 @@
     <p class="muted">Tipp: Klappt etwas nicht, die Diagnose öffnen und ein Foto davon machen. Damit lässt sich der Fehler meist schnell finden.</p>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 6 von 6 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 7 von 7 · Version 0.4.1</span></div>
 </section>
 
 </body>
