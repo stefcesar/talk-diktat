@@ -1,3 +1,7 @@
+**🇩🇪 Deutsch** · [🇬🇧 English](README.en.md) · [🇮🇹 Italiano](README.it.md)
+
+> 🇩🇪 **Du liest die deutsche Fassung.** For English, click 🇬🇧 above. Per l'italiano, clicca su 🇮🇹 sopra.
+
 # Talk – Diktieren in jedes Programm unter Windows
 
 <sub>Created by **Stefano Cesaretti** · gebaut mit Claude Code</sub>
@@ -12,30 +16,6 @@ Talk läuft unsichtbar im Hintergrund. Zweimal kurz auf **Caps Lock** tippen, sp
 - **Mit einer Taste nacheinander bedienbar**: keine Tastenkombinationen nötig, große Klickflächen – auch mit Bildschirmtastatur gut nutzbar
 
 > **Status: Beta.** Getestet nur unter Windows 11 auf wenigen Rechnern. Nutzung auf eigenes Risiko, ohne Gewähr (siehe Lizenz).
-
-<details>
-<summary><b>English summary</b></summary>
-
-**Talk** is a free dictation tool for Windows. It runs in the background: double-tap **Caps Lock**, speak, tap once more, and the text is inserted wherever you are typing (Word, browser, messengers, any text field).
-
-- **Local speech recognition** with Whisper, no internet needed (uses the GPU if available)
-- **Optional Groq** with your own API key for faster recognition and "smoothing" (cleaning up the text)
-- **"Local only" switch**: nothing ever leaves your computer
-- **Custom dictionary** for names, brands and technical terms
-- German, Italian, English and Swiss German
-- **Accessible by design**: operable with a single key, no key combinations, large click targets; works well with an on-screen keyboard
-
-**Install:** download the latest `TalkSetup-…-komplett.exe` from [Releases](../../releases) (about 570 MB, includes the speech models) and run it. The installer is not code-signed, so Windows SmartScreen will warn you ("More info" → "Run anyway"). No admin rights needed. Requirements: Windows 11 64-bit, CPU with AVX2, microphone, about 1 GB of disk space.
-
-**Usage:** double-tap Caps Lock to start recording, tap once to stop and insert the text, Esc to cancel, Shift + Caps Lock for the normal Caps Lock.
-
-**Privacy:** without a Groq key or with "local only", no data leaves your machine. Audio stays in memory and is never written to disk. The log contains no dictated content and no keys. The global keyboard hook only evaluates Caps Lock, Shift and Esc; the source code is here to verify.
-
-**Build from source:** .NET SDK 10, then `dotnet build` and `dotnet test` (details in the German section "Selbst bauen" below).
-
-**Status:** beta, tested on Windows 11 on a few machines only. The user interface is currently in German. Issues and contributions are welcome (please never post API keys or dictated content). License: [MIT](LICENSE).
-
-</details>
 
 ## Installieren
 
