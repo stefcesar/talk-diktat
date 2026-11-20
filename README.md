@@ -81,6 +81,47 @@ Der Schlüssel liegt nur in der Windows-Anmeldeinformationsverwaltung, nie in ei
 - Das Protokoll unter `%LOCALAPPDATA%\Talk\logs` enthält keine diktierten Inhalte und keine Schlüssel.
 - Wörter der Liste „Privat“ gehen nie an Groq.
 
+## Häufige Fragen
+
+**Kostet Talk etwas?**
+Nein. Talk ist kostenlos und Open Source (MIT-Lizenz). Nur wer Groq nutzt, braucht dort ein eigenes Konto; ob Groq kostenlos bleibt und wie viel am Tag geht, steht bei Groq.
+
+**Windows warnt beim Installieren: „Der Computer wurde durch Windows geschützt“. Ist das gefährlich?**
+Die Warnung kommt, weil das Setup nicht kostenpflichtig signiert ist, nicht weil etwas gefunden wurde. Auf „Weitere Informationen“ und dann „Trotzdem ausführen“ klicken. Wer sichergehen will, vergleicht vorher die SHA-256-Prüfsumme aus den Release-Notes (siehe „Installieren“).
+
+**Mein Virenscanner meldet Talk. Warum?**
+Talk hört global auf die Caps-Lock-Taste. Programme, die auf Tasten hören, stufen manche Virenscanner vorsichtshalber als verdächtig ein. Talk wertet nur Caps Lock, Umschalt und Esc aus; der Quelltext liegt hier offen zum Nachprüfen.
+
+**Brauche ich Internet?**
+Nein. Ohne Groq-Schlüssel erkennt Talk alles auf deinem Rechner. Nur für Groq, „Glätten“ und Mundart braucht es Internet.
+
+**Läuft Talk auf Mac, Linux oder Windows 10?**
+Nein, bisher nur unter Windows 11 (64 Bit), getestet auf wenigen Rechnern.
+
+**Gibt es Talk auf Englisch?**
+Erkennen kann Talk auch Englisch. Die Oberfläche (Menü, Einstellungen, Anleitung) ist bisher nur auf Deutsch.
+
+**Ich kann keine zwei Tasten gleichzeitig drücken. Geht Talk trotzdem?**
+Ja. Diktieren geht mit einer einzigen Taste: zweimal kurz auf Caps Lock tippen, sprechen, einmal tippen. Auch mit der Bildschirmtastatur. Ist dir das doppelte Tippen zu schnell, stellst du in den Einstellungen unter „Zeit zwischen den beiden Tipps“ mehr Zeit ein. Alles andere geht mit einzelnen Klicks über das Talk-Symbol neben der Uhr.
+
+**Caps Lock startet nichts.**
+Im Menü „Diagnose“ öffnen: Zählt „Start“ beim Tippen nicht hoch, zweimal schneller tippen oder in den Einstellungen mehr Zeit zwischen den Tipps einstellen. Sonst Talk beenden und über das Startmenü neu starten.
+
+**Die Aufnahme läuft, aber es kommt kein Text.**
+In der Diagnose prüfen, ob sich der Pegel beim Sprechen bewegt. Wenn nicht, in den Einstellungen unter „Mikrofon“ ein anderes wählen oder „Neu laden“ klicken.
+
+**Talk schreibt einen Namen immer falsch.**
+Im Verlauf beim Text auf „Wort korrigieren“ klicken oder das Wort in den Einstellungen unter „Wörterbuch“ eintragen. Ab dem nächsten Diktat stimmt es.
+
+**Wie aktualisiere ich Talk?**
+Talk über das Menü beenden und das neue Setup über die alte Installation laufen lassen.
+
+**Wie entferne ich Talk?**
+Über die Windows-Einstellungen unter „Apps“ deinstallieren. Einstellungen, Verlauf, Wörterlisten und Modelle unter `%LOCALAPPDATA%\Talk` bleiben dabei stehen; wer alles löschen will, löscht diesen Ordner von Hand.
+
+**Wo bekomme ich Hilfe?**
+Hier als [Issue](../../issues). Bitte nie einen API-Schlüssel, Diktat-Inhalte oder private Namen hineinschreiben; ein Foto des Diagnose-Fensters reicht meist.
+
 ## Selbst bauen
 
 Für alle, die am Code mitbasteln wollen.
