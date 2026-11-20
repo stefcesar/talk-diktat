@@ -54,7 +54,8 @@ With Groq:
 - Internet: needed. Account at Groq, enter a key once (see below).
 - Recording and text go to Groq (USA).
 - Usually a little faster, especially the first dictation.
-- Only with Groq: Smoothing (the text is cleanly worded) and Swiss dialect.
+- Only with Groq: smoothing (the text is cleanly worded).
+- Only with Groq: Swiss dialect (Talk writes in Swiss German dialect).
 
 Rule of thumb: start without Groq. If Talk is too slow for you or you want smoothing, connect Groq. If Groq fails, Talk automatically continues recognizing on your computer, and "Nur lokal" (local only) in the menu switches Groq off at any time until you click it again.
 

@@ -52,7 +52,7 @@ Talk recognizes speech on your computer, without any internet. Groq is an intern
 | Account | none | account at Groq, enter a key once |
 | Your data | stays on your computer | recording and text go to Groq (USA) |
 | Speed | the first dictation after starting takes longer | usually a little faster, especially the first dictation |
-| Extras | none | smoothing and Swiss dialect |
+| Extras | none | • Smoothing: text cleanly worded<br>• Swiss dialect output |
 
 **Rule of thumb:** Start without Groq. If Talk is too slow for you or you want smoothing, connect Groq. If Groq fails, Talk automatically continues recognizing on your computer.
 

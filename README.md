@@ -52,7 +52,7 @@ Talk erkennt das Gesprochene auf deinem Rechner, ganz ohne Internet. Groq ist ei
 | Konto | keins | Konto bei Groq, Schlüssel einmal eintragen |
 | Deine Daten | bleiben auf deinem Rechner | Aufnahme und Text gehen an Groq (USA) |
 | Tempo | das erste Diktat nach dem Start dauert länger | meist etwas schneller, besonders beim ersten Diktat |
-| Extras | keine | „Glätten“ und Mundart |
+| Extras | keine | • „Glätten“: Text sauber ausformuliert<br>• Mundart: Schweizer Dialekt |
 
 **Faustregel:** Fang ohne Groq an. Ist dir Talk zu langsam oder willst du Glätten, verbinde Groq. Fällt Groq aus, erkennt Talk von selbst auf dem Rechner weiter.
 

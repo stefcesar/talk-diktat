@@ -54,7 +54,8 @@ Con Groq:
 - Internet: serve. Account presso Groq, inserire una chiave una volta (vedi sotto).
 - Registrazione e testo vanno a Groq (USA).
 - Di solito un po' più veloce, soprattutto il primo dettato.
-- Solo con Groq: Rifinitura (il testo viene riformulato in modo pulito) e dialetto svizzero.
+- Solo con Groq: rifinitura (il testo viene riformulato in modo pulito).
+- Solo con Groq: dialetto svizzero (Talk scrive in dialetto svizzero tedesco).
 
 Regola pratica: inizia senza Groq. Se Talk è troppo lento per te o vuoi la rifinitura, collega Groq. Se Groq non funziona, Talk continua da solo a riconoscere sul computer, e "Nur lokal" (solo locale) nel menu spegne Groq in qualsiasi momento, finché non lo clicchi di nuovo.
 

@@ -52,7 +52,8 @@ Mit Groq:
 - Internet: nötig. Konto bei Groq, Schlüssel einmal eintragen (siehe unten).
 - Aufnahme und Text gehen an Groq (USA).
 - Meist etwas schneller, besonders beim ersten Diktat.
-- Nur mit Groq gibt es "Glätten" (der Text wird sauber ausformuliert) und Mundart.
+- Nur mit Groq: "Glätten" (der Text wird sauber ausformuliert).
+- Nur mit Groq: Mundart (Talk schreibt Schweizer Dialekt).
 
 Faustregel: Fang ohne Groq an. Ist dir Talk zu langsam oder willst du Glätten, verbinde Groq. Fällt Groq aus, erkennt Talk von selbst auf dem Rechner weiter, und "Nur lokal" im Menü schaltet Groq jederzeit ab, bis du es wieder anklickst.
 

@@ -52,7 +52,7 @@ Talk riconosce la voce sul tuo computer, senza internet. Groq è un servizio in 
 | Account | nessuno | account presso Groq, inserire una chiave una volta |
 | I tuoi dati | restano sul tuo computer | registrazione e testo vanno a Groq (USA) |
 | Velocità | il primo dettato dopo l'avvio richiede più tempo | di solito un po' più veloce, soprattutto il primo dettato |
-| Extra | nessuno | rifinitura del testo e dialetto svizzero |
+| Extra | nessuno | • Rifinitura: testo riformulato in modo pulito<br>• Dialetto svizzero |
 
 **Regola pratica:** inizia senza Groq. Se Talk è troppo lento per te o vuoi la rifinitura, collega Groq. Se Groq non funziona, Talk continua da solo a riconoscere sul computer.
 
