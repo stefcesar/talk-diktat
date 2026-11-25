@@ -40,7 +40,7 @@ Das Talk-Symbol steht danach rechts unten neben der Uhr (eventuell hinter dem kl
 | Abbrechen | Esc |
 | Feststelltaste wie früher | Umschalt + Caps Lock |
 
-**Anleitung mit Bildern:** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.0/Talk-Kurzanleitung.pdf) (7 Seiten: Installieren, Diktieren, Menü, mit oder ohne Groq, Groq verbinden, Glätten, Wörterbuch, Diagnose). Dieselbe Anleitung als reiner Text liegt nach der Installation als `Liesmich.txt` im Programmordner und hier unter [`installer/Liesmich.txt`](installer/Liesmich.txt).
+**Anleitung mit Bildern:** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.1/Talk-Kurzanleitung.pdf) (7 Seiten: Installieren, Diktieren, Menü, mit oder ohne Groq, Groq verbinden, Glätten, Wörterbuch, Diagnose). Dieselbe Anleitung als reiner Text liegt nach der Installation als `Liesmich.txt` im Programmordner und hier unter [`installer/Liesmich.txt`](installer/Liesmich.txt).
 
 ## Mit oder ohne Groq
 

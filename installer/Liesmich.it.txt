@@ -1,4 +1,4 @@
-﻿Talk: guida breve (versione 0.5.0)
+﻿Talk: guida breve (versione 0.5.1)
 Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
 
 Versione italiana. Per passare all'italiano: «Impostazioni», poi «Lingua dell'interfaccia», scegli «Italiano».

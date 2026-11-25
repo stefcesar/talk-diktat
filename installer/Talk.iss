@@ -4,7 +4,7 @@
 ; auch nicht beim Entfernen. Einzige Ausnahme ist die Variante "Komplett" (Schalter /DKomplett, für die Weitergabe auf einem USB Stick):
 ; Sie legt die beiden Modelle dort ab, aber nur, wenn sie noch fehlen, und lässt sie beim Entfernen liegen. Außerdem installiert sie die
 ; Microsoft Visual C++ Laufzeit, wenn sie fehlt oder zu alt ist; nur dafür fragt Windows nach Administratorrechten (Playbook Entscheid 70).
-; Sie legt außerdem die Kurzanleitung in der Sprache des Setups in den Programmordner.
+; Beide Setups legen die Kurzanleitung in allen drei Sprachen in den Programmordner (Playbook Abschnitt 29, Version 0.5.1).
 ; Das Setup spricht Deutsch, Englisch und Italienisch (Playbook Abschnitt 29, Schritt 8); die Texte im [Code] Teil und in [Tasks]
 ; und [Run] stehen in [CustomMessages] je Sprache.
 
@@ -15,7 +15,7 @@
   #define OutputDir "."
 #endif
 #ifndef AppVersion
-  #define AppVersion "0.5.0"
+  #define AppVersion "0.5.1"
 #endif
 #ifdef Komplett
   #ifndef ModelsDir
@@ -110,11 +110,12 @@ Source: "{#ModelsDir}\ggml-silero-v6.2.0.bin"; DestDir: "{localappdata}\Talk\mod
 Source: "{#ModelsDir}\ggml-large-v3-turbo-q5_0.bin"; DestDir: "{localappdata}\Talk\models"; Flags: onlyifdoesntexist uninsneveruninstall
 ; Nach {tmp}, das Inno Setup beim Beenden selbst leert. Ausgeführt wird sie in [Code] (InstallVcRedist), damit der Rückgabewert zählt.
 Source: "{#VcRedist}"; DestDir: "{tmp}"; DestName: "vc_redist.x64.exe"; Check: VcRedistNeeded
-; Die Kurzanleitung in der Sprache des Setups bleibt auch danach im Programmordner.
-Source: "Liesmich.txt"; DestDir: "{app}"; Languages: german; Flags: ignoreversion
-Source: "Liesmich.en.txt"; DestDir: "{app}"; Languages: english; Flags: ignoreversion
-Source: "Liesmich.it.txt"; DestDir: "{app}"; Languages: italian; Flags: ignoreversion
 #endif
+; Die Kurzanleitung in allen drei Sprachen, in beiden Setups und immer überschrieben: So steht nach jeder Aktualisierung jede Fassung
+; im Programmordner auf dem neuesten Stand, auch wenn die Sprache des Setups wechselt oder vorher das andere Setup lief.
+Source: "Liesmich.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Liesmich.en.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Liesmich.it.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\Talk"; Filename: "{app}\Talk.exe"

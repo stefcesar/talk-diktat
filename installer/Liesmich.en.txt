@@ -1,4 +1,4 @@
-﻿Talk: short guide (version 0.5.0)
+﻿Talk: short guide (version 0.5.1)
 Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
 
 English version. To switch Talk to English: “Settings”, then “Interface language”, choose “English”.

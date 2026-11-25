@@ -1,4 +1,4 @@
-﻿Talk: Kurzanleitung (Version 0.5.0)
+﻿Talk: Kurzanleitung (Version 0.5.1)
 Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
 
 Das brauchst du

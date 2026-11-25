@@ -1,5 +1,9 @@
 # Änderungen
 
+## 0.5.1 – Kurzanleitungen bei jedem Update aktuell
+
+- Beide Setups legen die Kurzanleitung in allen drei Sprachen in den Programmordner und erneuern sie bei jedem Update, auch wenn vorher eine andere Version oder Setupsprache installiert war
+
 ## 0.5.0 – Oberfläche auf Deutsch, Englisch und Italienisch (Beta)
 
 - Talk spricht jetzt Deutsch, English oder Italiano: Wahl in den Einstellungen unter „Sprache der Oberfläche“, getrennt von der Diktiersprache

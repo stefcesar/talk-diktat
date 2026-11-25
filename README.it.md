@@ -40,7 +40,7 @@ L'icona di Talk appare poi in basso a destra accanto all'orologio (eventualmente
 | Annullare | Esc |
 | Bloc Maiusc come prima | Maiusc + Bloc Maiusc |
 
-**Guida con immagini:** [Talk-Guida-IT.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.0/Talk-Guida-IT.pdf) (7 pagine). La stessa guida come testo semplice: [`installer/Liesmich.it.txt`](installer/Liesmich.it.txt).
+**Guida con immagini:** [Talk-Guida-IT.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.1/Talk-Guida-IT.pdf) (7 pagine). La stessa guida come testo semplice: [`installer/Liesmich.it.txt`](installer/Liesmich.it.txt).
 
 ## Con o senza Groq
 

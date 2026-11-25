@@ -40,7 +40,7 @@ The Talk icon then appears at the bottom right next to the clock (possibly behin
 | Cancel | Esc |
 | Normal Caps Lock | Shift + Caps Lock |
 
-**Guide with pictures:** [Talk-Guide-EN.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.0/Talk-Guide-EN.pdf) (7 pages). The same guide as plain text: [`installer/Liesmich.en.txt`](installer/Liesmich.en.txt).
+**Guide with pictures:** [Talk-Guide-EN.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.1/Talk-Guide-EN.pdf) (7 pages). The same guide as plain text: [`installer/Liesmich.en.txt`](installer/Liesmich.en.txt).
 
 ## With or without Groq
 
