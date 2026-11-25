@@ -1,0 +1,11 @@
+﻿Talk è un'app di dettatura per Windows. Funziona in background e scrive il testo parlato nel programma in cui stai scrivendo.
+
+Cosa ti serve
+
+1. Windows 11, 64 bit.
+2. Un processore con AVX2 (la maggior parte dal 2015 circa in poi).
+3. Un microfono.
+4. Circa 1 GB di spazio libero.
+
+---
+Talk · Created by Stefano Cesaretti · gratuito e open source (licenza MIT) · https://github.com/stefcesar/talk-diktat

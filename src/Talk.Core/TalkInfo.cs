@@ -15,5 +15,5 @@ public static class TalkInfo
     /// <summary>
     /// Version der App. Wird bei jedem Schritt des Playbooks fortgeschrieben.
     /// </summary>
-    public const string Version = "0.4.1";
+    public const string Version = "0.5.0";
 }

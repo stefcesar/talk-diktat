@@ -1,6 +1,5 @@
 // Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
 // SPDX-License-Identifier: MIT
-using System.Globalization;
 using System.Windows;
 
 using Talk.App.Diagnostics;
@@ -35,10 +34,6 @@ namespace Talk.App.Ui;
 /// </remarks>
 public partial class KeyDialog : Window
 {
-    private const string NotAKeyText = "Das sieht nicht wie ein Schlüssel aus (Leerzeichen, Zeilenumbruch oder Sonderzeichen)";
-    private const string UnusualKeyQuestion = "Der Text sieht nicht wie ein Groq Schlüssel aus. Trotzdem verwenden?";
-    private const string DialogTitle = "Groq Schlüssel";
-
     // So sieht ein Groq Schlüssel aus: Er beginnt mit diesem Vorsatz und hat mindestens so viele Zeichen.
     private const string GroqKeyPrefix = "gsk_";
     private const int MinGroqKeyLength = 20;
@@ -91,31 +86,31 @@ public partial class KeyDialog : Window
         catch
         {
             // Ein anderes Programm hält die Zwischenablage gerade offen.
-            StatusText.Text = "Die Zwischenablage ließ sich nicht lesen";
+            StatusText.Text = Lang.T("key.paste.unreadable");
             return;
         }
 
         string trimmed = text?.Trim() ?? string.Empty;
         if (trimmed.Length == 0)
         {
-            StatusText.Text = "Die Zwischenablage enthält keinen Text";
+            StatusText.Text = Lang.T("key.paste.no_text");
             return;
         }
 
         if (trimmed.Length > CredentialSecretStore.MaxSecretLength)
         {
-            StatusText.Text = $"Der Text in der Zwischenablage ist zu lang ({Count(trimmed.Length)} Zeichen), nichts eingefügt";
+            StatusText.Text = Lang.F("key.paste.too_long", Count(trimmed.Length));
             return;
         }
 
         if (!LooksLikeKey(trimmed))
         {
-            StatusText.Text = $"{NotAKeyText}, nichts eingefügt";
+            StatusText.Text = Lang.T("key.paste.not_a_key");
             return;
         }
 
         KeyBox.Password = trimmed;
-        StatusText.Text = $"Eingefügt: {Count(trimmed.Length)} Zeichen";
+        StatusText.Text = Lang.F("key.pasted", Count(trimmed.Length));
     }
 
     // Speichert den Inhalt des Felds in der Anmeldeinformationsverwaltung und leert das Feld.
@@ -124,13 +119,13 @@ public partial class KeyDialog : Window
         string value = KeyBox.Password.Trim();
         if (value.Length == 0)
         {
-            StatusText.Text = "Das Feld ist leer, nichts gespeichert";
+            StatusText.Text = Lang.T("key.save.empty");
             return;
         }
 
         if (value.Length > CredentialSecretStore.MaxSecretLength || !LooksLikeKey(value))
         {
-            StatusText.Text = $"{NotAKeyText}, nichts gespeichert";
+            StatusText.Text = Lang.T("key.save.not_a_key");
             return;
         }
 
@@ -144,14 +139,14 @@ public partial class KeyDialog : Window
         catch
         {
             // Die Meldung der Ausnahme wird nicht angezeigt und nicht protokolliert.
-            StatusText.Text = "Speichern fehlgeschlagen";
+            StatusText.Text = Lang.T("key.save.failed");
             return;
         }
 
         AppLog.Write("key", "saved");
         KeyBox.Clear();
         RefreshState();
-        StatusText.Text = "Gespeichert";
+        StatusText.Text = Lang.T("key.saved");
     }
 
     // Prüft den Inhalt des Felds, sonst den hinterlegten Schlüssel, mit einer Leseanfrage an Groq ohne Audio.
@@ -162,7 +157,7 @@ public partial class KeyDialog : Window
         string candidate = KeyBox.Password.Trim();
         if (candidate.Length > 0 && !LooksLikeKey(candidate))
         {
-            StatusText.Text = $"{NotAKeyText}, nichts geprüft";
+            StatusText.Text = Lang.T("key.check.not_a_key");
             return;
         }
 
@@ -174,19 +169,24 @@ public partial class KeyDialog : Window
 
         _busy = true;
         UpdateButtons();
-        StatusText.Text = "Prüfung läuft";
+        StatusText.Text = Lang.T("key.check.running");
 
         try
         {
             KeyCheckResult? result = await _speech.CheckKeyAsync(fromField ? candidate : null, _closing.Token);
             if (_closed) return;
 
+            // Je Ergebnis und Herkunft ein ganzer Satz (Regel 9).
             StatusText.Text = result switch
             {
-                null => "Nur lokal ist eingeschaltet, es wurde nichts gesendet",
-                KeyCheckResult.Missing => SttReport.KeyCheckGerman(KeyCheckResult.Missing),
-                KeyCheckResult value when fromField => $"{SttReport.KeyCheckGerman(value)} (Inhalt des Felds, noch nicht gespeichert)",
-                KeyCheckResult value => $"{SttReport.KeyCheckGerman(value)} (hinterlegter Schlüssel)",
+                null => Lang.T("key.check.local_only"),
+                KeyCheckResult.Missing => Lang.T("key.check.missing"),
+                KeyCheckResult.Valid when fromField => Lang.T("key.check.valid.field"),
+                KeyCheckResult.Valid => Lang.T("key.check.valid.stored"),
+                KeyCheckResult.Invalid when fromField => Lang.T("key.check.invalid.field"),
+                KeyCheckResult.Invalid => Lang.T("key.check.invalid.stored"),
+                _ when fromField => Lang.T("key.check.unreachable.field"),
+                _ => Lang.T("key.check.unreachable.stored"),
             };
         }
         catch (OperationCanceledException)
@@ -195,7 +195,7 @@ public partial class KeyDialog : Window
         }
         catch
         {
-            if (!_closed) StatusText.Text = "Prüfung fehlgeschlagen";
+            if (!_closed) StatusText.Text = Lang.T("key.check.failed");
         }
         finally
         {
@@ -209,8 +209,8 @@ public partial class KeyDialog : Window
     {
         MessageBoxResult answer = System.Windows.MessageBox.Show(
             this,
-            "Den hinterlegten Schlüssel wirklich löschen?",
-            DialogTitle,
+            Lang.T("key.delete.confirm"),
+            Lang.T("key.title"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question,
             MessageBoxResult.No);
@@ -222,14 +222,14 @@ public partial class KeyDialog : Window
         }
         catch
         {
-            StatusText.Text = "Löschen fehlgeschlagen";
+            StatusText.Text = Lang.T("key.delete.failed");
             RefreshState();
             return;
         }
 
         AppLog.Write("key", "removed");
         RefreshState();
-        StatusText.Text = "Gelöscht";
+        StatusText.Text = Lang.T("key.deleted");
     }
 
     private void OnCloseClick(object sender, RoutedEventArgs e)
@@ -246,7 +246,7 @@ public partial class KeyDialog : Window
     private void RefreshState()
     {
         _stored = _speech.HasKey;
-        StoredText.Text = _stored ? "Schlüssel hinterlegt: ja" : "Schlüssel hinterlegt: nein";
+        StoredText.Text = _stored ? Lang.T("key.stored.yes") : Lang.T("key.stored.no");
         UpdateButtons();
     }
 
@@ -281,13 +281,14 @@ public partial class KeyDialog : Window
     {
         MessageBoxResult answer = System.Windows.MessageBox.Show(
             this,
-            UnusualKeyQuestion,
-            DialogTitle,
+            Lang.T("key.unusual.confirm"),
+            Lang.T("key.title"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question,
             MessageBoxResult.No);
         return answer == MessageBoxResult.Yes;
     }
 
-    private static string Count(int value) => value.ToString(CultureInfo.InvariantCulture);
+    // Zahlen in der Kultur der Oberflächensprache (Regel 8).
+    private static string Count(int value) => value.ToString(Lang.Culture);
 }

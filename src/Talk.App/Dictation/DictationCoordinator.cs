@@ -11,6 +11,7 @@ using Talk.App.Input;
 using Talk.App.Insertion;
 using Talk.App.Processing;
 using Talk.App.Transcription;
+using Talk.App.Ui;
 using Talk.Core;
 using Talk.Core.Audio;
 using Talk.Core.History;
@@ -45,20 +46,19 @@ namespace Talk.App.Dictation;
 /// </remarks>
 internal sealed class DictationCoordinator
 {
-    private const string VadMissingText = "VAD Modell fehlt";
-
-    // Liegt das Modell da, lädt die Stilleerkennung aber trotzdem nicht (zum Beispiel ohne Microsoft Visual C++ Laufzeit), nennt die
-    // Anzeige keine Ursache, die nicht sicher ist (Playbook Entscheid 66 und 70).
-    private const string VadUnavailableText = "Stilleerkennung nicht verfügbar";
-    private const string NoSpeechText = "Keine Sprache erkannt, nichts gesendet";
-    private const string NoSttYetText = "Noch keine Erkennung";
-    private const string LocalMissingText = "Lokales Modell fehlt";
-    private const string LocalFailedText = "Lokales Modell lässt sich nicht laden";
-    private const string NothingInsertedText = "Noch nichts eingefügt";
+    // Alle sichtbaren Texte stehen in der Übersetzungstabelle (Playbook Abschnitt 29) und werden in der Sprache der Oberfläche
+    // geholt, wenn die Zeile entsteht.
+    private static string NoSttYetText => Lang.T("msg.dictation.no_stt_yet");
+    private static string NothingInsertedText => Lang.T("msg.dictation.nothing_inserted_yet");
 
     // Ohne Stilleerkennung geht nichts an Groq. Die Anzeige nennt das Fehlen des Modells nur, wenn die Datei wirklich fehlt.
-    private static string VadNothingSentText =>
-        $"{(File.Exists(TalkPaths.VadModelPath) ? VadUnavailableText : VadMissingText)}, nichts gesendet";
+    // Liegt das Modell da, lädt die Stilleerkennung aber trotzdem nicht (zum Beispiel ohne Microsoft Visual C++ Laufzeit), nennt die
+    // Anzeige keine Ursache, die nicht sicher ist (Playbook Entscheid 66 und 70). Der Wert ist der Teil des Schlüssels nach
+    // "msg.dictation.".
+    private static string VadKey => File.Exists(TalkPaths.VadModelPath) ? "vad_unavailable" : "vad_missing";
+
+    // Der ganze Satz "... nichts gesendet." für den Anfang einer Zeile.
+    private static string VadNothingSentSentence => Lang.T($"msg.dictation.{VadKey}.sentence");
     private const string DefaultLanguage = "de";
 
     private readonly Dispatcher _dispatcher;
@@ -125,8 +125,7 @@ internal sealed class DictationCoordinator
             {
                 if (!_disposed && finished.Status == TaskStatus.RanToCompletion && finished.Result is null)
                 {
-                    string reason = File.Exists(TalkPaths.VadModelPath) ? VadUnavailableText : VadMissingText;
-                    ResultLine = $"{reason}, Aufnahmen gehen ohne Zuschnitt nur an die lokale Erkennung, nichts wird gesendet";
+                    ResultLine = Lang.T($"msg.dictation.{VadKey}.startup");
                     RaiseChanged();
                 }
             }),
@@ -166,7 +165,7 @@ internal sealed class DictationCoordinator
     /// <summary>Zusätzliche Begriffe fürs Wörterbuch, mit Komma getrennt (Feld im Diagnosefenster).</summary>
     public string VocabularyText { get; set; } = string.Empty;
 
-    public string ResultLine { get; private set; } = "Noch keine Aufnahme";
+    public string ResultLine { get; private set; } = Lang.T("msg.dictation.no_recording_yet");
 
     public string SttLine { get; private set; } = NoSttYetText;
 
@@ -215,11 +214,11 @@ internal sealed class DictationCoordinator
         if (_recentApps.Count > RecentAppsMax) _recentApps.RemoveRange(RecentAppsMax, _recentApps.Count - RecentAppsMax);
     }
 
-    public string LocalModelLine { get; private set; } = "Lokales Modell lädt";
+    public string LocalModelLine { get; private set; } = Lang.T("msg.dictation.local.loading");
 
     public bool LocalModelWarning { get; private set; }
 
-    public string ReinstallLine { get; private set; } = "Letzte Hook Neusetzung: noch keine";
+    public string ReinstallLine { get; private set; } = Lang.T("diag.reinstall.none");
 
     public bool CanRetry { get; private set; }
 
@@ -269,7 +268,7 @@ internal sealed class DictationCoordinator
         };
 
         Service.ReplaceController(new HotkeyController(options));
-        if (_recorder.IsRecording) _ = CancelRecordingAsync("Abgebrochen wegen neuer Einstellungen, nichts ausgewertet");
+        if (_recorder.IsRecording) _ = CancelRecordingAsync(Lang.T("msg.dictation.canceled.settings"));
         AppLog.Write("hotkey", "options", $"fenster={doubleTapWindowMs} ptt={(options.PushToTalkEnabled ? "an" : "aus")}");
         RaiseChanged();
     }
@@ -384,10 +383,10 @@ internal sealed class DictationCoordinator
 
             (LocalModelLine, LocalModelWarning) = state switch
             {
-                LocalModelState.Loaded => ($"Lokales Modell geladen ({RuntimeGerman(WhisperRuntime.LoadedName)})", false),
-                LocalModelState.Missing => (LocalMissingText, true),
-                LocalModelState.Failed => (LocalFailedText, true),
-                _ => ("Kein lokaler Erkenner, nur Groq verfügbar", true),
+                LocalModelState.Loaded => (Lang.T(RuntimeKey(WhisperRuntime.LoadedName)), false),
+                LocalModelState.Missing => (Lang.T("msg.dictation.local.missing"), true),
+                LocalModelState.Failed => (Lang.T("msg.dictation.local.failed"), true),
+                _ => (Lang.T("msg.dictation.local.none"), true),
             };
             RaiseChanged();
         }
@@ -397,12 +396,12 @@ internal sealed class DictationCoordinator
         }
     }
 
-    // Die geladene Laufzeit als deutsches Wort für die Anzeige; im Protokoll steht das feste Wort aus WhisperRuntime.
-    private static string RuntimeGerman(string runtime) => runtime switch
+    // Der Schlüssel der Anzeige je geladener Laufzeit; im Protokoll steht das feste Wort aus WhisperRuntime.
+    private static string RuntimeKey(string runtime) => runtime switch
     {
-        WhisperRuntime.Vulkan => "Grafikkarte über Vulkan",
-        WhisperRuntime.Cpu => "CPU",
-        _ => "Laufzeit unbekannt",
+        WhisperRuntime.Vulkan => "msg.dictation.local.loaded.gpu",
+        WhisperRuntime.Cpu => "msg.dictation.local.loaded.cpu",
+        _ => "msg.dictation.local.loaded.unknown",
     };
 
     // Kommt aus dem Verbraucher Task, deshalb auf den UI Thread wechseln.
@@ -431,9 +430,10 @@ internal sealed class DictationCoordinator
         {
             string word = reason.ToWord();
             AppLog.Write("hook", "reinstalled", installed ? $"grund={word}" : $"grund={word} fehler={Service.LastInstallError}");
-            string suffix = installed ? string.Empty : ", fehlgeschlagen";
-            ReinstallLine = $"Letzte Hook Neusetzung: {DateTime.Now:HH:mm:ss} ({word}{suffix})";
-            if (_recorder.IsRecording) _ = CancelRecordingAsync("Abgebrochen wegen Hook Neusetzung, nichts ausgewertet");
+            // Je Grund und Ausgang ein ganzer Satz (Playbook Abschnitt 29, Regel 9).
+            string key = $"diag.reinstall.{ReinstallKey(reason)}{(installed ? string.Empty : ".failed")}";
+            ReinstallLine = Lang.F(key, DateTime.Now.ToString("HH:mm:ss", Lang.Culture));
+            if (_recorder.IsRecording) _ = CancelRecordingAsync(Lang.T("msg.dictation.canceled.hook"));
             RaiseChanged();
         });
     }
@@ -500,7 +500,7 @@ internal sealed class DictationCoordinator
                 CancelCount++;
                 AppLog.Write("hotkey", "cancel");
                 CancelSpeech();
-                _ = CancelRecordingAsync("Abgebrochen, nichts ausgewertet");
+                _ = CancelRecordingAsync(Lang.T("msg.dictation.canceled"));
                 break;
 
             default:
@@ -516,7 +516,7 @@ internal sealed class DictationCoordinator
     {
         try
         {
-            ResultLine = "Aufnahme läuft";
+            ResultLine = Lang.T("msg.dictation.recording");
             try
             {
                 await _recorder.StartAsync(deviceId, CancellationToken.None);
@@ -526,7 +526,7 @@ internal sealed class DictationCoordinator
                 // Das gewählte Mikrofon ist nicht angeschlossen oder lässt sich nicht öffnen. Talk läuft ohne Fenster, deshalb
                 // nimmt es für diese Aufnahme das Standardgerät, statt jedes Diktat scheitern zu lassen.
                 AppLog.Write("audio", "fallback", "grund=mikrofon_nicht_verfuegbar");
-                ResultLine = "Aufnahme läuft über das Standardgerät, das gewählte Mikrofon ist nicht verfügbar";
+                ResultLine = Lang.T("msg.dictation.recording.default_device");
                 RaiseChanged();
                 await _recorder.StartAsync(null, CancellationToken.None);
             }
@@ -537,7 +537,7 @@ internal sealed class DictationCoordinator
 
             RecordingError error = (ex as AudioRecorderException)?.Error ?? RecordingError.Unknown;
             AppLog.Write("audio", "error", $"grund={error}");
-            ResultLine = $"Aufnahme nicht möglich: {ToGerman(error)}";
+            ResultLine = Lang.T(RecordFailedKey(error));
             SetLevel(0);
             _trayError = true;
             Service.Controller.MarkProcessingFinished();
@@ -574,10 +574,10 @@ internal sealed class DictationCoordinator
             {
                 // Ohne VAD Modell gibt es keinen Sprachbefund und keinen Zuschnitt. Deshalb geht nichts an Groq: Der ganze Clip geht nur
                 // an den lokalen Erkenner, der nie etwas sendet. So bleibt das Diktat erhalten, ohne dass ungeprüftes Audio hinausgeht.
-                ResultLine = $"Dauer {VadReport.FormatSeconds(clipMs)}, {VadNothingSentText}, Erkennung nur lokal";
+                ResultLine = Lang.F($"msg.dictation.{VadKey}.result", VadReport.FormatSeconds(clipMs));
                 if (clip.Samples.Length == 0)
                 {
-                    SttLine = "Leere Aufnahme, nichts gesendet";
+                    SttLine = Lang.T("msg.dictation.empty_recording");
                     return;
                 }
 
@@ -588,7 +588,7 @@ internal sealed class DictationCoordinator
             }
             else
             {
-                ResultLine = "Stilleerkennung läuft";
+                ResultLine = Lang.T("msg.dictation.vad_running");
                 RaiseChanged();
                 AudioClip source = clip;
                 System.Diagnostics.Stopwatch vadWatch = System.Diagnostics.Stopwatch.StartNew();
@@ -616,7 +616,7 @@ internal sealed class DictationCoordinator
                 {
                     // Ohne Sprache geht nichts an die Erkennung, weder an Groq noch lokal.
                     SttReport.WriteSkippedNoSpeech();
-                    SttLine = NoSpeechText;
+                    SttLine = Lang.T("msg.dictation.no_speech");
                     return;
                 }
 
@@ -629,7 +629,7 @@ internal sealed class DictationCoordinator
         {
             if (_disposed) return;
             AppLog.Write("audio", "error", $"grund={ex.Error}");
-            ResultLine = $"Aufnahme nicht möglich: {ToGerman(ex.Error)}";
+            ResultLine = Lang.T(RecordFailedKey(ex.Error));
             SetLevel(0);
             if (generation == _generation) _trayError = true;
             RaiseChanged();
@@ -638,7 +638,7 @@ internal sealed class DictationCoordinator
         {
             // Es lief keine Aufnahme, zum Beispiel weil der Start gescheitert war.
             if (_disposed) return;
-            ResultLine = "Keine Aufnahme, nichts ausgewertet";
+            ResultLine = Lang.T("msg.dictation.no_recording");
             SetLevel(0);
             RaiseChanged();
         }
@@ -646,7 +646,7 @@ internal sealed class DictationCoordinator
         {
             if (_disposed) return;
             AppLog.Write("vad", "error", "grund=unbekannt");
-            ResultLine = "Auswertung fehlgeschlagen";
+            ResultLine = Lang.T("msg.dictation.analysis_failed");
             SetLevel(0);
             if (generation == _generation) _trayError = true;
             RaiseChanged();
@@ -678,7 +678,7 @@ internal sealed class DictationCoordinator
         _pendingAudioMs = audioMs;
         _pendingLocalOnly = forceLocal;
         CanRetry = false;
-        SttLine = "Erkennung läuft";
+        SttLine = Lang.T("msg.dictation.stt_running");
         RaiseChanged();
 
         try
@@ -754,7 +754,7 @@ internal sealed class DictationCoordinator
                 }
                 else
                 {
-                    SmoothLine = "Glättung läuft";
+                    SmoothLine = Lang.T("msg.smooth.running");
                     RaiseChanged();
                     try
                     {
@@ -783,9 +783,9 @@ internal sealed class DictationCoordinator
                     text = ReapplyVocabulary(smooth.Text, language, boxTerms, dialectText: dialectRewrite);
                     string source = dialectRewrite ? "mundart" : appLevel is null ? "standard" : "programm";
                     AppLog.Write("smooth", "result", $"stufe={level.ToWord()} quelle={source} ms={smooth.Milliseconds} zeichen_ein={before.Length} zeichen_aus={text.Length}");
-                    SmoothLine = dialectRewrite
-                        ? $"In Mundart umgeschrieben über Groq, {smooth.Milliseconds} ms"
-                        : $"Geglättet über Groq, {smooth.Milliseconds} ms";
+                    SmoothLine = Lang.F(
+                        dialectRewrite ? "msg.smooth.dialect_applied" : "msg.smooth.applied",
+                        smooth.Milliseconds.ToString(Lang.Culture));
                 }
                 else
                 {
@@ -796,9 +796,7 @@ internal sealed class DictationCoordinator
                         or SmoothingOutcome.NoKey or SmoothingOutcome.LocalOnly or SmoothingOutcome.Terminal or SmoothingOutcome.OffForApp;
                     string status = smooth.HttpStatus > 0 ? $" status={smooth.HttpStatus}" : string.Empty;
                     AppLog.Write("smooth", skipped ? "skipped" : "error", $"grund={smooth.Outcome.ToWord()}{status}");
-                    SmoothLine = dialectRewrite
-                        ? $"Nicht in Mundart umgeschrieben, Text in Schweizer Hochdeutsch: {ToGerman(smooth.Outcome)}"
-                        : $"Nicht geglättet: {ToGerman(smooth.Outcome)}";
+                    SmoothLine = Lang.T($"msg.smooth.{(dialectRewrite ? "not_dialect" : "not")}.{SmoothReasonKey(smooth.Outcome)}");
                 }
 
                 _postMs += again.ElapsedMilliseconds;
@@ -809,9 +807,9 @@ internal sealed class DictationCoordinator
             RawTranscript = result.Text.Length > 0 && !string.Equals(result.Text, text, StringComparison.Ordinal) ? result.Text : string.Empty;
 
             string display = SttReport.DisplayText(result);
-            if (forceLocal) display = $"{VadNothingSentText}. {display}";
-            SttLine = result.Text.Length == 0 ? $"Kein Text erkannt. {display}"
-                : text.Length == 0 ? $"Nach der Nachbearbeitung blieb kein Text übrig, nichts eingefügt. {display}"
+            if (forceLocal) display = $"{VadNothingSentSentence} {display}";
+            SttLine = result.Text.Length == 0 ? $"{Lang.T("msg.dictation.no_text")} {display}"
+                : text.Length == 0 ? $"{Lang.T("msg.dictation.nothing_left")} {display}"
                 : display;
             DiscardPendingClip();
             _trayError = false;
@@ -828,7 +826,7 @@ internal sealed class DictationCoordinator
 
                     // Nach dem Beenden oder einer neuen Aufnahme gehört die Anzeige nicht mehr diesem Diktat.
                     if (_disposed || cts.IsCancellationRequested) return;
-                    InsertLine = ToGerman(outcome);
+                    InsertLine = InsertResultText(outcome);
 
                     // Eine Zeile je Diktat mit der Zeit jeder Stufe. aufnahme_ms ist die Länge der Aufnahme und zählt nicht zur Summe.
                     // gesamt_ms läuft vom Stopp bis zum eingefügten Text und enthält auch das Stoppen des Rekorders;
@@ -844,7 +842,7 @@ internal sealed class DictationCoordinator
                 {
                     if (_disposed) return;
                     AppLog.Write("insert", "error", "grund=unbekannt");
-                    InsertLine = "Nicht eingefügt: unerwarteter Fehler. Der Text steht im Diagnosefenster.";
+                    InsertLine = Lang.T("msg.dictation.insert.unexpected");
                 }
             }
         }
@@ -940,21 +938,21 @@ internal sealed class DictationCoordinator
     // Auch im Rückfall gelangt kein Zeilenumbruch ins Zielfenster.
     private static string WithoutBreaks(string text) => text.Replace("\r\n", " ").Replace('\n', ' ').Replace('\r', ' ');
 
-    // Der Grund, warum nicht geglättet wurde, als deutscher Satzteil für die Anzeige; im Protokoll steht das feste Wort.
-    private static string ToGerman(SmoothingOutcome outcome) => outcome switch
+    // Der letzte Teil des Schlüssels msg.smooth.not.* und msg.smooth.not_dialect.* je Grund; im Protokoll steht das feste Wort.
+    private static string SmoothReasonKey(SmoothingOutcome outcome) => outcome switch
     {
-        SmoothingOutcome.TooShort => "der Text ist zu kurz",
-        SmoothingOutcome.TooLong => "der Text ist zu lang",
-        SmoothingOutcome.NoKey => "kein Groq Schlüssel hinterlegt",
-        SmoothingOutcome.LocalOnly => "dieses Diktat bleibt auf dem Rechner",
-        SmoothingOutcome.Terminal => "im Terminal bleibt der Text, wie er ist",
-        SmoothingOutcome.Timeout => "Groq hat nicht rechtzeitig geantwortet",
-        SmoothingOutcome.Network => "keine Verbindung zu Groq",
-        SmoothingOutcome.Unauthorized => "Groq hat den Schlüssel abgelehnt",
-        SmoothingOutcome.RateLimited => "das Limit bei Groq ist erreicht",
-        SmoothingOutcome.Rejected => "die Antwort passte nicht zum Text",
-        SmoothingOutcome.OffForApp => "für dieses Programm ausgeschaltet",
-        _ => "Groq hat einen Fehler gemeldet",
+        SmoothingOutcome.TooShort => "too_short",
+        SmoothingOutcome.TooLong => "too_long",
+        SmoothingOutcome.NoKey => "no_key",
+        SmoothingOutcome.LocalOnly => "local_only",
+        SmoothingOutcome.Terminal => "terminal",
+        SmoothingOutcome.Timeout => "timeout",
+        SmoothingOutcome.Network => "network",
+        SmoothingOutcome.Unauthorized => "unauthorized",
+        SmoothingOutcome.RateLimited => "rate_limited",
+        SmoothingOutcome.Rejected => "rejected",
+        SmoothingOutcome.OffForApp => "off_for_app",
+        _ => "service_error",
     };
 
     // Fehler der Erkennung: Protokoll mit Grund und Kürzel, deutsche Meldung, Clip bleibt, "Erneut versuchen" wird möglich.
@@ -963,8 +961,8 @@ internal sealed class DictationCoordinator
         if (_disposed || cts.IsCancellationRequested) return;
 
         SttReport.WriteError(ex);
-        string message = $"{SttReport.GermanError(ex.Error)} Die Aufnahme bleibt im Arbeitsspeicher, Erneut versuchen ist möglich.";
-        SttLine = _pendingLocalOnly ? $"{VadNothingSentText}. {message}" : message;
+        string message = $"{SttReport.ErrorText(ex.Error)} {Lang.T("msg.dictation.retry_possible")}";
+        SttLine = _pendingLocalOnly ? $"{VadNothingSentSentence} {message}" : message;
         CanRetry = _pendingClip is not null;
         _trayError = true;
         RaiseChanged();
@@ -1017,38 +1015,49 @@ internal sealed class DictationCoordinator
         }
     }
 
-    // Das Ergebnis des Einfügens als deutscher Satz für die Anzeige; im Protokoll stehen die festen Wörter.
-    private static string ToGerman(InsertOutcome outcome)
+    // Das Ergebnis des Einfügens als ganzer Satz in der Sprache der Oberfläche; im Protokoll stehen die festen Wörter.
+    private static string InsertResultText(InsertOutcome outcome)
     {
         string reason = outcome.Reason switch
         {
-            InsertReason.NoTarget => "kein Zielfenster, beim Start war Talk selbst vorn",
-            InsertReason.WindowGone => "das Zielfenster gibt es nicht mehr",
-            InsertReason.HigherRights => "das Zielfenster hat höhere Rechte",
-            InsertReason.PasswordField => "Passwortfeld",
-            InsertReason.NotForeground => "das Zielfenster ließ sich nicht nach vorn holen",
-            InsertReason.InputFailed => "die Eingabe ist gescheitert",
-            InsertReason.Canceled => "abgebrochen",
-            _ => "kein Text übrig",
+            InsertReason.NoTarget => "no_target",
+            InsertReason.WindowGone => "window_gone",
+            InsertReason.HigherRights => "higher_rights",
+            InsertReason.PasswordField => "password",
+            InsertReason.NotForeground => "not_foreground",
+            InsertReason.InputFailed => "input_failed",
+            InsertReason.Canceled => "canceled",
+            _ => "no_text",
         };
 
+        string ms = outcome.Milliseconds.ToString(Lang.Culture);
         return outcome.Result switch
         {
-            InsertResult.Inserted => $"Eingefügt über die Zwischenablage, {outcome.Milliseconds} ms",
-            InsertResult.Typed => outcome.IsTerminal ? $"Getippt (Terminal), {outcome.Milliseconds} ms" : $"Getippt, {outcome.Milliseconds} ms",
-            InsertResult.Blocked => $"Absichtlich nicht eingefügt: {reason}. Der Text steht im Verlauf und im Diagnosefenster.",
-            _ => $"Nicht eingefügt: {reason}. Der Text steht im Verlauf und im Diagnosefenster.",
+            InsertResult.Inserted => Lang.F("msg.dictation.insert.clipboard", ms),
+            InsertResult.Typed => Lang.F(outcome.IsTerminal ? "msg.dictation.insert.typed_terminal" : "msg.dictation.insert.typed", ms),
+            InsertResult.Blocked => Lang.T($"msg.dictation.insert.blocked.{reason}"),
+            _ => Lang.T($"msg.dictation.insert.failed.{reason}"),
         };
     }
 
-    // Der Grund für die Anzeige als deutsches Wort; im Protokoll steht der Zustandsname aus RecordingError.
-    private static string ToGerman(RecordingError error) => error switch
+    // Der Schlüssel der Anzeige je Grund; im Protokoll steht der Zustandsname aus RecordingError.
+    private static string RecordFailedKey(RecordingError error) => error switch
     {
-        RecordingError.NoDevice => "kein Gerät",
-        RecordingError.DeviceInUse => "Gerät belegt",
-        RecordingError.DeviceLost => "Gerät getrennt",
-        RecordingError.UnsupportedFormat => "Format nicht unterstützt",
-        _ => "unbekannt",
+        RecordingError.NoDevice => "msg.dictation.record_failed.no_device",
+        RecordingError.DeviceInUse => "msg.dictation.record_failed.in_use",
+        RecordingError.DeviceLost => "msg.dictation.record_failed.lost",
+        RecordingError.UnsupportedFormat => "msg.dictation.record_failed.format",
+        _ => "msg.dictation.record_failed.unknown",
+    };
+
+    // Der Teil des Schlüssels diag.reinstall.* je Grund der Neusetzung.
+    private static string ReinstallKey(HookReinstallReason reason) => reason switch
+    {
+        HookReinstallReason.Resume => "resume",
+        HookReinstallReason.Unlock => "unlock",
+        HookReinstallReason.Logon => "logon",
+        HookReinstallReason.Interval => "interval",
+        _ => "unknown",
     };
 
     private static string ToWord(bool value) => value ? "ja" : "nein";

@@ -9,6 +9,7 @@ using Talk.App.Processing;
 using Talk.App.Settings;
 using Talk.Core.Audio;
 using Talk.Core.History;
+using Talk.Core.Localization;
 using Talk.Core.Processing;
 using Talk.Core.Processing.Smoothing;
 using Talk.Core.Settings;
@@ -44,6 +45,12 @@ public partial class SettingsWindow : Window
     // "Wirklich entfernen?" gilt nur kurz; danach steht wieder "Entfernen", damit ein späterer Fehlklick nichts entfernt.
     private readonly System.Windows.Threading.DispatcherTimer _removeReset = new() { Interval = TimeSpan.FromSeconds(5) };
 
+    // Die Sprache der Oberfläche beim Öffnen. Alle Texte dieses Fensters bleiben in ihr, auch nach einer neuen Wahl, damit das
+    // Fenster nie gemischt spricht; es wechselt beim nächsten Öffnen (Playbook Abschnitt 29, Regel 11). Nur der Hinweis unter der
+    // Auswahl steht in der neuen Sprache.
+    private readonly string _lang = Lang.Current;
+    private readonly CultureInfo _culture = Lang.Culture;
+
     /// <param name="settings">Die Einstellungen.</param>
     /// <param name="coordinator">Der Ablauf.</param>
     /// <param name="words">Die Wörterlisten; null für die echten in <c>%LOCALAPPDATA%\Talk</c>. Die Bilder der Diagnose geben eigene mit.</param>
@@ -54,6 +61,7 @@ public partial class SettingsWindow : Window
         _wordStore = words ?? new WordListStore();
         InitializeComponent();
         WindowTheme.Apply(this);
+        FillUiLanguages();
         // Höchstens 860 hoch und nie höher als der Arbeitsbereich; der Rest wird gerollt. So deckt das Fenster nicht den ganzen Bildschirm.
         MaxHeight = Math.Min(SystemParameters.WorkArea.Height, 860);
 
@@ -101,13 +109,16 @@ public partial class SettingsWindow : Window
             // Schweizerdeutsch und Mundart: ein Satz, was Talk schreibt; die Dialektwahl nur bei Mundart.
             string swissHint = s.Language switch
             {
-                LanguageCodes.SwissStandard => "Du sprichst Mundart, Talk schreibt Schweizer Hochdeutsch.",
-                LanguageCodes.SwissDialect => "Talk versucht, in Mundart zu schreiben. Das ist noch ein Versuch und macht mehr Fehler.",
+                LanguageCodes.SwissStandard => T("settings.swiss.standard"),
+                LanguageCodes.SwissDialect => T("settings.swiss.dialect"),
                 _ => string.Empty,
             };
             SwissHintText.Text = swissHint;
             SwissHintText.Visibility = swissHint.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
             DialectPanel.Visibility = s.Language == LanguageCodes.SwissDialect ? Visibility.Visible : Visibility.Collapsed;
+
+            // Vorauswahl ist die geltende Sprache der Oberfläche. Das Setzen hier speichert nichts, weil _rendering gesetzt ist.
+            UiLanguageBox.SelectedItem = UiLanguageBox.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (string)i.Tag == Lang.Current);
 
             PushToTalkBox.IsChecked = s.PushToTalk;
             RenderDoubleTap(s.DoubleTapWindowMs);
@@ -122,15 +133,15 @@ public partial class SettingsWindow : Window
 
             // Die Glättung braucht einen Schlüssel und läuft nie bei "Nur lokal". Der Hinweis sagt, warum sie gerade nichts tut.
             string hint = !s.SmoothingEnabled ? string.Empty
-                : s.LocalOnly ? "Solange \"Nur lokal\" an ist, wird nicht geglättet."
-                : !_coordinator.Speech.HasKey ? "Es ist kein Groq Schlüssel hinterlegt. Bis dahin wird nicht geglättet."
+                : s.LocalOnly ? T("settings.smoothing.local_only")
+                : !_coordinator.Speech.HasKey ? T("settings.smoothing.no_key")
                 : string.Empty;
             SmoothingHintText.Text = hint;
             SmoothingHintText.Visibility = hint.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
             RenderPerApp(s.SmoothingPerApp ?? AppSmoothingMap.Empty);
             LocalOnlyBox.IsChecked = s.LocalOnly;
             HistoryBox.IsChecked = s.HistoryEnabled;
-            KeyStateText.Text = _coordinator.Speech.HasKey ? "Schlüssel hinterlegt: ja" : "Schlüssel hinterlegt: nein";
+            KeyStateText.Text = T(_coordinator.Speech.HasKey ? "key.stored.yes" : "key.stored.no");
             SelectDevice(s.MicrophoneId);
             RenderAutostart();
         }
@@ -189,14 +200,14 @@ public partial class SettingsWindow : Window
         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(270) });
         row.Children.Add(new TextBlock
         {
-            Text = string.Equals(display, name, StringComparison.OrdinalIgnoreCase) ? display : $"{display} ({name})",
+            Text = string.Equals(display, name, StringComparison.OrdinalIgnoreCase) ? display : F("common.name_with_detail", display, name),
             VerticalAlignment = VerticalAlignment.Center,
             TextTrimming = TextTrimming.CharacterEllipsis,
             Margin = new Thickness(0, 0, 16, 0),
         });
 
         ComboBox box = new() { Tag = name };
-        foreach ((string label, SmoothingLevel? level) in PerAppChoices) box.Items.Add(new ComboBoxItem { Content = label, Tag = level });
+        foreach ((string key, SmoothingLevel? level) in PerAppChoices) box.Items.Add(new ComboBoxItem { Content = T(key), Tag = level });
 
         box.SelectionChanged += OnPerAppChanged;
         Grid.SetColumn(box, 1);
@@ -205,13 +216,13 @@ public partial class SettingsWindow : Window
         _perAppBoxes[name] = box;
     }
 
-    private static readonly (string Label, SmoothingLevel? Level)[] PerAppChoices =
+    private static readonly (string Key, SmoothingLevel? Level)[] PerAppChoices =
     [
-        ("Wie Standard", null),
-        ("Aus", SmoothingLevel.Off),
-        ("Nur Fehler beheben", SmoothingLevel.Correct),
-        ("Sätze glätten", SmoothingLevel.Smooth),
-        ("Als Nachricht ausformulieren", SmoothingLevel.Message),
+        ("settings.level.default", null),
+        ("settings.level.off", SmoothingLevel.Off),
+        ("settings.level.correct", SmoothingLevel.Correct),
+        ("settings.level.smooth", SmoothingLevel.Smooth),
+        ("settings.level.message", SmoothingLevel.Message),
     ];
 
     private void OnPerAppChanged(object sender, SelectionChangedEventArgs e)
@@ -227,9 +238,10 @@ public partial class SettingsWindow : Window
         bool saved = _settings.Apply(settings);
         if (_closed) return;
 
+        // Uhrzeit in der Kultur der Sprache (Regel 8); de-DE ergibt wie bisher 14:05:09.
         StatusText.Text = saved
-            ? $"Gespeichert um {DateTime.Now:HH:mm:ss}."
-            : "Die Änderung gilt, ließ sich aber nicht speichern.";
+            ? F("settings.saved", DateTime.Now.ToString("T", _culture))
+            : T("settings.save_failed");
         StatusText.Foreground = saved ? (System.Windows.Media.Brush)FindResource("TextMutedBrush") : (System.Windows.Media.Brush)FindResource("WarnBrush");
 
         // Hinweise, die von mehreren Werten abhängen (Glättung), neu rechnen, auch wenn sich sonst nichts geändert hat.
@@ -280,17 +292,17 @@ public partial class SettingsWindow : Window
 
         if (devices.Count == 0)
         {
-            DeviceHintText.Text = "Kein Aufnahmegerät gefunden";
+            DeviceHintText.Text = T("settings.device.none");
             DeviceHintText.Visibility = Visibility.Visible;
         }
         else if (microphoneId is not null && chosen is null)
         {
-            DeviceHintText.Text = "Das gewählte Mikrofon ist nicht angeschlossen. Talk nimmt solange das Standardgerät.";
+            DeviceHintText.Text = T("settings.device.missing");
             DeviceHintText.Visibility = Visibility.Visible;
         }
         else if ((DeviceBox.SelectedItem as AudioDeviceInfo)?.LikelyBluetoothHandsFree == true)
         {
-            DeviceHintText.Text = "Bluetooth Freisprechprofil erkannt, Aufnahmequalität kann schlecht sein";
+            DeviceHintText.Text = T("settings.device.bluetooth");
             DeviceHintText.Visibility = Visibility.Visible;
         }
         else
@@ -323,8 +335,8 @@ public partial class SettingsWindow : Window
 
         MessageBoxResult answer = System.Windows.MessageBox.Show(
             this,
-            "Der Verlauf wird ab jetzt nicht mehr gespeichert. Soll der schon gespeicherte Verlauf auch gelöscht werden?\n\nJa: alles löschen. Nein: die Datei bleibt liegen, bis du im Verlauf auf Alles löschen klickst.",
-            "Talk Verlauf",
+            T("settings.history_off.confirm"),
+            T("history.title"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question,
             MessageBoxResult.No);
@@ -334,13 +346,13 @@ public partial class SettingsWindow : Window
         {
             await _coordinator.History.ClearAsync(CancellationToken.None);
             if (_closed) return;
-            StatusText.Text = "Der gespeicherte Verlauf ist gelöscht.";
+            StatusText.Text = T("settings.history.deleted");
             StatusText.Foreground = (System.Windows.Media.Brush)FindResource("TextMutedBrush");
         }
         catch (Exception)
         {
             if (_closed) return;
-            StatusText.Text = "Eine Datei des Verlaufs ließ sich nicht löschen.";
+            StatusText.Text = T("history.clear_failed");
             StatusText.Foreground = (System.Windows.Media.Brush)FindResource("WarnBrush");
         }
     }
@@ -392,7 +404,7 @@ public partial class SettingsWindow : Window
 
         string? exe = Autostart.CurrentExePath;
         bool elsewhere = enabled && exe is not null && !Autostart.PointsTo(exe);
-        AutostartHintText.Text = "Der Eintrag zeigt auf eine andere Kopie von Talk. Haken entfernen und neu setzen, damit diese Fassung startet.";
+        AutostartHintText.Text = T("settings.autostart.elsewhere");
         AutostartHintText.Visibility = elsewhere ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -403,8 +415,8 @@ public partial class SettingsWindow : Window
         bool wanted = AutostartBox.IsChecked == true;
         bool ok = Autostart.Set(wanted, Autostart.CurrentExePath);
         StatusText.Text = ok
-            ? (wanted ? "Talk startet ab jetzt mit Windows." : "Talk startet nicht mehr mit Windows.")
-            : "Der Autostart ließ sich nicht ändern.";
+            ? T(wanted ? "settings.autostart.on" : "settings.autostart.off")
+            : T("settings.autostart.failed");
         StatusText.Foreground = ok ? (System.Windows.Media.Brush)FindResource("TextMutedBrush") : (System.Windows.Media.Brush)FindResource("WarnBrush");
 
         _rendering = true;
@@ -438,18 +450,9 @@ public partial class SettingsWindow : Window
 
         (WordListHintText.Text, WordTermLabel.Text, WordVariantsLabel.Text) = _wordList switch
         {
-            WordList.Private => (
-                "Für Namen von Menschen, Ärzte, Einrichtungen und Gesundheit. Bleibt immer auf diesem Rechner, geht nie an Groq.",
-                "Richtiges Wort",
-                "So schreibt Talk es bisher falsch (freiwillig, mehrere mit Komma)"),
-            WordList.Swiss => (
-                "Eigene Schweizer Wörter. Gilt nur bei Schweizerdeutsch und Mundart: Talk ersetzt das Wort aus Deutschland durch das Schweizer.",
-                "Schweizer Wort",
-                "Wort aus Deutschland, das ersetzt werden soll (mehrere mit Komma)"),
-            _ => (
-                "Für Marken, Firmen, Orte und Fachwörter, keine Namen von Menschen. Geht auch als Hinweis an Groq, wenn Groq eingeschaltet ist.",
-                "Richtiges Wort",
-                "So schreibt Talk es bisher falsch (freiwillig, mehrere mit Komma)"),
+            WordList.Private => (T("settings.words.hint.private"), T("settings.words.term"), T("settings.words.variants")),
+            WordList.Swiss => (T("settings.words.hint.swiss"), T("settings.words.term.swiss"), T("settings.words.variants.swiss")),
+            _ => (T("settings.words.hint.general"), T("settings.words.term"), T("settings.words.variants")),
         };
 
         RenderWordEntries();
@@ -463,7 +466,7 @@ public partial class SettingsWindow : Window
         // In der Schweizer Liste wirkt ein Eintrag nur mit dem Wort aus Deutschland, das ersetzt werden soll.
         if (_wordList == WordList.Swiss && term.Length > 0 && variants.Count == 0)
         {
-            ShowWordStatus("Bitte auch das Wort aus Deutschland eintragen, das Talk ersetzen soll.", warn: true);
+            ShowWordStatus(T("settings.words.swiss_variant_missing"), warn: true);
             WordVariantsBox.Focus();
             return;
         }
@@ -472,14 +475,17 @@ public partial class SettingsWindow : Window
 
         string message = result.Change switch
         {
-            WordListChange.Added => $"\u201E{term}\u201C steht jetzt in der Liste.",
-            WordListChange.Extended => $"\u201E{result.StoredTerm}\u201C hat neue Schreibweisen dazubekommen.",
-            WordListChange.Unchanged => $"Steht schon als \u201E{result.StoredTerm}\u201C in der Liste. Zum Ändern erst entfernen.",
-            _ => result.Problem ?? "Das ließ sich nicht hinzufügen.",
+            WordListChange.Added => F("settings.words.added", term),
+            WordListChange.Extended => F("settings.words.extended", result.StoredTerm),
+            WordListChange.Unchanged => F("settings.words.unchanged", result.StoredTerm),
+            _ => result.Problem is { } problem ? F(problem.Key, problem.Args) : T("settings.words.add_failed"),
         };
 
         // Kleingeschriebene Wörter sind in der Schweizer Liste der Normalfall (parkieren), dort kein Hinweis.
-        if (result.Change == WordListChange.Added && _wordList != WordList.Swiss && WordListEditor.Hint(term) is string hint) message += " " + hint;
+        if (result.Change == WordListChange.Added && _wordList != WordList.Swiss && WordListEditor.Hint(term) is { } hint)
+        {
+            message += " " + F(hint.Key, hint.Args);
+        }
 
         if (result.Change != WordListChange.Invalid)
         {
@@ -512,9 +518,9 @@ public partial class SettingsWindow : Window
         ShowWordStatus(
             result.Change switch
             {
-                WordListChange.Removed => $"\u201E{term}\u201C ist entfernt.",
-                WordListChange.NotFound => $"\u201E{term}\u201C stand nicht mehr in der Liste.",
-                _ => result.Problem ?? "Das ließ sich nicht entfernen.",
+                WordListChange.Removed => F("settings.words.removed", term),
+                WordListChange.NotFound => F("settings.words.not_found", term),
+                _ => result.Problem is { } problem ? F(problem.Key, problem.Args) : T("settings.words.remove_failed"),
             },
             result.Change == WordListChange.Invalid);
         RenderWordEntries();
@@ -526,8 +532,8 @@ public partial class SettingsWindow : Window
         foreach (Button other in WordEntriesPanel.Children.OfType<Grid>().SelectMany(g => g.Children.OfType<Button>())) other.Content = RemoveText;
     }
 
-    private const string RemoveText = "Entfernen";
-    private const string ConfirmRemoveText = "Wirklich entfernen?";
+    private string RemoveText => T("settings.words.remove");
+    private string ConfirmRemoveText => T("settings.words.remove.confirm");
 
     // Eine Zeile je Eintrag der gewählten Liste: Wort, dahinter die falschen Schreibweisen, rechts "Entfernen".
     private void RenderWordEntries()
@@ -545,7 +551,7 @@ public partial class SettingsWindow : Window
             text.Inlines.Add(new System.Windows.Documents.Run(entry.Term) { FontWeight = FontWeights.SemiBold });
             if (entry.Aliases.Count > 0)
             {
-                text.Inlines.Add(new System.Windows.Documents.Run("  statt " + string.Join(", ", entry.Aliases)) { Foreground = (System.Windows.Media.Brush)FindResource("TextMutedBrush") });
+                text.Inlines.Add(new System.Windows.Documents.Run("  " + F("settings.words.instead", string.Join(", ", entry.Aliases))) { Foreground = (System.Windows.Media.Brush)FindResource("TextMutedBrush") });
             }
 
             Button remove = new() { Content = RemoveText, Tag = entry.Term };
@@ -558,7 +564,7 @@ public partial class SettingsWindow : Window
         }
 
         // Eine Liste, die nicht als UTF-8 gespeichert ist, ist nicht leer: Das sagt der Text dann ausdrücklich.
-        WordEmptyText.Text = read is null ? WordListStore.NotUtf8Message : "In dieser Liste stehen noch keine Wörter.";
+        WordEmptyText.Text = read is null ? F(WordListStore.NotUtf8Message.Key, WordListStore.NotUtf8Message.Args) : T("settings.words.empty");
         WordEmptyText.Style = (Style)FindResource(read is null ? "WarnText" : "HintText");
         WordEmptyText.Visibility = entries.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
@@ -577,4 +583,28 @@ public partial class SettingsWindow : Window
         WordStatusText.Margin = new Thickness(0, 8, 0, 0);
         WordStatusText.Visibility = Visibility.Visible;
     }
+
+    // Die Liste der Oberflächensprachen mit dem Namen in der eigenen Sprache (Regel 10): Deutsch, English, Italiano.
+    private void FillUiLanguages()
+    {
+        foreach (string code in UiLanguages.All) UiLanguageBox.Items.Add(new ComboBoxItem { Content = UiLanguages.NativeName(code), Tag = code });
+    }
+
+    // Nur eine Wahl des Nutzers setzt UiLanguage (Regel 11). Die Vorauswahl in Render läuft mit _rendering und kommt hier nicht durch;
+    // FromControls übernimmt UiLanguage unverändert aus den geltenden Einstellungen. Der Hinweis steht in der neu gewählten Sprache.
+    private void OnUiLanguageChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_rendering || UiLanguageBox.SelectedItem is not ComboBoxItem { Tag: string code }) return;
+
+        Save(_settings.Current with { UiLanguage = code });
+        if (_closed) return;
+
+        UiLanguageHintText.Text = UiText.Get("settings.ui_language.hint", UiLanguages.Resolve(code, CultureInfo.CurrentUICulture.Name));
+        UiLanguageHintText.Visibility = Visibility.Visible;
+    }
+
+    // Texte dieses Fensters in der Sprache beim Öffnen.
+    private string T(string key) => UiText.Get(key, _lang);
+
+    private string F(string key, params string?[] args) => UiText.Format(key, _lang, args);
 }

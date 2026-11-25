@@ -3,6 +3,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
+using Talk.Core.Localization;
 using Talk.Core.Processing;
 using Talk.Core.Processing.Smoothing;
 
@@ -24,6 +25,7 @@ namespace Talk.Core.Settings;
 /// <param name="SmoothingPerApp">Eigene Stufen je Zielprogramm (Playbook Abschnitt 23). Null gilt wie die leere Liste.</param>
 /// <param name="DuckingEnabled">Andere Programme werden während der Aufnahme leiser (Playbook Abschnitt 25).</param>
 /// <param name="Dialect">Dialekt für Mundart (Playbook Abschnitt 26): zh, be, bs oder mix (gemischt). Gilt nur bei Sprache gsw.</param>
+/// <param name="UiLanguage">Sprache der Oberfläche (Playbook Abschnitt 29, Regel 3): de, en, it oder null, solange der Nutzer nichts gewählt hat.</param>
 public sealed record DictationSettings(
     string? MicrophoneId = null,
     string Language = DictationSettings.DefaultLanguage,
@@ -37,7 +39,8 @@ public sealed record DictationSettings(
     SmoothingLevel Smoothing = SmoothingLevel.Smooth,
     AppSmoothingMap? SmoothingPerApp = null,
     bool DuckingEnabled = false,
-    string Dialect = DictationSettings.DefaultDialect)
+    string Dialect = DictationSettings.DefaultDialect,
+    string? UiLanguage = null)
 {
     /// <summary>Eigene Stufen je Zielprogramm, nie null: Null aus dem Konstruktor wird die leere Liste, damit Gleichheit stimmt.</summary>
     public AppSmoothingMap SmoothingPerApp { get; init; } = SmoothingPerApp ?? AppSmoothingMap.Empty;
@@ -82,6 +85,7 @@ public sealed record DictationSettings(
             MicrophoneId = microphone,
             Language = language,
             Dialect = dialect,
+            UiLanguage = UiLanguages.Normalize(UiLanguage),
             DoubleTapWindowMs = Math.Clamp(DoubleTapWindowMs, MinDoubleTapMs, MaxDoubleTapMs),
 
             // An und aus regelt SmoothingEnabled. Die Stufe selbst ist nie "aus" und nie ein unbekannter Wert.
@@ -110,6 +114,7 @@ public static class DictationSettingsJson
     private const string SmoothingPerAppKey = "smoothingPerApp";
     private const string DuckingKey = "duckingEnabled";
     private const string DialectKey = "dialect";
+    private const string UiLanguageKey = "uiLanguage";
 
     private static readonly JsonSerializerOptions WriteOptions = new() { WriteIndented = true };
 
@@ -136,7 +141,8 @@ public static class DictationSettingsJson
             Smoothing: ReadLevel(ReadString(root, SmoothingLevelKey)) ?? defaults.Smoothing,
             SmoothingPerApp: ReadPerApp(root[SmoothingPerAppKey]),
             DuckingEnabled: ReadBool(root, DuckingKey) ?? defaults.DuckingEnabled,
-            Dialect: ReadString(root, DialectKey) ?? defaults.Dialect).Normalize();
+            Dialect: ReadString(root, DialectKey) ?? defaults.Dialect,
+            UiLanguage: ReadString(root, UiLanguageKey)).Normalize();
     }
 
     /// <summary>
@@ -172,6 +178,10 @@ public static class DictationSettingsJson
         root[SmoothingLevelKey] = LevelWord(normalized.Smoothing);
         root[DuckingKey] = normalized.DuckingEnabled;
         root[DialectKey] = normalized.Dialect;
+
+        // Nur eine Wahl des Nutzers steht in der Datei; ohne Wahl gilt die Sprache von Windows (Regel 3).
+        if (normalized.UiLanguage is null) root.Remove(UiLanguageKey);
+        else root[UiLanguageKey] = normalized.UiLanguage;
 
         AppSmoothingMap perApp = normalized.SmoothingPerApp ?? AppSmoothingMap.Empty;
         if (perApp.Count == 0)

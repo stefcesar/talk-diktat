@@ -40,7 +40,7 @@ Das Talk-Symbol steht danach rechts unten neben der Uhr (eventuell hinter dem kl
 | Abbrechen | Esc |
 | Feststelltaste wie früher | Umschalt + Caps Lock |
 
-**Anleitung mit Bildern:** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Kurzanleitung.pdf) (7 Seiten: Installieren, Diktieren, Menü, mit oder ohne Groq, Groq verbinden, Glätten, Wörterbuch, Diagnose). Dieselbe Anleitung als reiner Text liegt nach der Installation als `Liesmich.txt` im Programmordner und hier unter [`installer/Liesmich.txt`](installer/Liesmich.txt).
+**Anleitung mit Bildern:** [Talk-Kurzanleitung.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.0/Talk-Kurzanleitung.pdf) (7 Seiten: Installieren, Diktieren, Menü, mit oder ohne Groq, Groq verbinden, Glätten, Wörterbuch, Diagnose). Dieselbe Anleitung als reiner Text liegt nach der Installation als `Liesmich.txt` im Programmordner und hier unter [`installer/Liesmich.txt`](installer/Liesmich.txt).
 
 ## Mit oder ohne Groq
 
@@ -92,8 +92,8 @@ Nein. Ohne Groq-Schlüssel erkennt Talk alles auf deinem Rechner. Nur für Groq,
 **Läuft Talk auf Mac, Linux oder Windows 10?**
 Nein, bisher nur unter Windows 11 (64 Bit), getestet auf wenigen Rechnern.
 
-**Gibt es Talk auf Englisch?**
-Erkennen kann Talk auch Englisch. Die Oberfläche (Menü, Einstellungen, Anleitung) ist bisher nur auf Deutsch.
+**Gibt es Talk auf Englisch oder Italienisch?**
+Ja, seit Version 0.5.0. In den Einstellungen bei „Sprache der Oberfläche“ English oder Italiano wählen. Die Anleitung gibt es ebenfalls in allen drei Sprachen.
 
 **Ich kann keine zwei Tasten gleichzeitig drücken. Geht Talk trotzdem?**
 Ja. Diktieren geht mit einer einzigen Taste: zweimal kurz auf Caps Lock tippen, sprechen, einmal tippen. Auch mit der Bildschirmtastatur. Ist dir das doppelte Tippen zu schnell, stellst du in den Einstellungen unter „Zeit zwischen den beiden Tipps“ mehr Zeit ein. Alles andere geht mit einzelnen Klicks über das Talk-Symbol neben der Uhr.

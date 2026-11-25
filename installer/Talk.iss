@@ -4,7 +4,9 @@
 ; auch nicht beim Entfernen. Einzige Ausnahme ist die Variante "Komplett" (Schalter /DKomplett, für die Weitergabe auf einem USB Stick):
 ; Sie legt die beiden Modelle dort ab, aber nur, wenn sie noch fehlen, und lässt sie beim Entfernen liegen. Außerdem installiert sie die
 ; Microsoft Visual C++ Laufzeit, wenn sie fehlt oder zu alt ist; nur dafür fragt Windows nach Administratorrechten (Playbook Entscheid 70).
-; Sie legt außerdem die Kurzanleitung Liesmich.txt in den Programmordner.
+; Sie legt außerdem die Kurzanleitung in der Sprache des Setups in den Programmordner.
+; Das Setup spricht Deutsch, Englisch und Italienisch (Playbook Abschnitt 29, Schritt 8); die Texte im [Code] Teil und in [Tasks]
+; und [Run] stehen in [CustomMessages] je Sprache.
 
 #ifndef PublishDir
   #error PublishDir fehlt. Bitte installer\baue-setup.ps1 benutzen.
@@ -13,7 +15,7 @@
   #define OutputDir "."
 #endif
 #ifndef AppVersion
-  #define AppVersion "0.4.1"
+  #define AppVersion "0.5.0"
 #endif
 #ifdef Komplett
   #ifndef ModelsDir
@@ -40,9 +42,7 @@ DisableDirPage=yes
 OutputDir={#OutputDir}
 #ifdef Komplett
 OutputBaseFilename=TalkSetup-{#AppVersion}-komplett
-; Vor der Installation die Voraussetzungen, danach die Kurzanleitung. Beide Dateien sind UTF-8 mit BOM, sonst liest Inno Setup sie falsch.
-InfoBeforeFile=Voraussetzungen.txt
-InfoAfterFile=Liesmich.txt
+; Voraussetzungen und Kurzanleitung je Sprache stehen unter [Languages].
 #else
 OutputBaseFilename=TalkSetup-{#AppVersion}
 #endif
@@ -65,10 +65,40 @@ AppMutex=Local\Talk.SingleInstance
 UsePreviousTasks=no
 
 [Languages]
+; Die Sprache des Setups wählt Inno Setup nach der Anzeigesprache von Windows vor; der Nutzer kann sie beim Start ändern.
+; Bei "Komplett" vor der Installation die Voraussetzungen, danach die Kurzanleitung. Die Textdateien sind UTF-8 mit BOM.
+#ifdef Komplett
+Name: "german"; MessagesFile: "compiler:Languages\German.isl"; InfoBeforeFile: "Voraussetzungen.txt"; InfoAfterFile: "Liesmich.txt"
+Name: "english"; MessagesFile: "compiler:Default.isl"; InfoBeforeFile: "Voraussetzungen.en.txt"; InfoAfterFile: "Liesmich.en.txt"
+Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"; InfoBeforeFile: "Voraussetzungen.it.txt"; InfoAfterFile: "Liesmich.it.txt"
+#else
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"
+Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
+#endif
+
+[CustomMessages]
+german.TaskAutostart=Talk mit Windows starten
+english.TaskAutostart=Start Talk with Windows
+italian.TaskAutostart=Avvia Talk con Windows
+german.TaskGroupStart=Start:
+english.TaskGroupStart=Startup:
+italian.TaskGroupStart=Avvio:
+german.RunTalk=Talk jetzt starten
+english.RunTalk=Start Talk now
+italian.RunTalk=Avvia Talk ora
+german.VcInstalling=Die Microsoft Visual C++ Laufzeit wird installiert ...
+english.VcInstalling=Installing the Microsoft Visual C++ runtime ...
+italian.VcInstalling=Installazione del runtime Microsoft Visual C++ in corso ...
+german.VcNotInstalled=Die Microsoft Visual C++ Laufzeit wurde nicht installiert. Ohne sie erkennt Talk keinen Text. Wird das Setup noch einmal ausgeführt, fragt es erneut.
+english.VcNotInstalled=The Microsoft Visual C++ runtime was not installed. Without it, Talk cannot recognize any text. If you run the setup again, it will ask again.
+italian.VcNotInstalled=Il runtime Microsoft Visual C++ non è stato installato. Senza di esso Talk non riconosce alcun testo. Se esegui di nuovo il setup, te lo chiederà ancora.
+german.VcFailed=Die Installation der Microsoft Visual C++ Laufzeit endete mit Code %1. Ohne sie erkennt Talk keinen Text.
+english.VcFailed=The installation of the Microsoft Visual C++ runtime ended with code %1. Without it, Talk cannot recognize any text.
+italian.VcFailed=L'installazione del runtime Microsoft Visual C++ è terminata con il codice %1. Senza di esso Talk non riconosce alcun testo.
 
 [Tasks]
-Name: "autostart"; Description: "Talk mit Windows starten"; GroupDescription: "Start:"; Flags: unchecked
+Name: "autostart"; Description: "{cm:TaskAutostart}"; GroupDescription: "{cm:TaskGroupStart}"; Flags: unchecked
 
 [Files]
 Source: "{#PublishDir}\*"; DestDir: "{app}"; Excludes: "*.pdb,Talk.Core.xml,createdump.exe"; Flags: recursesubdirs createallsubdirs ignoreversion
@@ -80,8 +110,10 @@ Source: "{#ModelsDir}\ggml-silero-v6.2.0.bin"; DestDir: "{localappdata}\Talk\mod
 Source: "{#ModelsDir}\ggml-large-v3-turbo-q5_0.bin"; DestDir: "{localappdata}\Talk\models"; Flags: onlyifdoesntexist uninsneveruninstall
 ; Nach {tmp}, das Inno Setup beim Beenden selbst leert. Ausgeführt wird sie in [Code] (InstallVcRedist), damit der Rückgabewert zählt.
 Source: "{#VcRedist}"; DestDir: "{tmp}"; DestName: "vc_redist.x64.exe"; Check: VcRedistNeeded
-; Die Kurzanleitung bleibt auch nach dem Setup im Programmordner.
-Source: "Liesmich.txt"; DestDir: "{app}"; Flags: ignoreversion
+; Die Kurzanleitung in der Sprache des Setups bleibt auch danach im Programmordner.
+Source: "Liesmich.txt"; DestDir: "{app}"; Languages: german; Flags: ignoreversion
+Source: "Liesmich.en.txt"; DestDir: "{app}"; Languages: english; Flags: ignoreversion
+Source: "Liesmich.it.txt"; DestDir: "{app}"; Languages: italian; Flags: ignoreversion
 #endif
 
 [Icons]
@@ -94,7 +126,7 @@ Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: 
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: none; ValueName: "Talk"; Flags: dontcreatekey uninsdeletevalue
 
 [Run]
-Filename: "{app}\Talk.exe"; Description: "Talk jetzt starten"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\Talk.exe"; Description: "{cm:RunTalk}"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
 ; Nur der Programmordner. %LOCALAPPDATA%\Talk bleibt stehen.
@@ -130,17 +162,17 @@ var
 begin
   Path := ExpandConstant('{tmp}\vc_redist.x64.exe');
   if not FileExists(Path) then Exit;
-  WizardForm.StatusLabel.Caption := 'Die Microsoft Visual C++ Laufzeit wird installiert ...';
+  WizardForm.StatusLabel.Caption := CustomMessage('VcInstalling');
   if not ShellExec('runas', Path, '/install /quiet /norestart', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
   begin
-    SuppressibleMsgBox('Die Microsoft Visual C++ Laufzeit wurde nicht installiert. Ohne sie erkennt Talk keinen Text. Wird das Setup noch einmal ausgeführt, fragt es erneut.', mbError, MB_OK, IDOK);
+    SuppressibleMsgBox(CustomMessage('VcNotInstalled'), mbError, MB_OK, IDOK);
     Exit;
   end;
   case ResultCode of
     0, 1638: ;
     3010: RestartNeeded := True;
   else
-    SuppressibleMsgBox('Die Installation der Microsoft Visual C++ Laufzeit endete mit Code ' + IntToStr(ResultCode) + '. Ohne sie erkennt Talk keinen Text.', mbError, MB_OK, IDOK);
+    SuppressibleMsgBox(FmtMessage(CustomMessage('VcFailed'), [IntToStr(ResultCode)]), mbError, MB_OK, IDOK);
   end;
 end;
 

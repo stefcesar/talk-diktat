@@ -63,6 +63,17 @@ internal sealed class TrayIcon : IDisposable
     }
 
     /// <summary>
+    /// Setzt Symbol und Text des aktuellen Zustands neu, etwa nach einem Wechsel der Sprache (Playbook Abschnitt 29, Regel 11).
+    /// </summary>
+    public void Refresh()
+    {
+        if (_disposed) return;
+        TrayStatus status = _shown ?? TrayStatus.Idle;
+        _shown = null;
+        Show(status);
+    }
+
+    /// <summary>
     /// Zeigt das Symbol für den Zustand. Ohne Wechsel passiert nichts.
     /// </summary>
     public void Show(TrayStatus status)
@@ -73,10 +84,10 @@ internal sealed class TrayIcon : IDisposable
         _notifyIcon.Icon = _icons[status];
         _notifyIcon.Text = status switch
         {
-            TrayStatus.Recording => "Talk: Aufnahme",
-            TrayStatus.Processing => "Talk: Verarbeitung",
-            TrayStatus.Error => "Talk: Fehler",
-            _ => "Talk: Ruhe",
+            TrayStatus.Recording => Lang.T("tray.tooltip.recording"),
+            TrayStatus.Processing => Lang.T("tray.tooltip.processing"),
+            TrayStatus.Error => Lang.T("tray.tooltip.error"),
+            _ => Lang.T("tray.tooltip.idle"),
         };
         AppLog.Write("tray", "state", $"zustand={status.ToWord()}");
     }

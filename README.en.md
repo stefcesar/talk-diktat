@@ -1,6 +1,6 @@
 [🇩🇪 Deutsch](README.md) · **🇬🇧 English** · [🇮🇹 Italiano](README.it.md)
 
-> 🇬🇧 **You are reading the English version.** The app's user interface and the PDF guide are currently in German only; German labels are quoted below with their meaning in brackets.
+> 🇬🇧 **You are reading the English version.** Since version 0.5.0 Talk itself is available in English: in “Settings”, choose “English” under “Interface language”.
 
 # Talk: dictate into any program on Windows
 
@@ -40,7 +40,7 @@ The Talk icon then appears at the bottom right next to the clock (possibly behin
 | Cancel | Esc |
 | Normal Caps Lock | Shift + Caps Lock |
 
-**Guide with pictures:** [Talk-Guide-EN.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Guide-EN.pdf) (7 pages). The same guide as plain text: [`installer/Liesmich.en.txt`](installer/Liesmich.en.txt).
+**Guide with pictures:** [Talk-Guide-EN.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.0/Talk-Guide-EN.pdf) (7 pages). The same guide as plain text: [`installer/Liesmich.en.txt`](installer/Liesmich.en.txt).
 
 ## With or without Groq
 
@@ -61,7 +61,7 @@ Talk recognizes speech on your computer, without any internet. Groq is an intern
 Without a key, Talk recognizes everything locally. With your **own** Groq key it is usually a little faster, and smoothing and Swiss dialect output become possible.
 
 1. Create an account at [console.groq.com](https://console.groq.com), create a key under "API Keys" and copy it.
-2. In Talk: „Einstellungen“ (Settings) → „Datenschutz“ (Privacy) → „Groq Schlüssel“ (Groq key) → „Aus Zwischenablage einfügen“ (paste from clipboard) → „Speichern“ (save).
+2. In Talk: “Settings” → “Privacy” → “Groq key” → “Paste from clipboard” → “Save”.
 
 The key is stored only in the Windows Credential Manager, never in a file. Whether Groq stays free and which limits apply is stated by Groq.
 
@@ -93,19 +93,19 @@ No. Without a Groq key, Talk recognizes everything on your computer. You only ne
 No, so far only on Windows 11 (64-bit), tested on a few computers.
 
 **Is Talk available in English?**
-Talk can recognize English speech. The user interface (menu, settings, guide) is currently in German only.
+Yes, since version 0.5.0. In “Settings”, choose “English” under “Interface language”. Talk also recognizes English speech.
 
 **I can't press two keys at the same time. Can I still use Talk?**
-Yes. Dictation works with a single key: tap Caps Lock twice quickly, speak, tap once. This also works with the on-screen keyboard. If the double tap is too fast for you, set more time under „Zeit zwischen den beiden Tipps“ (time between the two taps) in the settings. Everything else works with single clicks via the Talk icon next to the clock.
+Yes. Dictation works with a single key: tap Caps Lock twice quickly, speak, tap once. This also works with the on-screen keyboard. If the double tap is too fast for you, set more time under “Time between the two taps on Caps Lock” in the settings. Everything else works with single clicks via the Talk icon next to the clock.
 
 **Caps Lock doesn't start anything.**
-Open „Diagnose“ (diagnostics) in the menu: if "Start" does not count up when you tap, tap twice faster or set more time between the taps in the settings. Otherwise quit Talk and start it again from the Start menu.
+Open “Diagnostics” in the menu: if "Start" does not count up when you tap, tap twice faster or set more time between the taps in the settings. Otherwise quit Talk and start it again from the Start menu.
 
 **Recording runs, but no text appears.**
-In the diagnostics, check whether the level moves when you speak. If not, choose a different microphone under „Mikrofon“ in the settings or click „Neu laden“ (reload).
+In the diagnostics, check whether the level moves when you speak. If not, choose a different microphone under “Microphone” in the settings or click “Reload”.
 
 **Talk always misspells a name.**
-In the history, click „Wort korrigieren“ (correct word) next to the text, or add the word under „Wörterbuch“ (dictionary) in the settings. From the next dictation on it is spelled correctly.
+In the history, click “Fix word” next to the text, or add the word under “Dictionary” in the settings. From the next dictation on it is spelled correctly.
 
 **How do I update Talk?**
 Quit Talk from the menu and run the new setup over the old installation.

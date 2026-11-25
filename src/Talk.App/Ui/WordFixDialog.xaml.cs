@@ -75,7 +75,7 @@ public partial class WordFixDialog : Window
         string correct = CorrectBox.Text.Trim();
         if (wrong.Length == 0)
         {
-            ShowStatus("Bitte zuerst oben das falsche Wort anklicken.", warn: true);
+            ShowStatus(Lang.T("wordfix.select_first"), warn: true);
             return;
         }
 
@@ -85,13 +85,13 @@ public partial class WordFixDialog : Window
 
         string message = result.Change switch
         {
-            WordListChange.Added when same => $"„{correct}“ steht jetzt im Wörterbuch.",
-            WordListChange.Added => $"Gemerkt: Aus „{wrong}“ wird ab dem nächsten Diktat „{correct}“.",
-            WordListChange.Extended => $"Gemerkt: Aus „{wrong}“ wird ab dem nächsten Diktat „{result.StoredTerm}“.",
-            WordListChange.Unchanged => $"Steht schon als „{result.StoredTerm}“ im Wörterbuch. Zum Ändern in den Einstellungen erst entfernen.",
-            _ => result.Problem ?? "Das ließ sich nicht merken.",
+            WordListChange.Added when same => Lang.F("wordfix.added_same", correct),
+            WordListChange.Added => Lang.F("wordfix.added", wrong, correct),
+            WordListChange.Extended => Lang.F("wordfix.added", wrong, result.StoredTerm),
+            WordListChange.Unchanged => Lang.F("wordfix.unchanged", result.StoredTerm),
+            _ => result.Problem is { } problem ? Lang.F(problem.Key, problem.Args) : Lang.T("wordfix.failed"),
         };
-        if (result.Change == WordListChange.Added && WordListEditor.Hint(correct) is string hint) message += " " + hint;
+        if (result.Change == WordListChange.Added && WordListEditor.Hint(correct) is { } hint) message += " " + Lang.F(hint.Key, hint.Args);
 
         ShowStatus(message, result.Change == WordListChange.Invalid);
     }

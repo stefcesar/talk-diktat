@@ -1,5 +1,12 @@
 # Änderungen
 
+## 0.5.0 – Oberfläche auf Deutsch, Englisch und Italienisch (Beta)
+
+- Talk spricht jetzt Deutsch, English oder Italiano: Wahl in den Einstellungen unter „Sprache der Oberfläche“, getrennt von der Diktiersprache
+- Alle Fenster, Menüs und Meldungen übersetzt; die deutschen Texte sind unverändert
+- Setup auf Deutsch, Englisch und Italienisch
+- Kurzanleitung als PDF in allen drei Sprachen, mit „Mit oder ohne Groq“ und „Groq verbinden“
+
 ## 0.4.1 – erste öffentliche Version (Beta)
 
 - Diktieren per Caps Lock in jedes Programm, Abbruch mit Esc

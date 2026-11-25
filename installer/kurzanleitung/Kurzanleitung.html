@@ -100,6 +100,10 @@
   .shot img { display: block; width: 56mm; }
   table.lists.groq { margin: 0.5mm 0 1mm 0; }
   table.lists.groq th, table.lists.groq td { padding: 1mm 2.5mm; }
+  /* Seite 4 (Glätten) ist voll: enger gesetzt. */
+  .dense { font-size: 9.3pt; line-height: 1.38; }
+  .dense h3 { margin-top: 2.4mm; }
+  .dense .flow .card { padding: 2.5mm 3.5mm; }
   .caption { font-size: 8pt; color: var(--muted); margin-top: 1mm; }
 
   .foot { margin: 0; border-top: 0.3mm solid var(--line); padding-top: 3mm;
@@ -161,7 +165,7 @@
 
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 1 von 7 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 1 von 7 · Version 0.5.0</span></div>
 </section>
 
 <!-- Seite 2 -->
@@ -185,7 +189,8 @@
     <h2><span class="num">5</span>Einstellungen und Sprache</h2>
     <ol class="steps">
       <li>Im Menü auf <b>„Einstellungen“</b> klicken. Jede Änderung gilt sofort und wird gespeichert; mit „Schließen“ geht das Fenster zu.</li>
-      <li>Unter <b>„Sprache“</b> die Liste anklicken und die Sprache wählen: Deutsch, Italienisch, Englisch, Schweizerdeutsch oder Mundart.</li>
+      <li>Unter <b>„Sprache“</b> die Liste anklicken und die Sprache wählen: Deutsch, Italienisch, Englisch, Schweizerdeutsch oder Mundart.
+        Getrennt davon wählst du unter <b>„Sprache der Oberfläche“</b> die Sprache von Menü und Fenstern: Deutsch, English oder Italiano.</li>
       <li>Bei <b>Mundart</b> erscheint darunter die Liste <b>„Dialekt“</b>: Zürich, Bern, Basel oder gemischt.</li>
     </ol>
     <div class="two">
@@ -215,7 +220,7 @@
       von selbst auf dem Rechner weiter, und <b>„Nur lokal“</b> im Menü schaltet Groq jederzeit ab, bis du es wieder anklickst.</p></div>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 2 von 7 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 2 von 7 · Version 0.5.0</span></div>
 </section>
 
 <!-- Seite 3: Groq verbinden, Schritt für Schritt -->
@@ -243,12 +248,12 @@
     <p>Kurz: im Menü auf <b>„Nur lokal“</b> klicken, bis du es wieder anklickst. Für immer: im Fenster „Groq Schlüssel“ auf „Löschen“ klicken.</p>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 3 von 7 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 3 von 7 · Version 0.5.0</span></div>
 </section>
 
 <!-- Seite 3: Glätten (Playbook Abschnitte 21, 23, 26). Das Beispiel ist echt mit --smoothtest aus einem erfundenen Diktatsatz entstanden. -->
 <section class="page">
-  <div class="content tight">
+  <div class="content tight dense">
     <h2 style="margin-top:0"><span class="num">8</span>Text glätten</h2>
     <p>Gesprochen klingt anders als geschrieben: Satzzeichen fehlen, Sätze laufen ineinander, man setzt neu an. <b>Glätten</b> räumt das auf.
       Nach der Erkennung geht der Text an ein Sprachmodell bei Groq, das ihn überarbeitet; erst dann fügt Talk ihn ein.</p>
@@ -294,7 +299,7 @@
       auch wenn Glätten aus ist.</p>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 4 von 7 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 4 von 7 · Version 0.5.0</span></div>
 </section>
 
 <!-- Seite 3: das Wörterbuch genau erklärt (Playbook Abschnitt 27). Bilder aus --uishots, nur erfundene Musterwörter. -->
@@ -336,7 +341,7 @@
       Klickst du 5 Sekunden lang nicht, zeigt er wieder „Entfernen“ und es passiert nichts. Entfernen geht nur hier in den Einstellungen.</p>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 5 von 7 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 5 von 7 · Version 0.5.0</span></div>
 </section>
 
 <!-- Seite 4 -->
@@ -366,7 +371,7 @@
 
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 6 von 7 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 6 von 7 · Version 0.5.0</span></div>
 </section>
 
 <!-- Seite 6: Hilfe und Technik -->
@@ -410,7 +415,7 @@
     <p class="muted">Tipp: Klappt etwas nicht, die Diagnose öffnen und ein Foto davon machen. Damit lässt sich der Fehler meist schnell finden.</p>
   </div>
 
-  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 7 von 7 · Version 0.4.1</span></div>
+  <div class="foot"><span>Talk Kurzanleitung · Created by Stefano Cesaretti</span><span>Seite 7 von 7 · Version 0.5.0</span></div>
 </section>
 
 </body>

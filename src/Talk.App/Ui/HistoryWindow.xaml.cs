@@ -54,9 +54,11 @@ public partial class HistoryWindow : Window
 
         if (_closed) return;
 
-        CultureInfo german = CultureInfo.GetCultureInfo("de-DE");
+        // Datum in der Kultur der Oberflächensprache (Regel 8). Deutsch wie bisher; Englisch und Italienisch ohne Punkt nach dem Tag.
+        CultureInfo culture = Lang.Culture;
+        string stampFormat = Lang.Current == "de" ? "dddd, d. MMMM, HH:mm" : "dddd d MMMM, HH:mm";
         EntriesList.ItemsSource = entries
-            .Select((e, i) => new Row(e.At.LocalDateTime.ToString("dddd, d. MMMM, HH:mm", german), e.Text, i == 0, i == entries.Count - 1))
+            .Select((e, i) => new Row(e.At.LocalDateTime.ToString(stampFormat, culture), e.Text, i == 0, i == entries.Count - 1))
             .ToList();
         EntriesScroll.ScrollToTop();
 
@@ -67,28 +69,25 @@ public partial class HistoryWindow : Window
         EntriesScroll.Visibility = entries.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         EmptyPanel.Visibility = entries.Count == 0 && !readFailed ? Visibility.Visible : Visibility.Collapsed;
         ErrorPanel.Visibility = readFailed ? Visibility.Visible : Visibility.Collapsed;
-        SummaryText.Text = readFailed ? "Anzeige gestört" : entries.Count switch
+        SummaryText.Text = readFailed ? Lang.T("history.summary.error") : entries.Count switch
         {
-            0 => "0 Einträge",
-            1 => "1 Eintrag",
+            0 => Lang.T("history.count.zero"),
+            1 => Lang.T("history.count.one"),
             // Das Fenster holt höchstens ShownEntries; der Verlauf kann mehr haben.
-            ShownEntries => $"Die neuesten {ShownEntries} Einträge, neuester zuerst",
-            _ => $"{entries.Count} Einträge, neuester zuerst",
+            ShownEntries => Lang.F("history.count.newest", ShownEntries.ToString(Lang.Culture)),
+            _ => Lang.F("history.count.many", entries.Count.ToString(Lang.Culture)),
         };
 
         // Ein gescheitertes Löschen bleibt stehen, bis ein Löschen gelingt.
-        MessageText.Text = _clearFailed ? "Eine Datei des Verlaufs ließ sich nicht löschen." : string.Empty;
+        MessageText.Text = _clearFailed ? Lang.T("history.clear_failed") : string.Empty;
         MessageText.Visibility = _clearFailed ? Visibility.Visible : Visibility.Collapsed;
 
         // Der Fußtext sagt, was gilt: gespeichert, nur im Arbeitsspeicher, oder zuletzt ein Fehler auf der Festplatte.
         FooterText.Text = saved switch
         {
-            { Persisting: true, LastWriteFailed: true } =>
-                "Achtung: Zuletzt ist ein Schreiben oder Löschen auf der Festplatte gescheitert.",
-            { Persisting: true } =>
-                "Der Verlauf liegt verschlüsselt auf diesem Rechner und ist nur mit deinem Windows Konto lesbar. Einträge verschwinden nach 30 Tagen von selbst.",
-            _ =>
-                "Das Speichern ist abgestellt. Der Verlauf steht nur im Arbeitsspeicher und ist nach dem Beenden von Talk weg.",
+            { Persisting: true, LastWriteFailed: true } => Lang.T("history.footer.write_failed"),
+            { Persisting: true } => Lang.T("history.footer.saved"),
+            _ => Lang.T("history.footer.memory_only"),
         };
         FooterText.Foreground = saved is { Persisting: true, LastWriteFailed: true }
             ? (System.Windows.Media.Brush)FindResource("WarnBrush")
@@ -110,11 +109,11 @@ public partial class HistoryWindow : Window
         try
         {
             System.Windows.Clipboard.SetText(text);
-            ShowAtButton(button, "Kopiert");
+            ShowAtButton(button, Lang.T("history.copied"));
         }
         catch (Exception)
         {
-            ShowAtButton(button, "Nicht kopiert");
+            ShowAtButton(button, Lang.T("history.not_copied"));
         }
     }
 
@@ -130,7 +129,7 @@ public partial class HistoryWindow : Window
             {
                 reset.Stop();
                 _resetTimers.Remove(button);
-                button.Content = "Kopieren";
+                button.Content = Lang.T("history.copy");
             };
             _resetTimers[button] = reset;
         }
@@ -143,8 +142,8 @@ public partial class HistoryWindow : Window
     {
         MessageBoxResult answer = System.Windows.MessageBox.Show(
             this,
-            "Alle Einträge im Verlauf löschen? Das lässt sich nicht rückgängig machen.",
-            "Talk Verlauf",
+            Lang.T("history.clear.confirm"),
+            Lang.T("history.title"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning,
             MessageBoxResult.No);

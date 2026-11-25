@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 using NAudio.CoreAudioApi;
 
+using Talk.App.Ui;
 using Talk.Core.Audio;
 
 namespace Talk.App.Audio;
@@ -18,7 +19,6 @@ namespace Talk.App.Audio;
 /// </remarks>
 internal sealed class MmDeviceSource : IAudioDeviceSource
 {
-    private const string FallbackName = "Aufnahmegerät";
 
     private static readonly string[] HandsFreeMarkers = ["Hands-Free", "Freisprech", "HFP"];
 
@@ -125,12 +125,12 @@ internal sealed class MmDeviceSource : IAudioDeviceSource
         try
         {
             name = device.FriendlyName;
-            if (string.IsNullOrWhiteSpace(name)) name = FallbackName;
+            if (string.IsNullOrWhiteSpace(name)) name = Lang.T("common.device.unnamed");
         }
         catch
         {
             // Der Anzeigename kommt aus dem Eigenschaftenspeicher und kann bei einzelnen Geräten fehlen.
-            name = FallbackName;
+            name = Lang.T("common.device.unnamed");
         }
 
         bool isDefault = defaultId is not null && string.Equals(id, defaultId, StringComparison.OrdinalIgnoreCase);

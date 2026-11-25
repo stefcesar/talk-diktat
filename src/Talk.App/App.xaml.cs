@@ -20,6 +20,7 @@ using Talk.App.Secrets;
 using Talk.App.Settings;
 using Talk.App.Transcription;
 using Talk.App.Ui;
+using Talk.Core.Localization;
 using Talk.Core;
 using Talk.Core.Audio;
 using Talk.Core.Diagnostics;
@@ -97,6 +98,7 @@ public partial class App : System.Windows.Application
     private const string VocabularySwitch = "--vocab";
     private const string RuntimeSwitch = "--runtime";
     private const string ModelSwitch = "--model";
+    private const string UiLangSwitch = "--uilang";
     private const string RepeatSwitch = "--repeat";
     private const string PostSwitch = "--post";
     private const string DialectSwitch = "--dialect";
@@ -157,6 +159,21 @@ public partial class App : System.Windows.Application
         // "--model Datei" wählt für diesen einen Lauf ein anderes Modell aus dem Modellordner, ohne die Einstellungen anzufassen.
         // Gedacht für Messungen mit --stttest.
         if (TryGetSwitchValue(args, ModelSwitch, out string? modelOverride)) TalkPaths.WhisperModelOverride = modelOverride;
+
+        // "--uilang de|en|it" setzt die Sprache der Oberfläche für diesen einen Lauf, etwa für --uishots in allen drei Sprachen
+        // (Playbook Abschnitt 29, Schritt 5). Die Einstellungen bleiben unberührt.
+        if (TryGetSwitchValue(args, UiLangSwitch, out string? uiLanguageOverride))
+        {
+            if (UiLanguages.Normalize(uiLanguageOverride) is null)
+            {
+                // Sonst entstünden Bilder still in der Sprache von Windows. Protokolliert wird nur das feste Wort.
+                AppLog.Write("app", "args", "uilang_ungueltig");
+                Shutdown(DiagnosticErrorExitCode);
+                return;
+            }
+
+            Lang.Apply(uiLanguageOverride);
+        }
 
         base.OnStartup(e);
 
@@ -400,7 +417,7 @@ public partial class App : System.Windows.Application
         if (!first)
         {
             AppLog.Write("app", "start", "abgelehnt=laeuft_schon");
-            System.Windows.MessageBox.Show("Talk läuft schon. Schau im Tray neben der Uhr nach dem Symbol.", "Talk");
+            System.Windows.MessageBox.Show(Lang.T("msg.app.already_running"), "Talk");
             Shutdown(0);
             return;
         }
@@ -409,6 +426,9 @@ public partial class App : System.Windows.Application
         System.Windows.Forms.Integration.WindowsFormsHost.EnableWindowsFormsInterop();
 
         DictationSettings settings = AppSettingsService.Load(TalkPaths.SettingsPath, out bool settingsReadFailed);
+
+        // Sprache der Oberfläche: eigene Wahl, sonst die Anzeigesprache von Windows (Playbook Abschnitt 29, Regel 2).
+        Lang.Apply(settings.UiLanguage);
 
         KeyboardHookService service = new(new HotkeyController(new HotkeyOptions(
             DoubleTapWindowMs: settings.DoubleTapWindowMs,
@@ -471,27 +491,34 @@ public partial class App : System.Windows.Application
             return;
         }
 
-        tray.SetMenu(new TrayMenuActions(
+        TrayMenuActions trayActions = new(
             CopyLast: () => _ = CopyLastAsync(),
             ShowHistory: ShowHistory,
             ShowSettings: ShowSettings,
             ShowDiagnostics: ShowDiagnostics,
             ToggleLocalOnly: () => appSettings.Apply(appSettings.Current with { LocalOnly = !appSettings.Current.LocalOnly }),
             ToggleSmoothing: () => appSettings.Apply(appSettings.Current with { SmoothingEnabled = !appSettings.Current.SmoothingEnabled }),
-            Quit: () => _ = QuitAsync()));
+            Quit: () => _ = QuitAsync());
+        tray.SetMenu(trayActions);
         tray.SetLocalOnly(settings.LocalOnly);
         tray.SetSmoothing(settings.SmoothingEnabled);
         tray.Show(coordinator.Status);
         coordinator.Changed += () => tray.Show(coordinator.Status);
         appSettings.Changed += () =>
         {
+            // Neue Sprache der Oberfläche: das Tray Menü sofort neu aufbauen (Playbook Abschnitt 29, Regel 11).
+            if (Lang.Apply(appSettings.Current.UiLanguage))
+            {
+                tray.SetMenu(trayActions);
+                tray.Refresh();
+            }
             tray.SetLocalOnly(appSettings.Current.LocalOnly);
             tray.SetSmoothing(appSettings.Current.SmoothingEnabled);
         };
 
         StartOverlay(coordinator, appSettings);
 
-        tray.ShowHint("Talk läuft", "Caps Lock doppelt tippen startet das Diktat. Ein Klick auf dieses Symbol öffnet das Menü.");
+        tray.ShowHint(Lang.T("tray.hint.title"), Lang.T("tray.hint.text"));
     }
 
     // Das Overlay folgt nur Zustand und Pegel des Ablaufs. Lässt es sich nicht anlegen, läuft Talk ohne Overlay weiter.
@@ -563,16 +590,16 @@ public partial class App : System.Windows.Application
             IReadOnlyList<HistoryEntry> last = await _history.GetRecentAsync(1, CancellationToken.None);
             if (last.Count == 0)
             {
-                _tray?.ShowHint("Talk", "Der Verlauf ist noch leer.");
+                _tray?.ShowHint("Talk", Lang.T("msg.app.copy.empty"));
                 return;
             }
 
             System.Windows.Clipboard.SetText(last[0].Text);
-            _tray?.ShowHint("Talk", "Der letzte Text liegt in der Zwischenablage.");
+            _tray?.ShowHint("Talk", Lang.T("msg.app.copy.done"));
         }
         catch (Exception)
         {
-            _tray?.ShowHint("Talk", "Kopieren nicht möglich, die Zwischenablage ist gerade belegt.");
+            _tray?.ShowHint("Talk", Lang.T("msg.app.copy.busy"));
         }
     }
 
@@ -1046,7 +1073,7 @@ public partial class App : System.Windows.Application
         {
             try
             {
-                MessageBoxW(0, "Talk ist auf einen unerwarteten Fehler gestoßen und wurde beendet. Bitte starte Talk neu.", "Talk", 0x00000010);
+                MessageBoxW(0, Lang.T("msg.app.crashed"), "Talk", 0x00000010);
             }
             catch
             {

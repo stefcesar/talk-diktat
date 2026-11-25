@@ -3,6 +3,7 @@
 using System.Globalization;
 
 using Talk.App.Diagnostics;
+using Talk.App.Ui;
 using Talk.Core.Transcription;
 
 namespace Talk.App.Transcription;
@@ -87,8 +88,9 @@ internal static class SttReport
     }
 
     /// <summary>
-    /// Die Zeile fürs Testfenster, zum Beispiel "Groq, 640 ms (Upload 80 ms, Antwort 520 ms)" oder bei einem Wechsel
-    /// "Groq nicht verfügbar (Limit erreicht), lokal erkannt, 900 ms".
+    /// Die Zeile fürs Diagnosefenster in der Sprache der Oberfläche (Playbook Abschnitt 29), auf Deutsch zum Beispiel
+    /// "Groq, 640 ms (Upload 80 ms, Antwort 520 ms)" oder bei einem Wechsel "Groq nicht verfügbar (Limit erreicht), lokal erkannt, 900 ms".
+    /// Zahlen in <see cref="Lang.Culture"/> (Regel 8). Die Prüfschalter benutzen diese Zeile nicht.
     /// </summary>
     /// <param name="result">Das Ergebnis der Erkennung.</param>
     public static string DisplayText(TranscriptionResult result)
@@ -96,48 +98,51 @@ internal static class SttReport
         ArgumentNullException.ThrowIfNull(result);
 
         string engine = SanitizeWord(result.Engine);
-        string ms = TotalMs(result).ToString(CultureInfo.InvariantCulture);
+        string ms = TotalMs(result).ToString(Lang.Culture);
+        bool local = engine == LocalWhisperTranscriber.EngineName;
         string text;
 
-        if (result.FallbackReason is TranscriptionError reason)
+        if (result.FallbackReason is TranscriptionError reason && local)
         {
-            text = $"Groq nicht verfügbar ({ShortReason(reason)}), {engine} erkannt, {ms} ms";
+            text = Lang.F($"msg.dictation.stt.fallback.{FallbackKey(reason)}", ms);
         }
         else if (engine == GroqEngine && result.Timings is TranscriptionTimings timings)
         {
-            text = string.Create(
-                CultureInfo.InvariantCulture,
-                $"Groq, {ms} ms (Upload {timings.UploadMs} ms, Antwort {timings.WaitMs} ms)");
+            text = Lang.F("msg.dictation.stt.groq", ms, timings.UploadMs.ToString(Lang.Culture), timings.WaitMs.ToString(Lang.Culture));
+        }
+        else if (local)
+        {
+            text = Lang.F("msg.dictation.stt.local", ms);
         }
         else
         {
-            text = $"{Capitalize(engine)}, {ms} ms";
+            // Andere Erkenner zeigen ihr festes Wort, wie es aus dem Protokoll kommt.
+            text = Lang.F("msg.dictation.stt.engine", Capitalize(engine), ms);
         }
 
-        if (result.FilteredSegments == 1) text += ", 1 erfundener Abschnitt verworfen";
-        else if (result.FilteredSegments > 1) text += string.Create(CultureInfo.InvariantCulture, $", {result.FilteredSegments} erfundene Abschnitte verworfen");
+        if (result.FilteredSegments == 1) text += ", " + Lang.T("msg.dictation.stt.filtered.one");
+        else if (result.FilteredSegments > 1) text += ", " + Lang.F("msg.dictation.stt.filtered.many", result.FilteredSegments.ToString(Lang.Culture));
 
         return text;
     }
 
-    /// <summary>Ein kurzer deutscher Satz je Fehler, für die Anzeige im Fenster.</summary>
+    /// <summary>Ein kurzer Satz je Fehler in der Sprache der Oberfläche, für die Anzeige im Fenster.</summary>
     /// <param name="error">Der Grund.</param>
-    public static string GermanError(TranscriptionError error) => error switch
+    public static string ErrorText(TranscriptionError error) => Lang.T(error switch
     {
-        TranscriptionError.NoKey => "Es ist kein Groq Schlüssel hinterlegt.",
-        TranscriptionError.Unauthorized => "Groq lehnt den Schlüssel ab.",
-        TranscriptionError.RateLimited => "Das Limit bei Groq ist erreicht.",
-        TranscriptionError.Network => "Keine Verbindung zu Groq.",
-        TranscriptionError.Timeout => "Groq hat nicht rechtzeitig geantwortet.",
-        TranscriptionError.ServerError => "Groq meldet einen eigenen Fehler.",
-        TranscriptionError.TooLarge => "Die Aufnahme ist für Groq zu groß.",
-        TranscriptionError.BadRequest => "Groq lehnt die Anfrage ab.",
-        TranscriptionError.BadResponse => "Die Antwort von Groq ist nicht auswertbar.",
-        TranscriptionError.ModelMissing => "Das lokale Modell fehlt.",
-        TranscriptionError.LocalUnavailable => "Es ist kein lokaler Erkenner vorhanden.",
-        TranscriptionError.EngineFailed => "Die Erkennung ist gescheitert.",
-        _ => "Die Erkennung ist gescheitert.",
-    };
+        TranscriptionError.NoKey => "msg.dictation.stt.error.no_key",
+        TranscriptionError.Unauthorized => "msg.dictation.stt.error.unauthorized",
+        TranscriptionError.RateLimited => "msg.dictation.stt.error.rate_limited",
+        TranscriptionError.Network => "msg.dictation.stt.error.network",
+        TranscriptionError.Timeout => "msg.dictation.stt.error.timeout",
+        TranscriptionError.ServerError => "msg.dictation.stt.error.server",
+        TranscriptionError.TooLarge => "msg.dictation.stt.error.too_large",
+        TranscriptionError.BadRequest => "msg.dictation.stt.error.bad_request",
+        TranscriptionError.BadResponse => "msg.dictation.stt.error.bad_response",
+        TranscriptionError.ModelMissing => "msg.dictation.stt.error.model_missing",
+        TranscriptionError.LocalUnavailable => "msg.dictation.stt.error.local_unavailable",
+        _ => "msg.dictation.stt.error.failed",
+    });
 
     /// <summary>
     /// Die Sprache fürs Protokoll: nur Kleinbuchstaben a bis z, 2 bis 12 Zeichen, sonst "unbekannt".
@@ -229,19 +234,19 @@ internal static class SttReport
         AppLog.Write("stt", "local", "fehler");
     }
 
-    // Kurzer Grund in der Klammer der Wechselzeile, ohne Satzzeichen am Ende.
-    private static string ShortReason(TranscriptionError error) => error switch
+    // Der letzte Teil des Schlüssels der Wechselzeile msg.dictation.stt.fallback.* je Grund, je Grund ein ganzer Satz.
+    private static string FallbackKey(TranscriptionError error) => error switch
     {
-        TranscriptionError.NoKey => "kein Schlüssel",
-        TranscriptionError.Unauthorized => "Schlüssel abgelehnt",
-        TranscriptionError.RateLimited => "Limit erreicht",
-        TranscriptionError.Network => "keine Verbindung",
-        TranscriptionError.Timeout => "Zeit überschritten",
-        TranscriptionError.ServerError => "Fehler bei Groq",
-        TranscriptionError.TooLarge => "Aufnahme zu groß",
-        TranscriptionError.BadRequest => "Anfrage abgelehnt",
-        TranscriptionError.BadResponse => "Antwort nicht auswertbar",
-        _ => "Fehler",
+        TranscriptionError.NoKey => "no_key",
+        TranscriptionError.Unauthorized => "unauthorized",
+        TranscriptionError.RateLimited => "rate_limited",
+        TranscriptionError.Network => "network",
+        TranscriptionError.Timeout => "timeout",
+        TranscriptionError.ServerError => "server",
+        TranscriptionError.TooLarge => "too_large",
+        TranscriptionError.BadRequest => "bad_request",
+        TranscriptionError.BadResponse => "bad_response",
+        _ => "other",
     };
 
     // Das Wort fürs Feld code: ein Kürzel von der festen Liste, sonst "sonstiges", ohne Kürzel "kein".

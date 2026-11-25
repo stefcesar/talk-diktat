@@ -96,9 +96,9 @@ public partial class OverlayWindow : Window
 
             StateText.Text = status switch
             {
-                TrayStatus.Recording => "Aufnahme",
-                TrayStatus.Processing => "Verarbeitung",
-                _ => "Fehler, siehe Diagnose",
+                TrayStatus.Recording => Lang.T("overlay.state.recording"),
+                TrayStatus.Processing => Lang.T("overlay.state.processing"),
+                _ => Lang.T("overlay.state.error"),
             };
 
             // In der Verarbeitung pulsieren die beiden Punkte, sonst stehen sie still.

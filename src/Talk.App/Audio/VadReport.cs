@@ -1,8 +1,8 @@
 // Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
 // SPDX-License-Identifier: MIT
 using System.Diagnostics;
-using System.Globalization;
 
+using Talk.App.Ui;
 using Talk.Core.Audio;
 
 namespace Talk.App.Audio;
@@ -18,8 +18,6 @@ namespace Talk.App.Audio;
 /// <param name="DurationMs">Dauer des Erkennungslaufs in Millisekunden.</param>
 internal sealed record VadReport(long ClipMs, int SegmentCount, long SpeechMs, long TrimmedMs, long DurationMs)
 {
-    private static readonly CultureInfo German = CultureInfo.GetCultureInfo("de-DE");
-
     /// <summary>True, wenn mindestens ein Sprachabschnitt gefunden wurde.</summary>
     public bool HasSpeech => SegmentCount > 0;
 
@@ -27,10 +25,13 @@ internal sealed record VadReport(long ClipMs, int SegmentCount, long SpeechMs, l
     public string LogDetail =>
         $"speech={(HasSpeech ? "ja" : "nein")} segments={SegmentCount} speech_ms={SpeechMs} trimmed_ms={TrimmedMs} duration_ms={DurationMs}";
 
-    /// <summary>Die Zeile fürs Testfenster, zum Beispiel "Dauer 3,2 s, Sprache: ja, zugeschnitten 2,4 s".</summary>
+    /// <summary>
+    /// Die Zeile fürs Diagnosefenster in der Sprache der Oberfläche (Playbook Abschnitt 29), auf Deutsch zum Beispiel
+    /// "Dauer 3,2 s, Sprache: ja, zugeschnitten 2,4 s".
+    /// </summary>
     public string DisplayText => HasSpeech
-        ? $"Dauer {FormatSeconds(ClipMs)}, Sprache: ja, zugeschnitten {FormatSeconds(TrimmedMs)}"
-        : $"Dauer {FormatSeconds(ClipMs)}, Sprache: nein";
+        ? Lang.F("msg.dictation.vad.speech", FormatSeconds(ClipMs), FormatSeconds(TrimmedMs))
+        : Lang.F("msg.dictation.vad.no_speech", FormatSeconds(ClipMs));
 
     /// <summary>
     /// Lässt die Erkennung laufen, misst die Zeit und rechnet Sprachdauer und zugeschnittene Dauer mit <see cref="SilenceTrimmer"/>.
@@ -69,10 +70,12 @@ internal sealed record VadReport(long ClipMs, int SegmentCount, long SpeechMs, l
         return new VadReport(RoundMs(clip.Duration), segments.Count, speechMs, RoundMs(trimmed.Duration), watch.ElapsedMilliseconds);
     }
 
-    /// <summary>Millisekunden als Sekunden mit einer Nachkommastelle und deutschem Komma, zum Beispiel "3,2 s".</summary>
+    /// <summary>
+    /// Millisekunden als Sekunden mit einer Nachkommastelle in <see cref="Lang.Culture"/> (Regel 8), auf Deutsch zum Beispiel "3,2 s".
+    /// </summary>
     public static string FormatSeconds(long ms)
     {
-        return (ms / 1000.0).ToString("0.0", German) + " s";
+        return (ms / 1000.0).ToString("0.0", Lang.Culture) + " s";
     }
 
     private static long RoundMs(TimeSpan time) => (long)Math.Round(time.TotalMilliseconds);

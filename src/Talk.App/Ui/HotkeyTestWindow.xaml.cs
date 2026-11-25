@@ -25,8 +25,6 @@ namespace Talk.App.Ui;
 /// </remarks>
 public partial class HotkeyTestWindow : Window
 {
-    private const string BluetoothHint = "Bluetooth Freisprechprofil erkannt, Aufnahmequalität kann schlecht sein";
-
     private readonly DictationCoordinator _coordinator;
     private readonly AppSettingsService _settings;
     private bool _ready;
@@ -94,20 +92,20 @@ public partial class HotkeyTestWindow : Window
 
         StateText.Text = _coordinator.Status switch
         {
-            TrayStatus.Recording => "Aufnahme",
-            TrayStatus.Processing => "Verarbeitung",
-            TrayStatus.Error => "Fehler",
-            _ => "Ruhe",
+            TrayStatus.Recording => Lang.T("diag.state.recording"),
+            TrayStatus.Processing => Lang.T("diag.state.processing"),
+            TrayStatus.Error => Lang.T("diag.state.error"),
+            _ => Lang.T("diag.state.idle"),
         };
 
         StartCountText.Text = _coordinator.StartCount.ToString(CultureInfo.InvariantCulture);
         StopCountText.Text = _coordinator.StopCount.ToString(CultureInfo.InvariantCulture);
         CancelCountText.Text = _coordinator.CancelCount.ToString(CultureInfo.InvariantCulture);
 
-        CapsText.Text = CapsLockState.IsOn ? "Feststelltaste: an" : "Feststelltaste: aus";
+        CapsText.Text = Lang.T(CapsLockState.IsOn ? "diag.caps.on" : "diag.caps.off");
         HookText.Text = _coordinator.Service.IsInstalled
-            ? "Hook: aktiv"
-            : $"Hook: nicht aktiv (Windows Fehler {_coordinator.Service.LastInstallError})";
+            ? Lang.T("diag.hook.active")
+            : Lang.F("diag.hook.inactive", _coordinator.Service.LastInstallError.ToString(Lang.Culture));
         ReinstallText.Text = _coordinator.ReinstallLine;
 
         ResultText.Text = _coordinator.ResultLine;
@@ -116,10 +114,10 @@ public partial class HotkeyTestWindow : Window
 
         if (!string.Equals(TranscriptBox.Text, _coordinator.Transcript, StringComparison.Ordinal)) TranscriptBox.Text = _coordinator.Transcript;
         bool hasRaw = _coordinator.RawTranscript.Length > 0;
-        RawText.Text = hasRaw ? $"Roh: {_coordinator.RawTranscript}" : string.Empty;
+        RawText.Text = hasRaw ? Lang.F("diag.raw", _coordinator.RawTranscript) : string.Empty;
         RawText.Visibility = hasRaw ? Visibility.Visible : Visibility.Collapsed;
         bool hasUnsmoothed = _coordinator.UnsmoothedTranscript.Length > 0;
-        UnsmoothedText.Text = hasUnsmoothed ? $"Vor der Glättung: {_coordinator.UnsmoothedTranscript}" : string.Empty;
+        UnsmoothedText.Text = hasUnsmoothed ? Lang.F("diag.unsmoothed", _coordinator.UnsmoothedTranscript) : string.Empty;
         UnsmoothedText.Visibility = hasUnsmoothed ? Visibility.Visible : Visibility.Collapsed;
         bool hasSmooth = _coordinator.SmoothLine.Length > 0;
         SmoothText.Text = _coordinator.SmoothLine;
@@ -164,12 +162,12 @@ public partial class HotkeyTestWindow : Window
         AudioDeviceInfo? device = DeviceBox.SelectedItem as AudioDeviceInfo;
         if (device is null)
         {
-            DeviceHintText.Text = "Kein Aufnahmegerät gefunden";
+            DeviceHintText.Text = Lang.T("settings.device.none");
             DeviceHintText.Visibility = Visibility.Visible;
         }
         else if (device.LikelyBluetoothHandsFree)
         {
-            DeviceHintText.Text = BluetoothHint;
+            DeviceHintText.Text = Lang.T("settings.device.bluetooth");
             DeviceHintText.Visibility = Visibility.Visible;
         }
         else
@@ -243,7 +241,7 @@ public partial class HotkeyTestWindow : Window
     // Zeigt nur, ob ein Schlüssel hinterlegt ist. Der Wert wird nie gelesen oder angezeigt.
     private void RefreshKeyState()
     {
-        KeyStateText.Text = _coordinator.Speech.HasKey ? "Schlüssel hinterlegt: ja" : "Schlüssel hinterlegt: nein";
+        KeyStateText.Text = Lang.T(_coordinator.Speech.HasKey ? "key.stored.yes" : "key.stored.no");
     }
 
     private void OnOptionsChanged(object sender, RoutedEventArgs e)
@@ -271,7 +269,7 @@ public partial class HotkeyTestWindow : Window
     {
         if (!int.TryParse(DoubleTapBox.Text.Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out int windowMs) || windowMs <= 0)
         {
-            System.Windows.MessageBox.Show(this, "Bitte eine ganze Zahl größer als 0 eingeben.", "Doppeltipp Fenster");
+            System.Windows.MessageBox.Show(this, Lang.T("diag.double_tap.invalid"), Lang.T("diag.double_tap.invalid.title"));
             DoubleTapBox.Text = _settings.Current.DoubleTapWindowMs.ToString(CultureInfo.InvariantCulture);
             return;
         }

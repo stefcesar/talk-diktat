@@ -1,6 +1,6 @@
 [🇩🇪 Deutsch](README.md) · [🇬🇧 English](README.en.md) · **🇮🇹 Italiano**
 
-> 🇮🇹 **Stai leggendo la versione italiana.** L'interfaccia del programma e la guida in PDF sono per ora solo in tedesco; qui sotto i testi tedeschi sono citati con il loro significato tra parentesi.
+> 🇮🇹 **Stai leggendo la versione italiana.** Dalla versione 0.5.0 Talk stesso è disponibile in italiano: in «Impostazioni», sotto «Lingua dell'interfaccia» scegli «Italiano».
 
 # Talk: dettare in qualsiasi programma su Windows
 
@@ -19,7 +19,7 @@ Talk funziona in modo invisibile in background. Tocca due volte **Bloc Maiusc** 
 
 ## Installare
 
-1. Nella pagina [Releases](../../releases) scarica il file più recente **`TalkSetup-…-komplett.exe`** (circa 570 MB, contiene i modelli vocali). Accanto c'è la **guida breve in PDF** (in tedesco).
+1. Nella pagina [Releases](../../releases) scarica il file più recente **`TalkSetup-…-komplett.exe`** (circa 570 MB, contiene i modelli vocali). Accanto c'è la **guida breve in PDF**.
 2. Fai doppio clic. Windows mostrerà probabilmente **"Windows ha protetto il PC"**, perché il setup non ha una firma digitale (che è a pagamento). Clicca su **"Ulteriori informazioni"** e poi su **"Esegui comunque"**.
 3. Segui i passaggi. Non servono diritti di amministratore; Talk viene installato in `%LOCALAPPDATA%\Programs\Talk`.
 
@@ -40,7 +40,7 @@ L'icona di Talk appare poi in basso a destra accanto all'orologio (eventualmente
 | Annullare | Esc |
 | Bloc Maiusc come prima | Maiusc + Bloc Maiusc |
 
-**Guida con immagini:** [Talk-Guida-IT.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.4.1/Talk-Guida-IT.pdf) (7 pagine). La stessa guida come testo semplice: [`installer/Liesmich.it.txt`](installer/Liesmich.it.txt).
+**Guida con immagini:** [Talk-Guida-IT.pdf](https://github.com/stefcesar/talk-diktat/releases/download/v0.5.0/Talk-Guida-IT.pdf) (7 pagine). La stessa guida come testo semplice: [`installer/Liesmich.it.txt`](installer/Liesmich.it.txt).
 
 ## Con o senza Groq
 
@@ -61,7 +61,7 @@ Talk riconosce la voce sul tuo computer, senza internet. Groq è un servizio in 
 Senza chiave, Talk riconosce tutto in locale. Con una chiave Groq **tua** di solito è un po' più veloce, e diventano possibili la rifinitura del testo e il dialetto svizzero.
 
 1. Crea un account su [console.groq.com](https://console.groq.com), sotto "API Keys" crea una chiave e copiala.
-2. In Talk: „Einstellungen“ (impostazioni) → „Datenschutz“ (privacy) → „Groq Schlüssel“ (chiave Groq) → „Aus Zwischenablage einfügen“ (incolla dagli appunti) → „Speichern“ (salva).
+2. In Talk: «Impostazioni» → «Privacy» → «Chiave Groq» → «Incolla dagli Appunti» → «Salva».
 
 La chiave viene salvata solo in Gestione credenziali di Windows, mai in un file. Se Groq resta gratuito e quali limiti valgono, lo indica Groq.
 
@@ -93,19 +93,19 @@ No. Senza chiave Groq, Talk riconosce tutto sul tuo computer. Internet serve sol
 No, per ora solo su Windows 11 (64 bit), testato su pochi computer.
 
 **Talk esiste in italiano?**
-Talk riconosce anche l'italiano parlato. L'interfaccia (menu, impostazioni, guida) per ora è solo in tedesco.
+Sì, dalla versione 0.5.0. In «Impostazioni», sotto «Lingua dell'interfaccia» scegli «Italiano». Talk riconosce anche l'italiano parlato.
 
 **Non riesco a premere due tasti contemporaneamente. Posso usare Talk lo stesso?**
-Sì. Si detta con un solo tasto: toccare due volte velocemente Bloc Maiusc, parlare, toccare una volta. Funziona anche con la tastiera su schermo. Se il doppio tocco è troppo veloce per te, nelle impostazioni imposta più tempo sotto „Zeit zwischen den beiden Tipps“ (tempo tra i due tocchi). Tutto il resto si fa con singoli clic tramite l'icona di Talk accanto all'orologio.
+Sì. Si detta con un solo tasto: toccare due volte velocemente Bloc Maiusc, parlare, toccare una volta. Funziona anche con la tastiera su schermo. Se il doppio tocco è troppo veloce per te, nelle impostazioni imposta più tempo sotto «Tempo tra i due tocchi su Bloc Maiusc». Tutto il resto si fa con singoli clic tramite l'icona di Talk accanto all'orologio.
 
 **Bloc Maiusc non avvia nulla.**
-Apri „Diagnose“ (diagnostica) nel menu: se "Start" non aumenta quando tocchi, tocca due volte più velocemente o imposta più tempo tra i tocchi nelle impostazioni. Altrimenti chiudi Talk e riavvialo dal menu Start.
+Apri «Diagnostica» nel menu: se "Start" non aumenta quando tocchi, tocca due volte più velocemente o imposta più tempo tra i tocchi nelle impostazioni. Altrimenti chiudi Talk e riavvialo dal menu Start.
 
 **La registrazione parte, ma non arriva nessun testo.**
-Nella diagnostica controlla se il livello si muove quando parli. Se no, nelle impostazioni scegli un altro microfono sotto „Mikrofon“ o clicca su „Neu laden“ (ricarica).
+Nella diagnostica controlla se il livello si muove quando parli. Se no, nelle impostazioni scegli un altro microfono sotto «Microfono» o clicca su «Ricarica».
 
 **Talk scrive sempre male un nome.**
-Nella cronologia clicca su „Wort korrigieren“ (correggi parola) accanto al testo, oppure aggiungi la parola nelle impostazioni sotto „Wörterbuch“ (dizionario). Dal dettato successivo è scritta correttamente.
+Nella cronologia clicca su «Correggi parola» accanto al testo, oppure aggiungi la parola nelle impostazioni sotto «Dizionario». Dal dettato successivo è scritta correttamente.
 
 **Come aggiorno Talk?**
 Chiudi Talk dal menu ed esegui il nuovo setup sopra l'installazione esistente.

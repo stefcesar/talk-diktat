@@ -51,17 +51,17 @@ internal static class TrayMenu
         };
         menu.Font = TextFamily.Value is { } family ? new Font(family, FontPoints) : new Font("Segoe UI", FontPoints);
 
-        menu.Items.Add(Item(menu, "Letzten Text kopieren", actions.CopyLast));
-        menu.Items.Add(Item(menu, "Verlauf", actions.ShowHistory));
+        menu.Items.Add(Item(menu, Lang.T("tray.menu.copy_last"), actions.CopyLast));
+        menu.Items.Add(Item(menu, Lang.T("tray.menu.history"), actions.ShowHistory));
         menu.Items.Add(new ToolStripSeparator());
-        localOnlyItem = Item(menu, "Nur lokal (nichts geht ins Internet)", actions.ToggleLocalOnly);
+        localOnlyItem = Item(menu, Lang.T("tray.menu.local_only"), actions.ToggleLocalOnly);
         menu.Items.Add(localOnlyItem);
-        smoothingItem = Item(menu, "Glätten (Text geht über Groq)", actions.ToggleSmoothing);
+        smoothingItem = Item(menu, Lang.T("tray.menu.smoothing"), actions.ToggleSmoothing);
         menu.Items.Add(smoothingItem);
-        menu.Items.Add(Item(menu, "Einstellungen", actions.ShowSettings));
-        menu.Items.Add(Item(menu, "Diagnose", actions.ShowDiagnostics));
+        menu.Items.Add(Item(menu, Lang.T("tray.menu.settings"), actions.ShowSettings));
+        menu.Items.Add(Item(menu, Lang.T("tray.menu.diagnostics"), actions.ShowDiagnostics));
         menu.Items.Add(new ToolStripSeparator());
-        ToolStripMenuItem quit = Item(menu, "Talk beenden", actions.Quit);
+        ToolStripMenuItem quit = Item(menu, Lang.T("tray.menu.quit"), actions.Quit);
         quit.ForeColor = TextMuted;
         menu.Items.Add(quit);
 

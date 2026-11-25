@@ -1,4 +1,4 @@
-﻿Talk: Kurzanleitung (Version 0.4.1)
+﻿Talk: Kurzanleitung (Version 0.5.0)
 Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
 
 Das brauchst du
@@ -35,6 +35,7 @@ Einstellungen und Sprache
 1. Im Menü auf "Einstellungen" klicken. Jede Änderung gilt sofort und wird gespeichert; mit "Schließen" geht das Fenster zu.
 2. Unter "Sprache" die Liste anklicken und die Sprache wählen: Deutsch, Italienisch, Englisch, Schweizerdeutsch oder Mundart.
 3. Bei Mundart erscheint darunter die Liste "Dialekt": Zürich, Bern, Basel oder gemischt.
+4. Unter "Sprache der Oberfläche" wählst du die Sprache von Menü und Fenstern: Deutsch, English oder Italiano. Die Sprache beim Diktieren bleibt davon unberührt.
 
 Schweizerdeutsch: Du sprichst Dialekt, Talk schreibt Schweizer Hochdeutsch: ss statt ß, Schweizer Wörter wie Velo, Spital oder parkieren.
 Mundart: Du sprichst Dialekt, Talk schreibt auch im Dialekt. Das geht nur mit Groq und ist noch ein Versuch; ohne Groq schreibt Talk Schweizer Hochdeutsch.

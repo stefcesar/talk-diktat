@@ -2,7 +2,8 @@
 <Window x:Class="Talk.App.Ui.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Talk Einstellungen"
+        xmlns:ui="clr-namespace:Talk.App.Ui"
+        Title="{ui:T settings.title}"
         Width="560"
         SizeToContent="Height"
         ResizeMode="CanMinimize"
@@ -21,119 +22,125 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="StatusText" Style="{StaticResource HintText}" VerticalAlignment="Center" Margin="0,0,16,0"
-                           Text="Jede Änderung gilt sofort und wird gespeichert." />
-                <Button Grid.Column="1" Content="Schließen" Click="OnCloseClick" />
+                           Text="{ui:T settings.status.initial}" />
+                <Button Grid.Column="1" Content="{ui:T common.close}" Click="OnCloseClick" />
             </Grid>
         </Border>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="24,24,24,24">
 
-            <TextBlock Text="Einstellungen" Style="{StaticResource TitleText}" />
+            <TextBlock Text="{ui:T settings.heading}" Style="{StaticResource TitleText}" />
 
             <!-- Aufnahme -->
-            <TextBlock Text="Aufnahme" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
-            <TextBlock Text="Mikrofon" Style="{StaticResource LabelText}" />
+            <TextBlock Text="{ui:T settings.section.recording}" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
+            <TextBlock Text="{ui:T settings.microphone}" Style="{StaticResource LabelText}" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <ComboBox x:Name="DeviceBox" DisplayMemberPath="Name" SelectionChanged="OnDeviceChanged" />
-                <Button Grid.Column="1" Content="Neu laden" Margin="8,0,0,0" Click="OnReloadDevicesClick" />
+                <Button Grid.Column="1" Content="{ui:T settings.devices.reload}" Margin="8,0,0,0" Click="OnReloadDevicesClick" />
             </Grid>
             <TextBlock x:Name="DeviceHintText" Style="{StaticResource WarnText}" Visibility="Collapsed" Margin="0,8,0,0" />
 
-            <TextBlock Text="Sprache" Style="{StaticResource LabelText}" Margin="0,16,0,8" />
+            <TextBlock Text="{ui:T settings.language}" Style="{StaticResource LabelText}" Margin="0,16,0,8" />
             <ComboBox x:Name="LanguageBox" SelectionChanged="OnChanged">
-                <ComboBoxItem Content="Deutsch" Tag="de" />
-                <ComboBoxItem Content="Italienisch" Tag="it" />
-                <ComboBoxItem Content="Englisch" Tag="en" />
-                <ComboBoxItem Content="Schweizerdeutsch" Tag="de-ch" />
-                <ComboBoxItem Content="Mundart" Tag="gsw" />
+                <ComboBoxItem Content="{ui:T lang.de}" Tag="de" />
+                <ComboBoxItem Content="{ui:T lang.it}" Tag="it" />
+                <ComboBoxItem Content="{ui:T lang.en}" Tag="en" />
+                <ComboBoxItem Content="{ui:T lang.de_ch}" Tag="de-ch" />
+                <ComboBoxItem Content="{ui:T lang.gsw}" Tag="gsw" />
             </ComboBox>
             <!-- Nur bei Schweizerdeutsch und Mundart sichtbar (Playbook Abschnitt 26). -->
             <TextBlock x:Name="SwissHintText" Style="{StaticResource HintText}" Visibility="Collapsed" Margin="0,8,0,0" />
             <StackPanel x:Name="DialectPanel" Visibility="Collapsed">
-                <TextBlock Text="Dialekt" Style="{StaticResource LabelText}" Margin="0,16,0,8" />
+                <TextBlock Text="{ui:T settings.dialect}" Style="{StaticResource LabelText}" Margin="0,16,0,8" />
                 <ComboBox x:Name="DialectBox" SelectionChanged="OnChanged">
-                    <ComboBoxItem Content="Zürich" Tag="zh" />
-                    <ComboBoxItem Content="Bern" Tag="be" />
-                    <ComboBoxItem Content="Basel" Tag="bs" />
-                    <ComboBoxItem Content="gemischt" Tag="mix" />
+                    <ComboBoxItem Content="{ui:T lang.zh}" Tag="zh" />
+                    <ComboBoxItem Content="{ui:T lang.be}" Tag="be" />
+                    <ComboBoxItem Content="{ui:T lang.bs}" Tag="bs" />
+                    <ComboBoxItem Content="{ui:T lang.mix}" Tag="mix" />
                 </ComboBox>
             </StackPanel>
 
+            <!-- Sprache der Oberfläche (Playbook Abschnitt 29, Regeln 10 und 11). Die Einträge baut der Code aus UiLanguages.All. -->
+            <TextBlock Text="{ui:T settings.ui_language}" Style="{StaticResource LabelText}" Margin="0,16,0,8" />
+            <ComboBox x:Name="UiLanguageBox" SelectionChanged="OnUiLanguageChanged" />
+            <!-- Erst nach einer Wahl sichtbar, in der neu gewählten Sprache. -->
+            <TextBlock x:Name="UiLanguageHintText" Style="{StaticResource HintText}" Visibility="Collapsed" Margin="0,8,0,0" />
+
             <!-- Bedienung -->
-            <TextBlock Text="Bedienung" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
-            <TextBlock Text="Zeit zwischen den beiden Tipps auf ⇧ Caps" Style="{StaticResource LabelText}" />
+            <TextBlock Text="{ui:T settings.section.controls}" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
+            <TextBlock Text="{ui:T settings.double_tap}" Style="{StaticResource LabelText}" />
             <!-- Die Werte baut der Code; ein eigener Wert aus settings.json kommt als weitere Wahl dazu. -->
             <WrapPanel x:Name="DoubleTapPanel" />
             <TextBlock Style="{StaticResource HintText}" Margin="0,0,0,8"
-                       Text="In Millisekunden. Größer heißt: Du darfst dir zwischen den beiden Tipps mehr Zeit lassen." />
-            <CheckBox x:Name="PushToTalkBox" Content="Push to Talk (⇧ Caps gedrückt halten)" Checked="OnChanged" Unchecked="OnChanged" />
+                       Text="{ui:T settings.double_tap.hint}" />
+            <CheckBox x:Name="PushToTalkBox" Content="{ui:T settings.push_to_talk}" Checked="OnChanged" Unchecked="OnChanged" />
 
             <!-- Rückmeldung -->
-            <TextBlock Text="Rückmeldung" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
-            <CheckBox x:Name="SoundsBox" Content="Töne bei Start, Stopp und Abbruch" Checked="OnChanged" Unchecked="OnChanged" />
-            <CheckBox x:Name="OverlayBox" Content="Anzeige über der Taskleiste während Aufnahme und Verarbeitung" Checked="OnChanged" Unchecked="OnChanged" />
-            <CheckBox x:Name="DuckingBox" Content="Andere Programme während der Aufnahme leiser (Musik, Videos)" Checked="OnChanged" Unchecked="OnChanged" />
+            <TextBlock Text="{ui:T settings.section.feedback}" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
+            <CheckBox x:Name="SoundsBox" Content="{ui:T settings.sounds}" Checked="OnChanged" Unchecked="OnChanged" />
+            <CheckBox x:Name="OverlayBox" Content="{ui:T settings.overlay}" Checked="OnChanged" Unchecked="OnChanged" />
+            <CheckBox x:Name="DuckingBox" Content="{ui:T settings.ducking}" Checked="OnChanged" Unchecked="OnChanged" />
 
             <!-- Text glätten -->
-            <TextBlock Text="Text glätten" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
-            <CheckBox x:Name="SmoothingBox" Content="Text vor dem Einfügen glätten (geht über Groq ins Internet)" Checked="OnChanged" Unchecked="OnChanged" />
+            <TextBlock Text="{ui:T settings.section.smoothing}" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
+            <CheckBox x:Name="SmoothingBox" Content="{ui:T settings.smoothing}" Checked="OnChanged" Unchecked="OnChanged" />
             <TextBlock x:Name="SmoothingHintText" Style="{StaticResource WarnText}" Visibility="Collapsed" Margin="0,0,0,8" />
-            <TextBlock Text="Stufe" Style="{StaticResource LabelText}" Margin="0,8,0,8" />
+            <TextBlock Text="{ui:T settings.level}" Style="{StaticResource LabelText}" Margin="0,8,0,8" />
             <ComboBox x:Name="SmoothingLevelBox" SelectionChanged="OnChanged">
-                <ComboBoxItem Content="Nur Fehler beheben" Tag="Correct" />
-                <ComboBoxItem Content="Sätze glätten" Tag="Smooth" />
-                <ComboBoxItem Content="Als Nachricht ausformulieren" Tag="Message" />
+                <ComboBoxItem Content="{ui:T settings.level.correct}" Tag="Correct" />
+                <ComboBoxItem Content="{ui:T settings.level.smooth}" Tag="Smooth" />
+                <ComboBoxItem Content="{ui:T settings.level.message}" Tag="Message" />
             </ComboBox>
 
             <!-- Eigene Stufe je Zielprogramm (Playbook Abschnitt 23). Die Zeilen baut der Code: gespeicherte zuerst, dann die zuletzt benutzten. -->
-            <TextBlock Text="Stufe je Programm" Style="{StaticResource LabelText}" Margin="0,24,0,8" />
+            <TextBlock Text="{ui:T settings.per_app}" Style="{StaticResource LabelText}" Margin="0,24,0,8" />
             <StackPanel x:Name="PerAppPanel" />
             <TextBlock x:Name="PerAppEmptyText" Style="{StaticResource HintText}"
-                       Text="Ein Programm erscheint hier, sobald du einmal hineindiktiert hast." />
+                       Text="{ui:T settings.per_app.empty}" />
             <TextBlock Style="{StaticResource HintText}" Margin="0,8,0,0"
-                       Text="Gilt nur, wenn Glätten oben an ist. &quot;Wie Standard&quot; nimmt die Stufe oben, &quot;Aus&quot; schaltet die Glättung für dieses Programm ab." />
+                       Text="{ui:T settings.per_app.hint}" />
 
             <!-- Wörterbuch (Playbook Abschnitt 27): eigene Wörter eintragen und entfernen. Die Liste der Einträge baut der Code. -->
-            <TextBlock Text="Wörterbuch" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
+            <TextBlock Text="{ui:T settings.section.words}" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
             <TextBlock Style="{StaticResource HintText}" Margin="0,0,0,8"
-                       Text="Wörter, die Talk falsch schreibt, zum Beispiel Namen oder Fachwörter. Gilt ab dem nächsten Diktat." />
-            <TextBlock Text="Liste" Style="{StaticResource LabelText}" />
+                       Text="{ui:T settings.words.intro}" />
+            <TextBlock Text="{ui:T settings.words.list}" Style="{StaticResource LabelText}" />
             <WrapPanel>
-                <RadioButton x:Name="WordListPrivate" Content="Privat" GroupName="WordList" Style="{StaticResource WordChoiceButton}" Checked="OnWordListChecked" />
-                <RadioButton x:Name="WordListGeneral" Content="Allgemein" GroupName="WordList" Style="{StaticResource WordChoiceButton}" Checked="OnWordListChecked" />
-                <RadioButton x:Name="WordListSwiss" Content="Schweiz" GroupName="WordList" Style="{StaticResource WordChoiceButton}" Checked="OnWordListChecked" />
+                <RadioButton x:Name="WordListPrivate" Content="{ui:T settings.words.list.private}" GroupName="WordList" Style="{StaticResource WordChoiceButton}" Checked="OnWordListChecked" />
+                <RadioButton x:Name="WordListGeneral" Content="{ui:T settings.words.list.general}" GroupName="WordList" Style="{StaticResource WordChoiceButton}" Checked="OnWordListChecked" />
+                <RadioButton x:Name="WordListSwiss" Content="{ui:T settings.words.list.swiss}" GroupName="WordList" Style="{StaticResource WordChoiceButton}" Checked="OnWordListChecked" />
             </WrapPanel>
             <TextBlock x:Name="WordListHintText" Style="{StaticResource HintText}" Margin="0,0,0,16" />
-            <TextBlock x:Name="WordTermLabel" Text="Richtiges Wort" Style="{StaticResource LabelText}" />
+            <TextBlock x:Name="WordTermLabel" Text="{ui:T settings.words.term}" Style="{StaticResource LabelText}" />
             <TextBox x:Name="WordTermBox" />
-            <TextBlock x:Name="WordVariantsLabel" Text="So schreibt Talk es bisher falsch (freiwillig, mehrere mit Komma)" Style="{StaticResource LabelText}" Margin="0,16,0,8" />
+            <TextBlock x:Name="WordVariantsLabel" Text="{ui:T settings.words.variants}" Style="{StaticResource LabelText}" TextWrapping="Wrap" Margin="0,16,0,8" />
             <TextBox x:Name="WordVariantsBox" />
-            <Button Content="Hinzufügen" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Left" Margin="0,16,0,0" Click="OnWordAddClick" />
+            <Button Content="{ui:T settings.words.add}" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Left" Margin="0,16,0,0" Click="OnWordAddClick" />
             <TextBlock x:Name="WordStatusText" Style="{StaticResource HintText}" Margin="0,8,0,0" Visibility="Collapsed" />
             <StackPanel x:Name="WordEntriesPanel" Margin="0,16,0,0" />
-            <TextBlock x:Name="WordEmptyText" Style="{StaticResource HintText}" Text="In dieser Liste stehen noch keine Wörter." />
+            <TextBlock x:Name="WordEmptyText" Style="{StaticResource HintText}" Text="{ui:T settings.words.empty}" />
 
             <!-- Datenschutz -->
-            <TextBlock Text="Datenschutz" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
-            <CheckBox x:Name="LocalOnlyBox" Content="Nur lokal (nichts geht ins Internet)" Checked="OnChanged" Unchecked="OnChanged" />
-            <CheckBox x:Name="HistoryBox" Content="Verlauf verschlüsselt speichern (30 Tage)" Checked="OnChanged" Unchecked="OnHistoryUnchecked" />
+            <TextBlock Text="{ui:T settings.section.privacy}" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
+            <CheckBox x:Name="LocalOnlyBox" Content="{ui:T settings.local_only}" Checked="OnChanged" Unchecked="OnChanged" />
+            <CheckBox x:Name="HistoryBox" Content="{ui:T settings.history}" Checked="OnChanged" Unchecked="OnHistoryUnchecked" />
             <Grid Margin="0,8,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="KeyStateText" VerticalAlignment="Center" />
-                <Button Grid.Column="1" Content="Groq Schlüssel" Click="OnKeyDialogClick" />
+                <Button Grid.Column="1" Content="{ui:T settings.key_button}" Click="OnKeyDialogClick" />
             </Grid>
 
             <!-- Start -->
-            <TextBlock Text="Start" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
-            <CheckBox x:Name="AutostartBox" Content="Talk mit Windows starten" Checked="OnAutostartChanged" Unchecked="OnAutostartChanged" />
+            <TextBlock Text="{ui:T settings.section.start}" Style="{StaticResource SectionText}" Margin="0,32,0,8" />
+            <CheckBox x:Name="AutostartBox" Content="{ui:T settings.autostart}" Checked="OnAutostartChanged" Unchecked="OnAutostartChanged" />
             <TextBlock x:Name="AutostartHintText" Style="{StaticResource WarnText}" Visibility="Collapsed" />
 
         </StackPanel>

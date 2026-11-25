@@ -40,8 +40,9 @@ internal sealed class WordListStore
     // gelesen und beim Zurückschreiben jeder Umlaut zerstört. Sie wird dann nicht angefasst.
     private static readonly UTF8Encoding Utf8Strict = new(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
 
-    private const string NotUtf8Problem =
-        "Die Liste ist nicht als UTF-8 gespeichert. Bitte die Datei im Editor öffnen und mit Codierung UTF-8 speichern; bis dahin ändert Talk sie nicht.";
+    // Schlüssel der Meldungen in der Übersetzungstabelle (Playbook Abschnitt 29, Bereich msg).
+    private const string NotUtf8Key = "msg.words.not_utf8";
+    private const string SaveFailedKey = "msg.words.save_failed";
 
     private readonly string _directory;
 
@@ -84,8 +85,8 @@ internal sealed class WordListStore
         }
     }
 
-    /// <summary>Die Meldung, wenn eine Liste nicht als UTF-8 gespeichert ist.</summary>
-    public static string NotUtf8Message => NotUtf8Problem;
+    /// <summary>Die Meldung, wenn eine Liste nicht als UTF-8 gespeichert ist, als Schlüssel; die Anzeige übersetzt sie.</summary>
+    public static WordListMessage NotUtf8Message => new(NotUtf8Key);
 
     /// <summary>Fügt ein Wort hinzu oder ergänzt seine Varianten. Fehlt die Datei, wird sie mit einer Kopfzeile angelegt.</summary>
     public WordListEditResult Add(WordList list, string? term, IEnumerable<string>? variants) =>
@@ -116,12 +117,12 @@ internal sealed class WordListStore
         catch (DecoderFallbackException)
         {
             AppLog.Write("words", "error", $"liste={ListWord(list)} grund=codierung");
-            return new WordListEditResult(string.Empty, WordListChange.Invalid, NotUtf8Problem);
+            return new WordListEditResult(string.Empty, WordListChange.Invalid, new WordListMessage(NotUtf8Key));
         }
         catch
         {
             AppLog.Write("words", "error", $"liste={ListWord(list)} grund=datei");
-            return new WordListEditResult(string.Empty, WordListChange.Invalid, "Die Liste ließ sich gerade nicht speichern. Sie ist gesperrt oder schreibgeschützt.");
+            return new WordListEditResult(string.Empty, WordListChange.Invalid, new WordListMessage(SaveFailedKey));
         }
     }
 

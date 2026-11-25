@@ -1,5 +1,6 @@
 // Talk – Created by Stefano Cesaretti · https://github.com/stefcesar/talk-diktat
 // SPDX-License-Identifier: MIT
+using Talk.Core.Localization;
 using Talk.Core.Processing;
 using Xunit;
 
@@ -27,7 +28,60 @@ public sealed class WordListEditorTests
         Assert.Equal(WordListChange.Invalid, ergebnis.Change);
         Assert.False(ergebnis.Changed);
         Assert.Equal(vorher, ergebnis.Content);
-        Assert.False(string.IsNullOrWhiteSpace(ergebnis.Problem));
+        // Seit Abschnitt 29 ist der Grund ein Schlüssel der Tabelle mit Argumenten; er muss einen nicht leeren deutschen Satz ergeben.
+        Assert.NotNull(ergebnis.Problem);
+        Assert.True(UiText.Has(ergebnis.Problem!.Key), ergebnis.Problem.Key);
+        Assert.False(string.IsNullOrWhiteSpace(UiText.Format(ergebnis.Problem.Key, "de", ergebnis.Problem.Args)));
+    }
+
+    // Deutsch Wort für Wort wie vor der Umstellung auf Schlüssel (Abschnitt 29, Regeln 9 und 13): je Fall ein eigener Schlüssel.
+    [Theory]
+    [InlineData("", null, "Bitte ein Wort eintragen.")]
+    [InlineData("--", null, "Das Wort braucht mindestens einen Buchstaben oder eine Ziffer.")]
+    [InlineData("#Wort", null, "Das Wort darf nicht mit # beginnen.")]
+    [InlineData("a=b", null, "Das Wort darf kein =, | und keinen Zeilenumbruch enthalten.")]
+    [InlineData("Hannover", "#v", "Eine Variante darf nicht mit # beginnen.")]
+    [InlineData("Hannover", "v|w", "Eine Variante darf kein =, | und keinen Zeilenumbruch enthalten.")]
+    public void Validate_deutscher_Text_wie_bisher(string wort, string? variante, string erwartet)
+    {
+        WordListMessage? meldung = WordListEditor.Validate(wort, variante is null ? null : [variante]);
+
+        Assert.NotNull(meldung);
+        Assert.Equal(erwartet, UiText.Format(meldung!.Key, "de", meldung.Args));
+    }
+
+    [Fact]
+    public void Validate_zu_lang_deutscher_Text_wie_bisher()
+    {
+        string einundachtzig = new('a', 81);
+
+        WordListMessage wort = WordListEditor.Validate(einundachtzig, null)!;
+        WordListMessage variante = WordListEditor.Validate("Hannover", [einundachtzig])!;
+
+        Assert.Equal("msg.words.term_too_long", wort.Key);
+        Assert.Equal("msg.words.variant_too_long", variante.Key);
+        Assert.Equal("Das Wort ist zu lang (höchstens 80 Zeichen).", UiText.Format(wort.Key, "de", wort.Args));
+        Assert.Equal("Eine Variante ist zu lang (höchstens 80 Zeichen).", UiText.Format(variante.Key, "de", variante.Args));
+    }
+
+    [Fact]
+    public void Hint_deutscher_Text_wie_bisher()
+    {
+        WordListMessage hinweis = WordListEditor.Hint("haus")!;
+
+        Assert.Equal(
+            "Hinweis: Talk schreibt dieses Wort ab jetzt überall genau so. Für gewöhnliche Wörter ist das Wörterbuch nicht gedacht.",
+            UiText.Format(hinweis.Key, "de", hinweis.Args));
+    }
+
+    // Die Meldungen von WordListStore (Talk.App) kommen aus denselben Schlüsseln; Deutsch Wort für Wort wie bisher.
+    [Theory]
+    [InlineData("msg.words.not_utf8",
+        "Die Liste ist nicht als UTF-8 gespeichert. Bitte die Datei im Editor öffnen und mit Codierung UTF-8 speichern; bis dahin ändert Talk sie nicht.")]
+    [InlineData("msg.words.save_failed", "Die Liste ließ sich gerade nicht speichern. Sie ist gesperrt oder schreibgeschützt.")]
+    public void WordListStore_Meldungen_deutsch_wie_bisher(string schluessel, string erwartet)
+    {
+        Assert.Equal(erwartet, UiText.Get(schluessel, "de"));
     }
 
     // ---------- Changed ----------

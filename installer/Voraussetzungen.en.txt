@@ -1,0 +1,11 @@
+﻿Talk is a dictation app for Windows. It runs in the background and writes spoken text into the program you are typing in.
+
+What you need
+
+1. Windows 11, 64-bit.
+2. A processor with AVX2 (most from about 2015 on).
+3. A microphone.
+4. About 1 GB of free space.
+
+---
+Talk · Created by Stefano Cesaretti · free and open source (MIT license) · https://github.com/stefcesar/talk-diktat

@@ -113,6 +113,7 @@ internal sealed class AppSettingsService
         Smoothing = requested.Smoothing != old.Smoothing ? requested.Smoothing : disk.Smoothing,
         DuckingEnabled = requested.DuckingEnabled != old.DuckingEnabled ? requested.DuckingEnabled : disk.DuckingEnabled,
         Dialect = requested.Dialect != old.Dialect ? requested.Dialect : disk.Dialect,
+        UiLanguage = requested.UiLanguage != old.UiLanguage ? requested.UiLanguage : disk.UiLanguage,
         // Bei der Liste je Programm nur die geänderten Einträge, sonst gingen Einträge aus der Datei verloren (Abschnitt 23, Regel 3a).
         SmoothingPerApp = AppSmoothingMap.MergeChanges(disk.SmoothingPerApp, old.SmoothingPerApp, requested.SmoothingPerApp),
     };

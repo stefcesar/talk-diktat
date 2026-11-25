@@ -24,15 +24,31 @@ public enum WordListChange
     Invalid
 }
 
+/// <summary>
+/// Eine sichtbare Meldung zur Wörterliste als Schlüssel der Übersetzungstabelle <c>UiText</c> mit Argumenten (Playbook Abschnitt 29,
+/// Regel 9). Übersetzt wird erst in der App; die Argumente sind nur Werte wie Zahlen.
+/// </summary>
+/// <param name="Key">Der Schlüssel, immer aus dem Bereich <c>msg.words.</c>.</param>
+/// <param name="Args">Die Werte für {0}, {1} usw.; leer, wenn der Satz keine Platzhalter hat.</param>
+public sealed record WordListMessage(string Key, string[] Args)
+{
+    /// <summary>Eine Meldung ohne Argumente.</summary>
+    /// <param name="key">Der Schlüssel.</param>
+    public WordListMessage(string key)
+        : this(key, [])
+    {
+    }
+}
+
 /// <summary>Ergebnis einer Änderung an einer Wörterliste.</summary>
 /// <param name="Content">Der neue Inhalt der Datei; bei jeder Änderung ohne Wirkung der alte, Zeichen für Zeichen.</param>
 /// <param name="Change">Was geschehen ist.</param>
-/// <param name="Problem">Bei <see cref="WordListChange.Invalid"/> der Grund als kurzer deutscher Satz, sonst null.</param>
+/// <param name="Problem">Bei <see cref="WordListChange.Invalid"/> der Grund als Meldung mit Schlüssel, sonst null.</param>
 /// <param name="StoredTerm">
 /// Bei <see cref="WordListChange.Extended"/> und <see cref="WordListChange.Unchanged"/> die Schreibweise, die schon in der Liste stand
 /// (sie kann sich in Akzenten oder Groß und Klein von der Eingabe unterscheiden), sonst null.
 /// </param>
-public sealed record WordListEditResult(string Content, WordListChange Change, string? Problem = null, string? StoredTerm = null)
+public sealed record WordListEditResult(string Content, WordListChange Change, WordListMessage? Problem = null, string? StoredTerm = null)
 {
     /// <summary>True, wenn sich der Inhalt geändert hat und die Datei geschrieben werden muss.</summary>
     public bool Changed => Change is WordListChange.Added or WordListChange.Extended or WordListChange.Removed;
@@ -72,24 +88,25 @@ public static class WordListEditor
         string.IsNullOrWhiteSpace(text) ? [] : text.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
     /// <summary>
-    /// Prüft Wort und Varianten nach Regel 5. Null, wenn alles gültig ist, sonst der Grund als kurzer deutscher Satz.
+    /// Prüft Wort und Varianten nach Regel 5. Null, wenn alles gültig ist, sonst der Grund als Meldung mit Schlüssel
+    /// (je Fall ein eigener Schlüssel, Playbook Abschnitt 29, Regel 9).
     /// </summary>
     /// <param name="term">Das richtige Wort.</param>
     /// <param name="variants">Die Varianten oder null.</param>
-    public static string? Validate(string? term, IEnumerable<string>? variants)
+    public static WordListMessage? Validate(string? term, IEnumerable<string>? variants)
     {
         string t = (term ?? string.Empty).Trim();
-        if (t.Length == 0) return "Bitte ein Wort eintragen.";
+        if (t.Length == 0) return new WordListMessage("msg.words.term_empty");
 
-        string? problem = CheckPart(t, "Das Wort");
+        WordListMessage? problem = CheckPart(t, isTerm: true);
         if (problem is not null) return problem;
-        if (VocabularyCorrector.Key(t).Length == 0) return "Das Wort braucht mindestens einen Buchstaben oder eine Ziffer.";
+        if (VocabularyCorrector.Key(t).Length == 0) return new WordListMessage("msg.words.term_no_letter");
 
         foreach (string variant in variants ?? [])
         {
             string v = (variant ?? string.Empty).Trim();
             if (v.Length == 0) continue;
-            problem = CheckPart(v, "Eine Variante");
+            problem = CheckPart(v, isTerm: false);
             if (problem is not null) return problem;
         }
 
@@ -98,16 +115,14 @@ public static class WordListEditor
 
     /// <summary>
     /// Ein Hinweis, wenn das Wort ein gewöhnliches kleingeschriebenes Wort ist (nur Kleinbuchstaben, ein Wort): Das Wörterbuch setzt
-    /// seine Schreibweise überall ein. Sonst null. Kein Verbot.
+    /// seine Schreibweise überall ein. Sonst null. Kein Verbot. Die Meldung hat den Schlüssel <c>msg.words.hint</c>.
     /// </summary>
     /// <param name="term">Das Wort.</param>
-    public static string? Hint(string? term)
+    public static WordListMessage? Hint(string? term)
     {
         string t = (term ?? string.Empty).Trim();
         bool plainLower = t.Length > 0 && t.All(char.IsLetter) && t.All(char.IsLower);
-        return plainLower
-            ? "Hinweis: Talk schreibt dieses Wort ab jetzt überall genau so. Für gewöhnliche Wörter ist das Wörterbuch nicht gedacht."
-            : null;
+        return plainLower ? new WordListMessage("msg.words.hint") : null;
     }
 
     /// <summary>Fügt ein Wort mit Varianten hinzu oder ergänzt seine Zeile (Regeln 1 bis 3 und 5).</summary>
@@ -118,7 +133,7 @@ public static class WordListEditor
     {
         string text = content ?? string.Empty;
         List<string> variantList = (variants ?? []).Select(v => (v ?? string.Empty).Trim()).ToList();
-        string? problem = Validate(term, variantList);
+        WordListMessage? problem = Validate(term, variantList);
         if (problem is not null) return new WordListEditResult(text, WordListChange.Invalid, problem);
 
         string t = term!.Trim();
@@ -166,11 +181,25 @@ public static class WordListEditor
             : new WordListEditResult(Join(lines), WordListChange.Removed);
     }
 
-    private static string? CheckPart(string value, string what)
+    // Je Fall und je Teil (Wort oder Variante) ein eigener Schlüssel mit ganzem Satz; die Höchstlänge ist das einzige Argument.
+    private static WordListMessage? CheckPart(string value, bool isTerm)
     {
-        if (value.Length > MaxLength) return $"{what} ist zu lang (höchstens {MaxLength} Zeichen).";
-        if (value.StartsWith('#')) return $"{what} darf nicht mit # beginnen.";
-        if (value.IndexOfAny(['=', '|', '\r', '\n']) >= 0) return $"{what} darf kein =, | und keinen Zeilenumbruch enthalten.";
+        if (value.Length > MaxLength)
+        {
+            string max = MaxLength.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            return new WordListMessage(isTerm ? "msg.words.term_too_long" : "msg.words.variant_too_long", [max]);
+        }
+
+        if (value.StartsWith('#'))
+        {
+            return new WordListMessage(isTerm ? "msg.words.term_starts_with_hash" : "msg.words.variant_starts_with_hash");
+        }
+
+        if (value.IndexOfAny(['=', '|', '\r', '\n']) >= 0)
+        {
+            return new WordListMessage(isTerm ? "msg.words.term_forbidden_chars" : "msg.words.variant_forbidden_chars");
+        }
+
         return null;
     }
 
