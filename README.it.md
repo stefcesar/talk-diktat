@@ -25,7 +25,7 @@ Talk funziona in modo invisibile in background. Tocca due volte **Bloc Maiusc** 
 
 L'icona di Talk appare poi in basso a destra accanto all'orologio (eventualmente dietro la piccola freccia). Un clic apre il menu.
 
-**Requisiti:** Windows 11 a 64 bit, un processore con AVX2 (quasi tutti dal 2015 circa), un microfono, circa 1 GB di spazio libero. Una scheda grafica rende il riconoscimento locale molto più veloce; senza, funziona sul processore (quanto velocemente non è stato misurato).
+**Requisiti:** Windows 11 a 64 bit, un processore con AVX2 (la maggior parte dal 2015 circa), un microfono, circa 1 GB di spazio libero. Una scheda grafica rende il riconoscimento locale molto più veloce; senza, funziona sul processore (quanto velocemente non è stato misurato).
 
 **Antivirus:** Talk ascolta il tasto Bloc Maiusc in tutto il sistema. Alcuni antivirus considerano questi programmi sospetti per precauzione. Talk valuta solo Bloc Maiusc, Maiusc ed Esc; il codice sorgente è qui, aperto da verificare.
 
